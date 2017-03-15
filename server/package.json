@@ -1,0 +1,22 @@
+{
+  "name": "lithub-server",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Server providing RESTful API for the lithub app",
+  "keywords": [],
+  "author": "David Quirós",
+  "license": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.12.3",
+    "mongodb": "^2.2.24",
+    "swagger-express-mw": "^0.1.0"
+  },
+  "devDependencies": {
+    "should": "^7.1.0",
+    "supertest": "^1.0.0"
+  },
+  "scripts": {
+    "start": "node app.js"
+  }
+}
