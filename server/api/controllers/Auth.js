@@ -21,6 +21,14 @@ function login(req, res) {
   })
 }
 
+function authorize(req, res) {
+  /*
+  Endpoint to call after authenticating with a 3rd-party oauth provider.
+  This method will be responsible for trading in an authorization code for an
+  access token and storing it in a jwt.
+  */
+}
+
 module.exports = {
   login: login
 }

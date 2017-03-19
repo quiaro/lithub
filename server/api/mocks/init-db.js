@@ -8,18 +8,21 @@ mongo.connect().then((db) => {
       username: 'kiko',
       name: 'Carlos Villagrán',
       pwdHash: 'baa80ec4e76734d710c5084558bc2d5f',
+      email: 'kiko@elchavo.com',
       read: ['201', '204', '207'],
     },
     { _id: '102',
       username: 'chespirito',
       name: 'Roberto Goméz Bolaños',
       pwdHash: 'ee8406b40b0d49cdffe3e9f6e6634fe9',
+      email: 'chespirito@elchavo.com',
       read: ['202', '205']
     },
     { _id: '103',
       username: 'donramon',
       name: 'Ramón Valdés',
       pwdHash: '2ee8d7aa0116c2e0683b9fdca9cd66c0',
+      email: 'donramon@elchavo.com',
       read: ['203', '206']
     }
   ]);
