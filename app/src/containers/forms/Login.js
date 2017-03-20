@@ -57,32 +57,29 @@ class LoginPage extends React.Component {
   }
 
   submitLoginForm() {
-    // create a string for an HTTP body message
-    // const email = encodeURIComponent(this.state.user.email);
-    // const password = encodeURIComponent(this.state.user.password);
-    // const formData = `email=${email}&password=${password}`;
-
-    console.log('Form is valid ... submitting form!');
+    const email = encodeURIComponent(this.state.user.email);
+    const password = encodeURIComponent(this.state.user.password);
+    const formData = `email=${email}&password=${password}`;
 
     // create an AJAX request
-    // const xhr = new XMLHttpRequest();
-    // xhr.open('post', '/auth/login');
-    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    // xhr.responseType = 'json';
-    // xhr.addEventListener('load', () => {
-    //   if (xhr.status === 200) {
-    //     console.log('User was found and can be logged in');
-    //   } else {
-    //     // change the component state
-    //     const errors = xhr.response.errors ? xhr.response.errors : {};
-    //     errors.summary = xhr.response.message;
-    //
-    //     this.setState({
-    //       errors
-    //     });
-    //   }
-    // });
-    // xhr.send(formData);
+    const xhr = new XMLHttpRequest();
+    xhr.open('post', '/api/auth/login');
+    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'json';
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        console.log('User was found and can be logged in');
+      } else {
+        // change the component state
+        const errors = xhr.response.errors ? xhr.response.errors : {};
+        errors.summary = xhr.response.message;
+
+        this.setState({
+          errors
+        });
+      }
+    });
+    xhr.send(formData);
   }
 
   validateLogin(user) {

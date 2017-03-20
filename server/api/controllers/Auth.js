@@ -5,19 +5,32 @@ const secret = require('../../secret');
 
 function login(req, res) {
   mongo.connect().then(db => {
-    username = req.swagger.params.username.value;
+    email = req.swagger.params.email.value;
     password = req.swagger.params.password.value;
-    pwdHash = md5(username);
+    pwdHash = md5(email);
 
-    db.collection('users').findOne({ username: username, pwdHash: pwdHash }).then(doc => {
-      res.json({
-        token: jwt.sign({ username: username }, secret)
-      })
+    db.collection('users').findOne({ email: email, pwdHash: pwdHash }).then(doc => {
+      if (doc) {
+        res.json({
+          token: jwt.sign({ email: email }, secret)
+        })
+      } else {
+        res.status(401).json({
+             message: 'Invalid email/password combination.'
+           })
+      }
     }).catch(error => {
-      res.end(JSON.stringify(error))
+      res.status(500).json({
+           message: 'Unable to fulfill request at this time.'
+         })
     }).then(() => {
+      // Wether successful or not, close the connection to the DB
       db.close()
     })
+  }).catch(error => {
+    res.status(503).json({
+         message: 'Unable to connect to database. Please try again shortly.'
+       })
   })
 }
 

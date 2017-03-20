@@ -29,12 +29,14 @@ paths:
   /auth/login:
     x-swagger-router-controller: Auth
     post:
+      consumes:
+      - application/x-www-form-urlencoded
       description: Returns a valid web token to use with subsequent requests
       operationId: 'login'
       parameters:
-      - name: username
+      - name: email
         in: 'formData'
-        description: User name
+        description: User email
         required: true
         type: string
       - name: password
@@ -194,14 +196,11 @@ definitions:
     type: object
     required:
     - message
-    - code
     properties:
       message:
         type: string
-      code:
-        type: integer
-        minimum: 100
-        maximum: 600
+      errors:
+        type: object
 
   Resource:
     type: "object"
