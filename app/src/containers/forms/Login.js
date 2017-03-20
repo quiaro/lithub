@@ -1,6 +1,7 @@
 import React from 'react';
 import LoginForm from '../../components/forms/Login';
-
+import isEmail from 'validator/lib/isEmail';
+import isEmpty from 'validator/lib/isEmpty';
 
 class LoginPage extends React.Component {
 
@@ -32,39 +33,14 @@ class LoginPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
-    // create a string for an HTTP body message
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    let validatedForm = this.validateLogin(this.state.user);
 
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/login');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        // success
-
-        // change the component-container state
-        this.setState({
-          errors: {}
-        });
-
-        console.log('The form is valid');
-      } else {
-        // failure
-
-        // change the component state
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
-      }
-    });
-    xhr.send(formData);
+    if (validatedForm.isValid) {
+      // proceed with submission
+      this.submitLoginForm();
+    } else {
+      this.setState({errors: validatedForm.errors})
+    }
   }
 
   /**
@@ -75,25 +51,69 @@ class LoginPage extends React.Component {
   changeUser(event) {
     const field = event.target.name;
     const user = this.state.user;
-    user[field] = event.target.value;
+    user[field] = event.target.value.trim();
 
-    this.setState({
-      user
-    });
+    this.setState({user});
+  }
+
+  submitLoginForm() {
+    // create a string for an HTTP body message
+    // const email = encodeURIComponent(this.state.user.email);
+    // const password = encodeURIComponent(this.state.user.password);
+    // const formData = `email=${email}&password=${password}`;
+
+    console.log('Form is valid ... submitting form!');
+
+    // create an AJAX request
+    // const xhr = new XMLHttpRequest();
+    // xhr.open('post', '/auth/login');
+    // xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    // xhr.responseType = 'json';
+    // xhr.addEventListener('load', () => {
+    //   if (xhr.status === 200) {
+    //     console.log('User was found and can be logged in');
+    //   } else {
+    //     // change the component state
+    //     const errors = xhr.response.errors ? xhr.response.errors : {};
+    //     errors.summary = xhr.response.message;
+    //
+    //     this.setState({
+    //       errors
+    //     });
+    //   }
+    // });
+    // xhr.send(formData);
+  }
+
+  validateLogin(user) {
+    const errors = {};
+    let isFormValid = true;
+
+    if (isEmpty(user.email)) {
+      errors.email = 'Please provide your email address';
+    } else {
+      if (!isEmail(user.email)) {
+        errors.email = 'Please provide a valid email address';
+      }
+    }
+
+    if (isEmpty(user.password)) {
+      errors.password = 'Please provide your password';
+    }
+
+    if (errors.email || errors.password) {
+      isFormValid = false;
+      errors.summary = 'Unable to submit form. Please check the form for errors.';
+    }
+
+    return {isValid: isFormValid, errors};
   }
 
   /**
    * Render the component.
    */
   render() {
-    return (
-      <LoginForm
-        onSubmit={this.processForm}
-        onChange={this.changeUser}
-        errors={this.state.errors}
-        user={this.state.user}
-      />
-    );
+    return (<LoginForm onSubmit={this.processForm} onChange={this.changeUser} errors={this.state.errors} user={this.state.user}/>);
   }
 
 }

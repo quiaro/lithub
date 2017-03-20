@@ -11,35 +11,31 @@ const LoginForm = ({
   user
 }) => (
   <Card className="container">
-    <form action="/" onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <h2 className="card-heading">Login</h2>
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
-      <div className="field-line">
         <TextField
           floatingLabelText="Email"
+          fullWidth={true}
           name="email"
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
         />
-      </div>
 
-      <div className="field-line">
         <TextField
           floatingLabelText="Password"
+          fullWidth={true}
           type="password"
           name="password"
-          onChange={onChange}
           errorText={errors.password}
+          onChange={onChange}
           value={user.password}
         />
-      </div>
 
-      <div className="button-line">
-        <RaisedButton type="submit" label="Log in" primary />
-      </div>
+      <RaisedButton type="submit" label="Log in" primary />
 
       <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
     </form>
