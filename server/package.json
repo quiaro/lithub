@@ -11,13 +11,14 @@
     "express": "^4.12.3",
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
-    "swagger-express-mw": "^0.1.0"
+    "swagger-express-mw": "^0.1.0",
+    "validator": "^7.0.0"
   },
   "devDependencies": {
     "should": "^7.1.0",
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node debug app.js"
   }
 }
