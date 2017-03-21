@@ -1,6 +1,9 @@
 import React from 'react';
+import isAlphanumeric from 'validator/lib/isAlphanumeric';
+import isEmail from 'validator/lib/isEmail';
+import isEmpty from 'validator/lib/isEmpty';
+import matches from 'validator/lib/matches';
 import SignUpForm from '../../components/forms/SignUp';
-
 
 class SignUpPage extends React.Component {
 
@@ -14,8 +17,9 @@ class SignUpPage extends React.Component {
     this.state = {
       errors: {},
       user: {
-        email: '',
+        username: '',
         name: '',
+        email: '',
         password: ''
       }
     };
@@ -32,7 +36,8 @@ class SignUpPage extends React.Component {
   changeUser(event) {
     const field = event.target.name;
     const user = this.state.user;
-    user[field] = event.target.value;
+    user[field] = (field !== 'name') ?
+                    event.target.value.trim() : event.target.value;
 
     this.setState({
       user
@@ -48,30 +53,44 @@ class SignUpPage extends React.Component {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
 
+    let validatedForm = this.validateSignUp(this.state.user);
+
+    if (validatedForm.isValid) {
+      // proceed with submission
+      this.submitForm();
+    } else {
+      this.setState({errors: validatedForm.errors})
+    }
+  }
+
+  /**
+   * Submit the form to be processed by the server
+   */
+  submitForm() {
+    // prevent default action i.e. form submission event
+    event.preventDefault();
+
     // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
+    const username = encodeURIComponent(this.state.user.username);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
+    const name = this.state.user.name;
+
+    let formData = `username=${username}&email=${email}&password=${password}`;
+    formData = name ? formData + `&name=${name}` : formData;
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/auth/signup');
+    xhr.open('post', '/api/auth/signup');
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
-        // success
-
-        // change the component-container state
         this.setState({
           errors: {}
         });
-
-        console.log('The form is valid');
+        console.log('User was registered. OK to access the app');
       } else {
-        // failure
-
         const errors = xhr.response.errors ? xhr.response.errors : {};
         errors.summary = xhr.response.message;
 
@@ -81,6 +100,48 @@ class SignUpPage extends React.Component {
       }
     });
     xhr.send(formData);
+  }
+
+  /**
+   * Validate a user's information
+   *
+   * @param {object} user - User information for signing up
+   * @return {object}
+   */
+  validateSignUp(user) {
+    const errors = {};
+    let isFormValid = true;
+
+    if (isEmpty(user.username)) {
+      errors.username = 'Please provide a username';
+    } else {
+      if (!isAlphanumeric(user.username)) {
+        errors.username = 'Only letters and numbers are accepted in the username';
+      }
+    }
+
+    if (user.name && !matches(user.name, /^[A-Za-z\u0080-\u00FF ]+$/)) {
+      errors.name = 'Please use only letters and spaces';
+    }
+
+    if (isEmpty(user.email)) {
+      errors.email = 'Please provide your email address';
+    } else {
+      if (!isEmail(user.email)) {
+        errors.email = 'Please provide a valid email address';
+      }
+    }
+
+    if (isEmpty(user.password)) {
+      errors.password = 'Please provide your password';
+    }
+
+    if (errors.username || errors.name || errors.email || errors.password) {
+      isFormValid = false;
+      errors.summary = 'Unable to submit form. Please check the form for errors.';
+    }
+
+    return {isValid: isFormValid, errors};
   }
 
   /**

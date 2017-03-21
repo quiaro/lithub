@@ -16,40 +16,44 @@ const SignUpForm = ({
 
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
-      <div className="field-line">
+        <TextField
+          floatingLabelText="Username"
+          fullWidth={true}
+          name="username"
+          errorText={errors.username}
+          onChange={onChange}
+          value={user.username}
+        />
+
         <TextField
           floatingLabelText="Name"
+          fullWidth={true}
           name="name"
           errorText={errors.name}
           onChange={onChange}
           value={user.name}
         />
-      </div>
 
-      <div className="field-line">
         <TextField
           floatingLabelText="Email"
+          fullWidth={true}
           name="email"
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
         />
-      </div>
 
-      <div className="field-line">
         <TextField
           floatingLabelText="Password"
+          fullWidth={true}
           type="password"
           name="password"
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
         />
-      </div>
 
-      <div className="button-line">
         <RaisedButton type="submit" label="Create New Account" primary />
-      </div>
 
       <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
     </form>

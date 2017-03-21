@@ -7,23 +7,18 @@ mongo.connect().then((db) => {
     { _id: '101',
       username: 'kiko',
       name: 'Carlos Villagrán',
-      pwdHash: 'baa80ec4e76734d710c5084558bc2d5f',
       email: 'kiko@elchavo.com',
+      password: '0c691059eb183a4a138c994cf5195c92bf3c9bc977504943a5b474fef5eaa4602c95f541203a72af80f4d1bbae385a8a9cbdfae417cd4ab79d98fb5ad472626930777ace9e88670ccd3b28766d6cd5f06317427868a9c5c43463fadec9f200bb859e295257d804b206d3237c40d9a311a6be8ccbabe7268b24ac80c9f8ade6e8',
+      salt: 'f3b72ea4c58061dfd6d281a640c4adfb25d128d91f8da712bccbc74ee3fce89116e440e90c273ff2efd9f364c7b058eda8c2e44d6f705fade332261633517468',
       read: ['201', '204', '207'],
     },
     { _id: '102',
       username: 'chespirito',
       name: 'Roberto Goméz Bolaños',
-      pwdHash: 'ee8406b40b0d49cdffe3e9f6e6634fe9',
       email: 'chespirito@elchavo.com',
-      read: ['202', '205']
-    },
-    { _id: '103',
-      username: 'donramon',
-      name: 'Ramón Valdés',
-      pwdHash: '2ee8d7aa0116c2e0683b9fdca9cd66c0',
-      email: 'donramon@elchavo.com',
-      read: ['203', '206']
+      password: '61e3188cdc37e6a5a474b13619fe02d0dd3dbce83fed4b6b0111c313eb6d80af9a31b5e4363413b3ee4e4a8db51bdc6865d94d77ed9f29486f3644cf70cbc4b33d77ec6637d175108b3523600366cbe8afad228f972668573daa1d9e015f6128190c266260f7dee7e6a8a87c628fd709bdbc704bed338a3b86cc75ec27c44764',
+      salt: '96412d1304b4d646a7307e33c768fc14c1265f95296e5f7984fcc0fdacb8864d526a448622e9465b23722dabeea27d10ecea9c3fd1d3f2e30d74f22012334e1c',
+      read: ['202', '203', '205', '206']
     }
   ]);
 
@@ -45,7 +40,7 @@ mongo.connect().then((db) => {
       type: 'book',
       title: 'David Copperfield',
       author: ['Charles Dickens'],
-      readBy: ['103']
+      readBy: ['102']
     },
     { _id: '204',
       type: 'article',
@@ -66,7 +61,7 @@ mongo.connect().then((db) => {
       title: 'Dynamo: Amazon\'s Highly Available Key-Value Store',
       author: ['Giuseppe DeCandia', 'Deniz Hastorun', 'Madan Jampani', 'Gunavardhan Kakulapati'],
       link: 'http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf',
-      readBy: ['103']
+      readBy: ['102']
     },
     { _id: '207',
       type: 'quote',
@@ -94,7 +89,7 @@ mongo.connect().then((db) => {
       tags: ['fiction', 'philosophical', 'dissapointment', 'love', 'relationships'],
     },
     { _id: '303',
-      user_id: '103',
+      user_id: '102',
       resource_id: '203',
       comment: 'book',
       rating: 10,
@@ -115,7 +110,7 @@ mongo.connect().then((db) => {
       tags: ['education', 'technology', 'programming', 'pedagogy'],
     },
     { _id: '306',
-      user_id: '103',
+      user_id: '102',
       resource_id: '206',
       comment: 'article',
       rating: 10,

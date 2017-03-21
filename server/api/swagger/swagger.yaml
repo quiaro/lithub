@@ -55,6 +55,44 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /auth/signup:
+    x-swagger-router-controller: Auth
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Registers a user in the system
+      operationId: 'signup'
+      parameters:
+      - name: username
+        in: 'formData'
+        description: Username in the system
+        required: true
+        type: string
+      - name: name
+        in: 'formData'
+        description: User's real name
+        type: string
+      - name: email
+        in: 'formData'
+        description: User email
+        required: true
+        type: string
+      - name: password
+        in: 'formData'
+        description: Password
+        required: true
+        type: string
+        format: password
+      responses:
+        "201":
+          description: Authentication Token
+          schema:
+            $ref: "#/definitions/Token"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
   /resources:
     x-swagger-router-controller: Resource
     get:
