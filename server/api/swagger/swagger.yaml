@@ -27,12 +27,11 @@ securityDefinitions:
 
 paths:
   /auth/login:
-    x-swagger-router-controller: Auth
+    x-swagger-router-controller: Login
     post:
       consumes:
       - application/x-www-form-urlencoded
       description: Returns a valid web token to use with subsequent requests
-      operationId: 'login'
       parameters:
       - name: email
         in: 'formData'

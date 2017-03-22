@@ -1,5 +1,3 @@
-const jwt = require('jsonwebtoken')
-
 const mongo = require('../helpers/mongo')
 const utils = require('../helpers/utils')
 const confidential = require('../../confidential')
@@ -12,29 +10,23 @@ function addUserToDatabase(userInfo, hash, db) {
     password: hash.key,
     salt: hash.salt
   }).then(() => {
-    db.close();
-    return userInfo;
-  })
-}
+    console.log('LOG: User inserted in the DB');
 
-function getUserToken(userInfo) {
-  return new Promise((resolve, reject) => {
-    jwt.sign({
-      iss: 'lithub',
-      preferred_username: userInfo.username,
-      name: userInfo.name,
-      email: userInfo.email,
-      picture: ''
-    }, confidential.secret, null, (err, token) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(token);
-      }
+    return db.close().then(() => {
+      console.log('LOG: DB connection closed');
+      return userInfo;
     })
   })
 }
 
+/**
+ * Receives an error and transforms it into a standard app error object
+ *
+ * @param {object} e - Error object
+ * @return {object} - Standard error object with the following properties:
+ *                    - code: status error code
+ *                    - message: error text description
+ */
 function handleError(e) {
   let error = new Error('Unexpected error');
 
@@ -122,7 +114,7 @@ function post(req, res) {
         db = values[1];
 
         return addUserToDatabase(userInfo, hash, db)
-          .then(getUserToken)
+          .then(utils.getUserToken)
           .then(token => {
             res.status(201).json({
                  token: token

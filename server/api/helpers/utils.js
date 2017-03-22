@@ -1,7 +1,35 @@
-const isAlphanumeric = require('validator/lib/isAlphanumeric');
+const jwt = require('jsonwebtoken')
+const isAlphanumeric = require('validator/lib/isAlphanumeric')
 const isEmail = require('validator/lib/isEmail')
 const isEmpty = require('validator/lib/isEmpty')
-const matches = require('validator/lib/matches');
+const matches = require('validator/lib/matches')
+const confidential = require('../../confidential')
+
+/**
+ * Generate a signed jason web token (jwt) that stores
+ * the user's basic information
+ *
+ * @param {object} user - User object
+ * @return {Promise.<string|object>} - user
+ */
+function getUserToken(user) {
+  return new Promise((resolve, reject) => {
+    jwt.sign({
+      iss: 'lithub',
+      preferred_username: user.username,
+      name: user.name,
+      email: user.email,
+      picture: user.picture || ''
+    }, confidential.secret, null, (err, token) => {
+      console.log('LOG: Returning user token');
+      if (err) {
+        reject({ code: 500 });
+      } else {
+        resolve(token);
+      }
+    })
+  })
+}
 
 /**
  * Validate a list of params
@@ -44,5 +72,6 @@ function validateParams(paramsArray) {
 }
 
 module.exports = {
+  getUserToken,
   validateParams
 }
