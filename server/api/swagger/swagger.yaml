@@ -56,12 +56,11 @@ paths:
             $ref: "#/definitions/Error"
 
   /auth/signup:
-    x-swagger-router-controller: Auth
+    x-swagger-router-controller: SignUp
     post:
       consumes:
       - application/x-www-form-urlencoded
       description: Registers a user in the system
-      operationId: 'signup'
       parameters:
       - name: username
         in: 'formData'

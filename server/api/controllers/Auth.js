@@ -59,85 +59,6 @@ function login(req, res) {
   }
 }
 
-function signup(req, res) {
-  username = req.swagger.params.username.value || '';
-  name = req.swagger.params.name.value || '';
-  email = req.swagger.params.email.value || '';
-  password = req.swagger.params.password.value || '';
-
-  // Validate the request parameters
-  let paramErrors = utils.validateParams([
-    {
-      label: 'username',
-      type: 'alphanumeric',
-      value: username,
-      emptyError: 'Please provide a username'
-    },
-    {
-      label: 'name',
-      type: 'pattern',
-      pattern: /^[A-Za-z\u0080-\u00FF ]+$/,
-      value: name,
-    },
-    {
-      label: 'email',
-      type: 'email',
-      value: email,
-      emptyError: 'Please provide your email address'
-    },
-    {
-      label: 'password',
-      value: password,
-      emptyError: 'Please provide your password'
-    }
-  ])
-
-  if (Object.keys(paramErrors).length) {
-    res.status(400).json({
-         message: 'Unable to submit form. Please check the form for errors.',
-         errors: paramErrors
-       })
-  } else {
-    // Create a new user with the data provided.
-    // TODO: Instead of creating the user right away, an email should be sent
-    // to the user which they can then use to complete the creation of the user.
-    confidential.getHashedPassword(password, null, (err, hash) => {
-      if (err) {
-        res.status(500).json({
-             message: 'Unable to create user. Please try again shortly.'
-           })
-      } else {
-        mongo.connect().then(db => {
-          db.collection('users').insertOne({
-            _id: 1000,
-            username: username,
-            name: name,
-            email: email,
-            password: hash.key,
-            salt: hash.salt
-          }).then(() => {
-            // TODO: Create the real jwt token
-            res.status(201).json({
-                 token: "12345"
-               })
-          }).catch(error => {
-            res.status(500).json({
-                 message: 'Unable to create user. Please try again shortly.'
-               })
-          }).then(() => {
-            // Close DB connection
-            db.close()
-          })
-        }).catch(error => {
-          res.status(503).json({
-               message: 'Unable to connect to database. Please try again shortly.'
-             })
-        })
-      }
-    });
-  }
-}
-
 function authorize(req, res) {
   /*
   Endpoint to call after authenticating with a 3rd-party oauth provider.
@@ -147,6 +68,5 @@ function authorize(req, res) {
 }
 
 module.exports = {
-  login: login,
-  signup: signup
+  login: login
 }
