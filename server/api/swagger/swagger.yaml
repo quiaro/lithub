@@ -90,6 +90,29 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
+            
+  /auth/from_google_token:
+    x-swagger-router-controller: OAuth
+    post:
+      consumes:
+      - application/x-www-form-urlencoded
+      description: Exchanges a Google ID Token for an authentication token to use for API requests
+      operationId: 'fromGoogleToken'
+      parameters:
+      - name: id_token
+        in: 'formData'
+        description: Google ID Token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Authentication Token
+          schema:
+            $ref: "#/definitions/Token"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
 
   /resources:
     x-swagger-router-controller: Resource

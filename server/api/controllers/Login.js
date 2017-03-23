@@ -1,6 +1,6 @@
 const mongo = require('../helpers/mongo')
 const utils = require('../helpers/utils')
-const confidential = require('../../confidential')
+const secret = require('../../secrets/secrets')
 
 /**
  * Perform any sort of sanitization or transformation to the request params.
@@ -73,7 +73,7 @@ function findUser(email, db) {
  */
 function verifyUser(user, password) {
   return new Promise((resolve, reject) => {
-    confidential.getHashedPassword(password, user.salt.buffer)
+    secret.getHashedPassword(password, user.salt.buffer)
       .then(hash => {
         console.log('LOG: Verifying user');
         // Compare the buffers with the two hashed values
@@ -154,14 +154,6 @@ function post(req, res) {
            })
       })
   }
-}
-
-function authorize(req, res) {
-  /*
-  Endpoint to call after authenticating with a 3rd-party oauth provider.
-  This method will be responsible for trading in an authorization code for an
-  access token and storing it in a jwt.
-  */
 }
 
 module.exports = {

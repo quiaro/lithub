@@ -37,13 +37,13 @@ const LoginForm = ({
         />
 
       <RaisedButton type="submit" label="Log in" primary />
-
-      <CardText>
-        <p>Don't have an account?</p>
-        <Link to={'/signup'}>Create one</Link>
-        <GoogleSignin></GoogleSignin>
-      </CardText>
     </form>
+    
+    <CardText>
+      <p>Don't have an account?</p>
+      <Link to={'/signup'}>Create one</Link>
+      <GoogleSignin></GoogleSignin>
+    </CardText>
   </Card>
 );
 

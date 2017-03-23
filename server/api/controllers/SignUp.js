@@ -1,6 +1,6 @@
 const mongo = require('../helpers/mongo')
 const utils = require('../helpers/utils')
-const confidential = require('../../confidential')
+const secret = require('../../secrets/secrets')
 
 function addUserToDatabase(userInfo, hash, db) {
   return db.collection('users').insertOne({
@@ -105,7 +105,7 @@ function post(req, res) {
     // Create a new user with the data provided.
     // TODO: Instead of creating the user right away, an email should be sent
     // to the user which they can then use to complete the creation of the user.
-    hashPromise = confidential.getHashedPassword(userInfo.password, null);
+    hashPromise = secret.getHashedPassword(userInfo.password, null);
     dbPromise = mongo.connect();
 
     Promise.all([hashPromise, dbPromise])

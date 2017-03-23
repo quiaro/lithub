@@ -3,7 +3,7 @@
 const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
 const jwt = require('jsonwebtoken');
-const confidential = require('./confidential');
+const secret = require('./secrets/secrets');
 
 module.exports = app; // for testing
 
@@ -15,7 +15,7 @@ config.swaggerSecurityHandlers = {
     // Get the token from the request headers and verify that it's correct
     let token = apiKey && apiKey.split('Bearer:');
     token = token && token.length == 2 && token[1].trim();
-    jwt.verify(token, confidential.secret, function(err, decoded) {
+    jwt.verify(token, secret.secret, function(err, decoded) {
       if (err) {
         var err = new Error('Failed to authenticate using bearer token');
         err['statusCode'] = 401; // custom error code

@@ -3,7 +3,7 @@ const isAlphanumeric = require('validator/lib/isAlphanumeric')
 const isEmail = require('validator/lib/isEmail')
 const isEmpty = require('validator/lib/isEmpty')
 const matches = require('validator/lib/matches')
-const confidential = require('../../confidential')
+const secret = require('../../secrets/secrets')
 
 /**
  * Generate a signed jason web token (jwt) that stores
@@ -20,7 +20,7 @@ function getUserToken(user) {
       name: user.name,
       email: user.email,
       picture: user.picture || ''
-    }, confidential.secret, null, (err, token) => {
+    }, secret.secret, { expiresIn: '7d' }, (err, token) => {
       console.log('LOG: Returning user token');
       if (err) {
         reject({ code: 500 });

@@ -8,6 +8,7 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.12.3",
+    "google-auth-library": "^0.10.0",
     "jsonwebtoken": "^7.3.0",
     "mongodb": "^2.2.24",
     "swagger-express-mw": "^0.1.0",
