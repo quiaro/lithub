@@ -4,6 +4,7 @@ import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import GoogleSignin from '../../containers/forms/GoogleSignin'
+import FacebookSignin from '../../containers/forms/FacebookSignin'
 
 const LoginForm = ({
   onSubmit,
@@ -38,11 +39,12 @@ const LoginForm = ({
 
       <RaisedButton type="submit" label="Log in" primary />
     </form>
-    
+
     <CardText>
       <p>Don't have an account?</p>
       <Link to={'/signup'}>Create one</Link>
       <GoogleSignin></GoogleSignin>
+      <FacebookSignin></FacebookSignin>
     </CardText>
   </Card>
 );
