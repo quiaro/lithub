@@ -51,7 +51,7 @@ class GoogleSignin extends React.Component {
   }
 
   setupGoogleSignin() {
-    window.gapi.signin2.render('google-signin2', {
+    window.gapi.signin2.render('google-signin', {
       'scope': 'profile email',
       'width': 220,
       'height': 40,
@@ -61,27 +61,13 @@ class GoogleSignin extends React.Component {
     });
   }
 
-  // TODO: Remove this when log out is implemented
-  googleLogout() {
-    var auth2 = window.gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function() {
-      console.log('User signed out.');
-    });
-  }
-
   componentDidMount() {
     loadScript('https://apis.google.com/js/platform.js', 'google-api', this.setupGoogleSignin.bind(this));
-
-    // TODO: Remove this when log out is implemented
-    document.getElementById('google-logout').addEventListener('click', this.googleLogout);
   }
 
   render() {
     return (
-      <div>
-        <div id="google-signin2"></div>
-        <button id="google-logout">Sign out from Google</button>
-      </div>
+      <div id="google-signin"></div>
     );
   }
 }
