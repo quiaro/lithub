@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
+import GoogleSignin from '../../containers/forms/GoogleSignin'
+import FacebookSignin from '../../containers/forms/FacebookSignin'
 
 const SignUpForm = ({
   onSubmit,
@@ -54,9 +56,15 @@ const SignUpForm = ({
         />
 
         <RaisedButton type="submit" label="Create New Account" primary />
-
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
     </form>
+
+    <CardText>
+      <p>Already have an account?</p>
+      <Link to={'/login'}>Log in</Link>
+      <p>Or sign in with an external service:</p>
+      <GoogleSignin></GoogleSignin>
+      <FacebookSignin></FacebookSignin>
+    </CardText>
   </Card>
 );
 
