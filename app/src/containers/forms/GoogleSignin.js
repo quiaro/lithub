@@ -1,7 +1,28 @@
 import React from 'react';
-import {loadScript} from '../../common/utils';
+import { loadScript, saveAuthToken } from '../../common/utils';
 
 class GoogleSignin extends React.Component {
+
+  signInUser(googleUser) {
+    return this.getAppToken(googleUser.getAuthResponse().id_token)
+      .then(token => {
+        saveAuthToken(token);
+        // Google ID token will no longer be necessary. If a JWT was
+        // generated, going forward all communication with the server will
+        // be done using the JWT. On the other hand, if it wasn't possible
+        // to issue a JWT, revoke all permissions so if the user tries to
+        // log in again he'll be prompted to grant permissions again.
+        googleUser.disconnect();
+        console.log('Redirect to app dashboard');
+      })
+      .catch(e => {
+        // TODO: Show a notification that an error ocurred
+        console.log(e.message)
+        // Google permissions are revoked so user has to grant permissions
+        // again if he wishes to try signing in via Google again
+        googleUser.disconnect();
+      })
+  }
 
   /**
    * Trade in a Google ID token (GIDT) for an app token.
@@ -10,21 +31,23 @@ class GoogleSignin extends React.Component {
    * send back a JWT for the user to communicate with the API endpoints.
    * @param {object} googleUser - https://developers.google.com/identity/sign-in/web/reference#users
    */
-  getAppToken(googleUser) {
-    const id_token = googleUser.getAuthResponse().id_token;
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/auth/from_google_token');
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
-      if (xhr.status === 200) {
-        console.log('Redirect to app dashboard');
-      } else {
-        // Server was unable to return a JWT token so make sure to revoke
-        // all the scopes that the user granted for the application
-        googleUser.disconnect();
-      }
-    };
-    xhr.send('id_token=' + id_token);
+  getAppToken(idToken) {
+    return new Promise((resolve, reject) => {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/api/auth/from_google_token');
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          resolve(JSON.parse(xhr.responseText).token)
+        } else {
+          reject({
+            code: 500,
+            message: 'Failed to create authentication token'
+          })
+        }
+      };
+      xhr.send('id_token=' + idToken);
+    });
   }
 
   setupGoogleSignin() {
@@ -34,7 +57,7 @@ class GoogleSignin extends React.Component {
       'height': 40,
       'longtitle': true,
       'theme': 'dark',
-      'onsuccess': this.getAppToken
+      'onsuccess': this.signInUser.bind(this)
     });
   }
 

@@ -96,7 +96,7 @@ class FacebookSignin extends React.Component {
           // TODO: Show a notification that an error ocurred
           console.log(e.message)
           // Facebook permissions are revoked so user has to grant permissions
-          // again if he wishes to try signing in via Facebooke again
+          // again if he wishes to try signing in via Facebook again
           this.revokePermissions(response.authResponse.userID)
             .then(() => {
               console.log('Facebook permissions revoked');

@@ -92,7 +92,7 @@ paths:
             $ref: "#/definitions/Error"
             
   /auth/from_google_token:
-    x-swagger-router-controller: OAuth
+    x-swagger-router-controller: GoogleOAuth
     post:
       consumes:
       - application/x-www-form-urlencoded
@@ -115,7 +115,7 @@ paths:
             $ref: "#/definitions/Error"
             
   /auth/from_facebook_token:
-    x-swagger-router-controller: OAuth
+    x-swagger-router-controller: FacebookOAuth
     post:
       description: Exchanges a Facebook Access Token for an authentication token to use for API requests
       operationId: 'fromFacebookToken'

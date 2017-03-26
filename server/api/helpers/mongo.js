@@ -16,6 +16,8 @@ function connect() {
 function findUserById(uid, db) {
   return new Promise((resolve, reject) => {
     console.log('LOG: Finding user by uid in the DB');
+    // If there's no user id to search for then reject
+    if (!uid) { reject(null) }
     db.collection('users').findOne({ _id: uid })
       .then(doc => {
         if (doc) {
@@ -33,19 +35,21 @@ function findUserById(uid, db) {
  * @param {object} db - Database reference
  * @return {Promise.<object|integer>} - user object | error code
  */
- function findUserByEmail(email, db) {
-   return new Promise((resolve, reject) => {
-     console.log('LOG: Finding user by email in the DB');
-     db.collection('users').findOne({ email: email })
-       .then(doc => {
-         if (doc) {
-           resolve(doc)
-         } else {
-           reject(null)
-         }
-       })
+function findUserByEmail(email, db) {
+ return new Promise((resolve, reject) => {
+   console.log('LOG: Finding user by email in the DB');
+   // If there's no user email to search for then reject
+   if (!email) { reject(null) }
+   db.collection('users').findOne({ email: email })
+     .then(doc => {
+       if (doc) {
+         resolve(doc)
+       } else {
+         reject(null)
+       }
      })
- }
+   })
+}
 
  /**
   * Add a new user to the DB
@@ -57,29 +61,63 @@ function findUserById(uid, db) {
   * @param {object} db - Database reference
   * @return {Promise.<object|integer>} - user profile | error
   */
- function createUser(userProfile, hash, db) {
-   // Make a copy of the user profile information and add the
-   // password information to it (users signed in via a 3rd-party
-   // oauth provider would not include the password information)
-   var user = Object.assign({}, userProfile);
-   // Prepare user profile object for saving
-   delete user.token;
-   delete user.uid;
-   user._id = userProfile.uid;
-
-   if (hash) {
-     user['password'] = hash.key;
-     user['salt'] = hash.salt;
-   }
-   return db.collection('users').insertOne(user).then(() => {
-     console.log('LOG: New user added to the DB');
-     return userProfile;
-   })
+function createUser(userProfile, hash, db) {
+ // Make a copy of the user profile information and add the
+ // password information to it (users signed in via a 3rd-party
+ // oauth provider would not include the password information)
+ var user = Object.assign({}, userProfile);
+ // Prepare user profile object for saving
+ delete user.token;
+ delete user.uid;
+ if (userProfile.uid) {
+    user._id = userProfile.uid;
  }
+
+ if (hash) {
+   user['password'] = hash.key;
+   user['salt'] = hash.salt;
+ }
+ return db.collection('users').insertOne(user).then((doc) => {
+   console.log('LOG: New user added to the DB');
+   // If the user profile had a uid then doc's _id value should not
+   // have changed
+   userProfile.uid = doc._id;
+   return userProfile;
+ })
+}
+
+ /**
+  * Check if a user already exists in the DB, if not create him
+  * with the profile information provided
+  *
+  * @param {object} userProfile - User profile per definition in: /server/api/swagger/swagger.yaml
+  * @return {Promise.<true|Error>}
+  */
+function findUserOrCreate(userProfile, db) {
+ return new Promise((resolve, reject) => {
+   findUserById(userProfile.uid, db)
+     .then(() => { resolve(userProfile) })
+     .catch(() => {
+       findUserByEmail(userProfile.email, db)
+         .then((doc) => {
+           userProfile.uid = doc._id;
+           resolve(userProfile)
+         })
+         .catch(() => {
+           createUser(userProfile, null, db)
+             .then((doc) => {
+               userProfile.uid = doc._id;
+               resolve(userProfile)
+             })
+             .catch(() => {
+               reject(new Error('Unable to create new user'));
+             })
+         })
+     })
+ })
+}
 
 module.exports = {
   connect,
-  findUserById,
-  findUserByEmail,
-  createUser
+  findUserOrCreate
 }
