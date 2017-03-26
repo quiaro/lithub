@@ -23,7 +23,7 @@ function findUserById(uid, db) {
         if (doc) {
           resolve(doc)
         } else {
-          reject(null)
+          reject(new Error('User not found'))
         }
       })
     })
@@ -45,7 +45,7 @@ function findUserByEmail(email, db) {
        if (doc) {
          resolve(doc)
        } else {
-         reject(null)
+         reject(new Error('User not found'))
        }
      })
    })
@@ -119,5 +119,6 @@ function findUserOrCreate(userProfile, db) {
 
 module.exports = {
   connect,
+  findUserByEmail,
   findUserOrCreate
 }

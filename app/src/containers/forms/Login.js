@@ -2,6 +2,7 @@ import React from 'react';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import LoginForm from '../../components/forms/Login';
+import { saveAuthToken } from '../../common/utils';
 
 class LoginPage extends React.Component {
 
@@ -37,7 +38,23 @@ class LoginPage extends React.Component {
 
     if (validatedForm.isValid) {
       // proceed with submission
-      this.submitForm();
+      this.submitForm()
+        .then(token => {
+          // If the credentials are valid, a JWT is returned
+          saveAuthToken(token)
+
+          // Any error messages that were present are cleared before redirecting
+          // the user
+          this.setState({
+            errors: {}
+          });
+          console.log('Redirect to app dashboard');
+        })
+        .catch(errors => {
+          this.setState({
+            errors
+          });
+        })
     } else {
       this.setState({errors: validatedForm.errors})
     }
@@ -60,31 +77,26 @@ class LoginPage extends React.Component {
    * Submit the form to be processed by the server
    */
   submitForm() {
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const formData = `email=${email}&password=${password}`;
+    return new Promise((resolve, reject) => {
+      const email = encodeURIComponent(this.state.user.email);
+      const password = encodeURIComponent(this.state.user.password);
+      const formData = `email=${email}&password=${password}`;
+      const xhr = new XMLHttpRequest();
 
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/auth/login');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        this.setState({
-          errors: {}
-        });
-        console.log('User was found and can be logged in');
-      } else {
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
-      }
+      xhr.open('post', '/api/auth/login');
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', () => {
+        if (xhr.status === 200) {
+          resolve(xhr.response.token)
+        } else {
+          const errors = xhr.response.errors ? xhr.response.errors : {};
+          errors.summary = xhr.response.message;
+          reject(errors)
+        }
+      });
+      xhr.send(formData);
     });
-    xhr.send(formData);
   }
 
   /**

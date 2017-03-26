@@ -37,34 +37,6 @@ function validateLoginInfo(loginInfo) {
 }
 
 /**
- * Find user in the database per his email address
- * @param {string} email
- * @param {object} db - Database reference
- * @return {Promise.<object|integer>} - user object | error code
- */
-function findUser(email, db) {
-  return new Promise((resolve, reject) => {
-    console.log('LOG: Finding user in the DB');
-    db.collection('users')
-      .findOne({ email: email })
-      .then(doc => {
-        db.close().then(() => {
-          console.log('LOG: DB connection closed');
-          if (doc) {
-            resolve(doc)
-          } else {
-            reject({ code: 401 })
-          }
-        })
-      }, e => {
-        db.close().then(() => {
-          reject({ code: 500 })
-        })
-      })
-    })
-}
-
-/**
  * Check that the user password corresponds to the hashed
  * password stored in the DB
  * @param {object} user - user document retrieved from the DB
@@ -73,6 +45,13 @@ function findUser(email, db) {
  */
 function verifyUser(user, password) {
   return new Promise((resolve, reject) => {
+    if (!user.password) {
+      // If a user doesn't have a password it means that the user first
+      // signed in via a 3rd-party oauth provider. The user was then created
+      // in the DB with no assigned password. To log in with a password, the
+      // user would have to sign up or go through the 'Forgot password' flow.
+      reject({ code: 401 })
+    }
     secret.getHashedPassword(password, user.salt.buffer)
       .then(hash => {
         console.log('LOG: Verifying user');
@@ -99,29 +78,21 @@ function verifyUser(user, password) {
 function handleError(e) {
   let error = new Error('Unexpected error');
 
-  // Log error detail
   console.error(e);
 
   if (e.name == 'MongoError') {
     error.code = 503;
     error.message = 'Unable to connect to database. Please try again shortly.';
   }
-
-  if (e.code) {
-    error.code = e.code;
-
-    switch (e.code) {
-      case 401:
-        error.message = 'Invalid email/password combination.';
-        break;
-      default:  // 500
-        error.message = 'Unable to fulfill request at this time.';
-        break;
-    }
+  if (e.message == 'User not found' || e.code == 401) {
+    error.code = 401;
+    error.message = 'Invalid email/password combination.';
+  } else {
+    error.code = 500;
+    error.message = 'Unable to fulfill request at this time.';
   }
-
   return error;
- }
+}
 
 function post(req, res) {
   let loginInfo = getLoginInfo(req.swagger.params);
@@ -136,7 +107,7 @@ function post(req, res) {
     // Query the database if there are no errors with the login information
     mongo.connect()
       .then(db => {
-        return findUser(loginInfo.email, db)
+        return mongo.findUserByEmail(loginInfo.email, db)
           .then(user => {
             return verifyUser(user, loginInfo.password)
           })
