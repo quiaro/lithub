@@ -32,7 +32,6 @@ class FacebookSignin extends React.Component {
     return new Promise((resolve, reject) => {
       window.FB.api(`/${userId}/permissions`, 'delete',
         function() {
-          console.log('Facebook permissions revoked after token creation');
           resolve(true)
         }
       )
@@ -88,6 +87,7 @@ class FacebookSignin extends React.Component {
           return this.revokePermissions(response.authResponse.userID)
             .then(() => {
               // TODO: redirect to app dashboard
+              console.log('Facebook permissions revoked after token creation');
               console.log('Redirect to app dashboard');
               return;
             })
@@ -97,13 +97,6 @@ class FacebookSignin extends React.Component {
           console.log(e.message)
         })
     }
-  }
-
-  // TODO: Remove this when log out is implemented
-  facebookLogout() {
-    window.FB.logout(function(response) {
-       console.log('The user has been logged out');
-    });
   }
 
   componentWillUnmount() {
@@ -121,22 +114,16 @@ class FacebookSignin extends React.Component {
                  });
                  FB.Event.subscribe('auth.statusChange', this.statusChangeCallback.bind(this))
                });
-
-    // TODO: Remove this when log out is implemented
-    document.getElementById('facebook-logout').addEventListener('click', this.facebookLogout);
   }
 
   render() {
     return (
-      <div>
-        <div className="fb-login-button"
-             data-max-rows="1"
-             data-size="large"
-             data-show-faces="false"
-             data-scope="public_profile, email"
-             data-auto-logout-link="false"></div>
-        <button id="facebook-logout">Sign out from Facebook</button>
-      </div>
+      <div className="fb-login-button"
+           data-max-rows="1"
+           data-size="large"
+           data-show-faces="false"
+           data-scope="public_profile, email"
+           data-auto-logout-link="false"></div>
     );
   }
 }
