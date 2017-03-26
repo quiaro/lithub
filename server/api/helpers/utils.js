@@ -9,13 +9,14 @@ const secret = require('../../secrets/secrets')
  * Generate a signed jason web token (jwt) that stores
  * the user's basic information
  *
- * @param {object} user - User object
+ * @param {object} user - User profile object
  * @return {Promise.<string|object>} - user
  */
 function getUserToken(user) {
   return new Promise((resolve, reject) => {
     jwt.sign({
       iss: 'lithub',
+      uid: user.uid || '',
       preferred_username: user.username,
       name: user.name,
       email: user.email,
@@ -30,6 +31,37 @@ function getUserToken(user) {
     })
   })
 }
+
+/**
+ * Make a GET request to a specific url
+ *
+ * How to get node.js HTTP request promise without a single dependency
+ * Per https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies/
+ *
+ * @param {string} url - Request URL
+ * @return {Promise.<string|object>} - Content of the requested URL
+ */
+function getURLContent (url) {
+  const lib = url.startsWith('https') ? require('https') : require('http');
+  // return new pending promise
+  return new Promise((resolve, reject) => {
+    // select http or https module, depending on requested url
+    const request = lib.get(url, (response) => {
+      // handle http errors
+      if (response.statusCode < 200 || response.statusCode > 299) {
+         reject(new Error('Failed to load, status code: ' + response.statusCode));
+       }
+      // temporary data holder
+      const body = [];
+      // on every content chunk, push it to the data array
+      response.on('data', (chunk) => body.push(chunk));
+      // we are done, resolve promise with those joined chunks
+      response.on('end', () => resolve(body.join('')));
+    });
+    // handle connection errors of the request
+    request.on('error', (err) => reject(err))
+  })
+};
 
 /**
  * Validate a list of params
@@ -73,5 +105,6 @@ function validateParams(paramsArray) {
 
 module.exports = {
   getUserToken,
+  getURLContent,
   validateParams
 }

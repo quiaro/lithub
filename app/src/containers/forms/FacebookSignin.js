@@ -1,6 +1,6 @@
 /* global FB */
 import React from 'react';
-import { loadScript } from '../../common/utils';
+import { loadScript, saveAuthToken } from '../../common/utils';
 
 class FacebookSignin extends React.Component {
 
@@ -30,17 +30,10 @@ class FacebookSignin extends React.Component {
 
   revokePermissions(userId) {
     return new Promise((resolve, reject) => {
-      window.FB.api(`/${userID}/permissions`, 'delete',
-        function(permissionsWereDeleted) {
-          if (permissionsWereDeleted) {
-            resolve(true)
-          } else {
-            // TODO: Remove this and simply resolve to true always
-            reject({
-              code: 500,
-              message: 'Unable to revoke permissions for user'
-            })
-          }
+      window.FB.api(`/${userId}/permissions`, 'delete',
+        function() {
+          console.log('Facebook permissions revoked after token creation');
+          resolve(true)
         }
       )
     })
@@ -54,15 +47,13 @@ class FacebookSignin extends React.Component {
    * @param {object} facebookUser - https://developers.facebook.com/identity/sign-in/web/reference#users
    */
   getAppToken(facebookUser, accessToken) {
-    const id_token = facebookUser.getAuthResponse().id_token;
-    const xhr = new XMLHttpRequest();
-
     return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
       xhr.open('POST', '/api/auth/from_facebook_token');
       xhr.setRequestHeader('Content-Type', 'application/json');
       xhr.onload = () => {
         if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText))
+          resolve(JSON.parse(xhr.responseText).token)
         } else {
           reject({
             code: 500,
@@ -70,35 +61,41 @@ class FacebookSignin extends React.Component {
           })
         }
       };
-      xhr.send('id_token=' + id_token);
+      xhr.send(JSON.stringify({
+        uid: facebookUser.id,
+        email: facebookUser.email,
+        name: facebookUser.name,
+        username: facebookUser.first_name,
+        picture: facebookUser.picture.data.url,
+        token: accessToken
+      }));
     })
   }
 
   statusChangeCallback(response) {
     if (response.status === 'connected') {
-      console.log('callback response: ', response);
-
-      return this.getUserInfo('id', 'name', 'email', 'first_name')
+      return this.getUserInfo('id', 'email', 'name', 'first_name', 'picture')
         .then(userInfo => {
-          // return this.getAppToken.call(this, userInfo, response.authResponse.accessToken)
-          console.log('User Info: ', userInfo);
-          return userInfo;
+          return this.getAppToken(userInfo, response.authResponse.accessToken)
         })
-        // .then(token => {
-          // TODO: Store token
-        // })
+        .then(token => {
+          saveAuthToken(token);
+          // Facebook's Access Token will no longer be necessary. If a JWT was
+          // generated, going forward all communication with the server will
+          // be done using the JWT. On the other hand, if it wasn't possible
+          // to issue a JWT, revoke all permissions so if the user tries to
+          // log in again he'll be prompted to grant the app the correct permissions.
+          return this.revokePermissions(response.authResponse.userID)
+            .then(() => {
+              // TODO: redirect to app dashboard
+              console.log('Redirect to app dashboard');
+              return;
+            })
+        })
         .catch(e => {
           // TODO: Show a notification that an error ocurred
           console.log(e.message)
         })
-        // Facebook's Access Token will no longer be necessary. If a JWT was
-        // generated, going forward all communication with the server will
-        // be done using the JWT. On the other hand, if it wasn't possible
-        // to issue a JWT, revoke all permissions so if the user tries to
-        // log in again he'll be prompted to grant the app the correct permissions.
-        // .then(this.revokePermissions(response.authReponse.userID))
-        // TODO: redirect to app dashboard
-        // console.log('Redirect to app dashboard');
     }
   }
 

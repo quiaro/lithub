@@ -113,6 +113,28 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
+            
+  /auth/from_facebook_token:
+    x-swagger-router-controller: OAuth
+    post:
+      description: Exchanges a Facebook Access Token for an authentication token to use for API requests
+      operationId: 'fromFacebookToken'
+      parameters:
+      - name: userProfile
+        in: body
+        description: "User profile information to store in an authentication token"
+        required: true
+        schema:
+          $ref: "#/definitions/UserProfile"
+      responses:
+        "200":
+          description: Authentication Token
+          schema:
+            $ref: "#/definitions/Token"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
 
   /resources:
     x-swagger-router-controller: Resource
@@ -285,6 +307,29 @@ definitions:
           type: "string"
         }
         description: "List of IDs of all the users that have read this literary work"
+        
+  UserProfile:
+    type: "object"
+    properties:
+      uid:
+        type: "string"
+        description: "User ID"
+      email:
+        type: "string"
+        description: "User email"
+      name:
+        type: "string"
+        description: "User full name"
+      username:
+        type: "string"
+        description: "Username or user first name"
+      picture:
+        type: "string"
+        description: "URL of the user's profile picture"
+      token:
+        type: "string"
+        description: "User token from a 3rd-party OAuth system to be verified by the app server"  
+        
 
   Token:
     type: object
