@@ -38,10 +38,7 @@ class SignUpPage extends React.Component {
     const user = this.state.user;
     user[field] = (field !== 'name') ?
                     event.target.value.trim() : event.target.value;
-
-    this.setState({
-      user
-    });
+    this.setState({ user });
   }
 
   /**
@@ -57,9 +54,21 @@ class SignUpPage extends React.Component {
 
     if (validatedForm.isValid) {
       // proceed with submission
-      this.submitForm();
+      this.submitForm()
+        .then(userProfile => {
+          this.setState({
+            errors: {}
+          });
+          // TODO: Present success notification to user
+          console.log('New user registered: ', userProfile);
+        })
+        .catch(errors => {
+          this.setState({
+            errors
+          });
+        })
     } else {
-      this.setState({errors: validatedForm.errors})
+      this.setState({ errors: validatedForm.errors })
     }
   }
 
@@ -67,39 +76,32 @@ class SignUpPage extends React.Component {
    * Submit the form to be processed by the server
    */
   submitForm() {
-    // prevent default action i.e. form submission event
-    event.preventDefault();
+    return new Promise((resolve, reject) => {
+      // create a string for an HTTP body message
+      const username = encodeURIComponent(this.state.user.username);
+      const email = encodeURIComponent(this.state.user.email);
+      const password = encodeURIComponent(this.state.user.password);
+      const name = this.state.user.name;
 
-    // create a string for an HTTP body message
-    const username = encodeURIComponent(this.state.user.username);
-    const email = encodeURIComponent(this.state.user.email);
-    const password = encodeURIComponent(this.state.user.password);
-    const name = this.state.user.name;
+      let formData = `username=${username}&email=${email}&password=${password}`;
+      formData = name ? formData + `&name=${name}` : formData;
 
-    let formData = `username=${username}&email=${email}&password=${password}`;
-    formData = name ? formData + `&name=${name}` : formData;
-
-    // create an AJAX request
-    const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/auth/signup');
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-      if (xhr.status === 200) {
-        this.setState({
-          errors: {}
-        });
-        console.log('User was registered. OK to access the app');
-      } else {
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-
-        this.setState({
-          errors
-        });
-      }
+      // create an AJAX request
+      const xhr = new XMLHttpRequest();
+      xhr.open('post', '/api/auth/signup');
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.responseType = 'json';
+      xhr.addEventListener('load', () => {
+        if (xhr.status === 201) {
+          resolve(xhr.response)
+        } else {
+          const errors = xhr.response.errors ? xhr.response.errors : {};
+          errors.summary = xhr.response.message;
+          reject(errors)
+        }
+      });
+      xhr.send(formData);
     });
-    xhr.send(formData);
   }
 
   /**

@@ -4,14 +4,15 @@ const secret = require('../../secrets/secrets')
 
 function addUserToDatabase(userInfo, hash, db) {
   return db.collection('users').insertOne({
-    username: userInfo.username,
-    name: userInfo.name,
     email: userInfo.email,
+    name: userInfo.name,
+    username: userInfo.username,
+    picture: userInfo.picture,
     password: hash.key,
     salt: hash.salt
-  }).then(() => {
-    console.log('LOG: User inserted in the DB');
-
+  }).then((doc) => {
+    console.log(`LOG: User with ID ${doc.insertedId} inserted in the DB`);
+    userInfo.uid = doc.insertedId;
     return db.close().then(() => {
       console.log('LOG: DB connection closed');
       return userInfo;
@@ -36,6 +37,9 @@ function handleError(e) {
   if (e.name == 'MongoError') {
     error.code = 503;
     error.message = 'Unable to connect to database. Please try again shortly.';
+  } if (e.code == 409) {
+    error.code = e.code;
+    error.message = 'User already exists with the specified email address.';
   } else {
     error.code = 500;
     error.message = 'Unable to create user. Please try again shortly.';
@@ -53,7 +57,8 @@ function getUserInfo(reqParams) {
     username: reqParams.username.value || '',
     name: reqParams.name.value || '',
     email: reqParams.email.value || '',
-    password: reqParams.password.value || ''
+    password: reqParams.password.value || '',
+    picture: ''
   }
 }
 
@@ -101,7 +106,6 @@ function post(req, res) {
          errors: paramErrors
        })
   } else {
-
     // Create a new user with the data provided.
     // TODO: Instead of creating the user right away, an email should be sent
     // to the user which they can then use to complete the creation of the user.
@@ -113,12 +117,24 @@ function post(req, res) {
         hash = values[0];
         db = values[1];
 
-        return addUserToDatabase(userInfo, hash, db)
-          .then(utils.getUserToken)
-          .then(token => {
-            res.status(201).json({
-                 token: token
+        // Check if a user already exists with the email provided
+        return mongo.findUserByEmail(userInfo.email, db)
+          .then(() => {
+            let error = handleError({ code: 409});
+            res.status(error.code).json({
+                 message: error.message
                })
+          })
+          .catch(e => {
+            if (e.message == 'User not found') {
+              // The email is available. We can proceed with creating the user.
+              return addUserToDatabase(userInfo, hash, db)
+                .then(userInfo => {
+                  res.status(201).json(userInfo)
+                })
+            } else {
+              throw e;
+            }
           })
       }).catch(e => {
         let error = handleError(e);
