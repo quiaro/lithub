@@ -139,7 +139,7 @@ class Login extends React.Component {
    */
   render() {
     if (this.props.isAuthenticated) {
-      const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
+      const { from } = this.props.location.state || { from: { pathname: '/' } }
       return (<Redirect to={from}/>)
     }
     return (<LoginForm onSubmit={this.processForm}

@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 
-// import * as selectors from '../reducers'
-
 class PrivateRoute extends React.Component {
   render() {
     const { component, isAuthenticated, ...rest} = this.props;

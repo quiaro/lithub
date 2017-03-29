@@ -7,12 +7,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import * as Store from './app/store'
-import Dashboard from './components/Dashboard';
-
 import Home from './containers/Home';
-import PrivateRoute from './containers/PrivateRoute';
 import Login from './containers/forms/Login';
 import SignUp from './containers/forms/SignUp';
+// import PrivateRoute from './containers/PrivateRoute';
 
 // remove tap delay, essential for MaterialUI to work properly
 injectTapEventPlugin();
@@ -25,7 +23,7 @@ ReactDom.render((
           <Route exact path="/" component={Home} />
         	<Route path="/login" component={Login} />
         	<Route path="/signup" component={SignUp} />
-          <PrivateRoute path="/dashboard" component={Dashboard} />
+          {/* <PrivateRoute path="/dashboard" component={Dashboard} /> */}
         </div>
       </Router>
     </Provider>

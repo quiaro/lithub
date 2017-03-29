@@ -1,49 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
+import PublicHome from '../components/PublicHome';
+import PrivateHome from '../components/PrivateHome';
 
-import { fetchBooks } from '../actions/books';
-import { fetchArticles } from '../actions/articles';
-import { fetchQuotes } from '../actions/quotes';
-import CircularProgress from 'material-ui/CircularProgress';
-import HomeComponent from '../components/Home'
-import * as selectors from '../reducers'
-
-class Home extends Component {
-
-  componentDidMount() {
-    const { fetchBooks, fetchArticles, fetchQuotes } = this.props;
-    fetchBooks();
-    fetchArticles();
-    fetchQuotes();
-  }
-
+class Home extends React.Component {
   render() {
-    const {
-      isFetchingBooks,
-      isFetchingArticles,
-      isFetchingQuotes,
-    } = this.props;
-
-    if (isFetchingBooks || isFetchingArticles || isFetchingQuotes) {
-      return <CircularProgress size={60} thickness={7} />
+    const { isAuthenticated } = this.props;
+    if (isAuthenticated) {
+      return <PrivateHome />
     }
-
-    return <HomeComponent {...this.props} />
+    return <PublicHome />
   }
 }
 
 const mapStateToProps = (state) => ({
-  books: selectors.getAllBooks(state),
-  articles: selectors.getAllArticles(state),
-  quotes: selectors.getAllQuotes(state),
-  isFetchingBooks: selectors.getIsFetchingBooks(state),
-  isFetchingArticles: selectors.getIsFetchingArticles(state),
-  isFetchingQuotes: selectors.getIsFetchingQuotes(state)
+  isAuthenticated: state.isAuthenticated
 })
 
 Home = connect(
-  mapStateToProps,
-  { fetchBooks, fetchArticles, fetchQuotes }
+  mapStateToProps
 )(Home)
 
-export default Home
+export default Home;

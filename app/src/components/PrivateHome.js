@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Dashboard = () => (
+const PrivateHome = () => (
   <div>Yay! The dashboard is displayed!!</div>
 )
 
-export default Dashboard;
+export default PrivateHome;
