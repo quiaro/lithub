@@ -7,7 +7,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import * as Store from './app/store'
-import Base from './components/Base';
 import Dashboard from './components/Dashboard';
 
 import Home from './containers/Home';
@@ -22,12 +21,12 @@ ReactDom.render((
   <MuiThemeProvider muiTheme={getMuiTheme()}>
     <Provider store={Store.configure()}>
       <Router>
-        <Base>
+        <div>
           <Route exact path="/" component={Home} />
         	<Route path="/login" component={Login} />
         	<Route path="/signup" component={SignUp} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
-        </Base>
+        </div>
       </Router>
     </Provider>
   </MuiThemeProvider>), document.getElementById('root'));
