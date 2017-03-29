@@ -18,15 +18,6 @@ export const loadScript = (src, id, callback) => {
 }
 
 /**
- * Store the user's JWT
- *
- * @param {object} token - Jason Web Token
- */
-export const saveAuthToken = (token) => {
-  sessionStorage.setItem('lthToken', token);
-}
-
-/**
  * Mock the delay of a server response
  *
  * @param {integer} ms - Delay in milliseconds

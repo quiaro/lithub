@@ -5,7 +5,7 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 
 import LoginForm from '../../components/forms/Login';
-import { saveAuthToken } from '../../common/utils';
+import { saveAuthToken } from '../../common/auth';
 import { authenticate } from '../../actions/auth';
 
 class Login extends React.Component {

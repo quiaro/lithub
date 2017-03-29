@@ -1,6 +1,7 @@
 /* global FB */
 import React from 'react';
-import { loadScript, saveAuthToken } from '../../common/utils';
+import { saveAuthToken } from '../../common/auth';
+import { loadScript } from '../../common/utils';
 
 class FacebookSignin extends React.Component {
 
