@@ -17,18 +17,10 @@ const HomePage = (props) => (
         )}
         <Divider />
         <Subheader>Articles</Subheader>
-        <ListItem
-          primaryText="The Lost Army of Cambyses"
-          secondaryText="Posted by Ramón Valdés"
-        />
-        <ListItem
-          primaryText="The Lost Army of Cambyses"
-          secondaryText="Posted by Ramón Valdés"
-        />
-        <ListItem
-          primaryText="The Lost Army of Cambyses"
-          secondaryText="Posted by Ramón Valdés"
-        />
+        {props.articles.map((article) =>
+          <ListItem key={article.id}
+                    primaryText={article.title} />
+        )}
         <Divider />
         <Subheader>Quotes</Subheader>
         <ListItem

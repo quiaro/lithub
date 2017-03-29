@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBooks } from '../actions';
+import { fetchBooks, fetchArticles } from '../actions';
 import CircularProgress from 'material-ui/CircularProgress';
 import HomeComponent from '../components/Home'
 import * as selectors from '../reducers'
@@ -9,14 +9,15 @@ import * as selectors from '../reducers'
 class Home extends Component {
 
   componentDidMount() {
-    const { fetchBooks } = this.props;
+    const { fetchBooks, fetchArticles } = this.props;
     fetchBooks();
+    fetchArticles();
   }
 
   render() {
-    const { isFetchingBooks } = this.props;
+    const { isFetchingBooks, isFetchingArticles } = this.props;
 
-    if (isFetchingBooks) {
+    if (isFetchingBooks || isFetchingArticles) {
       return <CircularProgress size={60} thickness={7} />
     }
 
@@ -26,12 +27,14 @@ class Home extends Component {
 
 const mapStateToProps = (state) => ({
   books: selectors.getAllBooks(state),
-  isFetchingBooks: selectors.getIsFetchingBooks(state)
+  articles: selectors.getAllArticles(state),
+  isFetchingBooks: selectors.getIsFetchingBooks(state),
+  isFetchingArticles: selectors.getIsFetchingArticles(state)
 })
 
 Home = connect(
   mapStateToProps,
-  { fetchBooks }
+  { fetchBooks, fetchArticles }
 )(Home)
 
 export default Home
