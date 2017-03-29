@@ -23,18 +23,10 @@ const HomePage = (props) => (
         )}
         <Divider />
         <Subheader>Quotes</Subheader>
-        <ListItem
-          primaryText="Don't cry because it's over, smile because it happened."
-          secondaryText="Posted by Ramón Valdés"
-        />
-        <ListItem
-          primaryText="You know you're in love when you can't fall asleep because reality is finally better than your dreams."
-          secondaryText="Posted by Ramón Valdés"
-        />
-        <ListItem
-          primaryText="I like nonsense, it wakes up the brain cells. Fantasy is a necessary ingredient in living."
-          secondaryText="Posted by Ramón Valdés"
-        />
+        {props.quotes.map((quote) =>
+          <ListItem key={quote.id}
+                    primaryText={quote.text} />
+        )}
       </List>
     </CardText>
   </Card>

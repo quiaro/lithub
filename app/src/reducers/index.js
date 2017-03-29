@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 import articles, * as articleSelectors from './articles'
 import books, * as bookSelectors from './books'
+import quotes, * as quoteSelectors from './quotes'
 
 export const getAllArticles = (state) => {
   return articleSelectors.getAll(state.articles)
@@ -18,9 +19,18 @@ export const getIsFetchingBooks = (state) => {
   return bookSelectors.getIsFetching(state.books)
 }
 
+export const getAllQuotes = (state) => {
+  return quoteSelectors.getAll(state.quotes)
+}
+
+export const getIsFetchingQuotes = (state) => {
+  return quoteSelectors.getIsFetching(state.quotes)
+}
+
 const reducers = combineReducers({
   books,
-  articles
+  articles,
+  quotes
 })
 
 export default reducers
