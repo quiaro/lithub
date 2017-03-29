@@ -8,7 +8,10 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import * as Store from './app/store'
 import Base from './components/Base';
+import Dashboard from './components/Dashboard';
+
 import Home from './containers/Home';
+import PrivateRoute from './containers/PrivateRoute';
 import Login from './containers/forms/Login';
 import SignUp from './containers/forms/SignUp';
 
@@ -23,6 +26,7 @@ ReactDom.render((
           <Route exact path="/" component={Home} />
         	<Route path="/login" component={Login} />
         	<Route path="/signup" component={SignUp} />
+          <PrivateRoute path="/dashboard" component={Dashboard} />
         </Base>
       </Router>
     </Provider>

@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
+
 import LoginForm from '../../components/forms/Login';
 import { saveAuthToken } from '../../common/utils';
+import { authenticate } from '../../actions/auth';
 
-class LoginPage extends React.Component {
+class Login extends React.Component {
 
   /**
    * Class constructor.
@@ -49,6 +53,7 @@ class LoginPage extends React.Component {
             errors: {}
           });
           console.log('Redirect to app dashboard');
+          this.props.authenticate();
         })
         .catch(errors => {
           this.setState({
@@ -133,9 +138,24 @@ class LoginPage extends React.Component {
    * Render the component.
    */
   render() {
-    return (<LoginForm onSubmit={this.processForm} onChange={this.changeUser} errors={this.state.errors} user={this.state.user}/>);
+    if (this.props.isAuthenticated) {
+      const { from } = this.props.location.state || { from: { pathname: '/dashboard' } }
+      return (<Redirect to={from}/>)
+    }
+    return (<LoginForm onSubmit={this.processForm}
+                       onChange={this.changeUser}
+                       errors={this.state.errors}
+                       user={this.state.user}/>);
   }
-
 }
 
-export default LoginPage;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.isAuthenticated
+})
+
+Login = connect(
+  mapStateToProps,
+  { authenticate }
+)(Login)
+
+export default Login;

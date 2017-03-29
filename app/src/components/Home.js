@@ -4,7 +4,7 @@ import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
-const HomePage = (props) => (
+const Home = (props) => (
   <Card className="container">
     <CardTitle title="Literature Hub" subtitle="A place to discover, track and share your taste on literature."/>
     <CardText>
@@ -32,4 +32,4 @@ const HomePage = (props) => (
   </Card>
 );
 
-export default HomePage;
+export default Home;

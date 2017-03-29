@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import AppBar from './AppBar'
+import AppBar from '../containers/AppBar'
 
 const Base = ({ children }) => (
   <div>
