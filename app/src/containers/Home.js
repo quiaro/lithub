@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBooks, fetchArticles } from '../actions';
+import { fetchBooks } from '../actions/books';
+import { fetchArticles } from '../actions/articles';
 import CircularProgress from 'material-ui/CircularProgress';
 import HomeComponent from '../components/Home'
 import * as selectors from '../reducers'
