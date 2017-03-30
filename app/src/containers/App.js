@@ -4,21 +4,21 @@ import { connect } from 'react-redux';
 import * as selectors from '../reducers'
 import { fetchCurrentUser } from '../actions/users';
 import { getAuthToken } from '../common/auth';
-import PrivateHomeComponent from '../components/private/Home';
+import AppComponent from '../components/App';
 
-class PrivateHome extends React.Component {
+class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { 'isSecondaryMenuOpen': false }
+    this.state = { 'isSideMenuOpen': false }
     this.menuToggleHandler.bind(this);
     this.menuCloseHandler.bind(this);
     this.menuUpdateHandler.bind(this);
   }
 
   // Handlers for the side menu
-  menuToggleHandler = () => this.setState({ 'isSecondaryMenuOpen': !this.state.open });
-  menuCloseHandler = () => this.setState({ 'isSecondaryMenuOpen': false });
-  menuUpdateHandler = (state) => this.setState({ 'isSecondaryMenuOpen': state });
+  menuToggleHandler = () => this.setState({ 'isSideMenuOpen': !this.state.open });
+  menuCloseHandler = () => this.setState({ 'isSideMenuOpen': false });
+  menuUpdateHandler = (state) => this.setState({ 'isSideMenuOpen': state });
 
   componentDidMount() {
     const { currentUser, fetchCurrentUser } = this.props;
@@ -33,7 +33,7 @@ class PrivateHome extends React.Component {
   }
 
   render() {
-    return <PrivateHomeComponent {...this.state} {...this.props}
+    return <AppComponent {...this.state} {...this.props}
               menuToggle={this.menuToggleHandler}
               menuClose={this.menuCloseHandler}
               menuUpdate={this.menuUpdateHandler} />
@@ -41,12 +41,13 @@ class PrivateHome extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  isAuthenticated: state.isAuthenticated,
   currentUser: selectors.getCurrentUser(state)
 })
 
-PrivateHome = connect(
+App = connect(
   mapStateToProps,
   { fetchCurrentUser }
-)(PrivateHome)
+)(App)
 
-export default PrivateHome;
+export default App;

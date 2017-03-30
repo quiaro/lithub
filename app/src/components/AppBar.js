@@ -5,10 +5,10 @@ import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import { Link } from 'react-router-dom';
 
-const PrivateAppBar = (props) => (
+const AppBar = (props) => (
   <Toolbar>
     <ToolbarGroup>
-      <IconButton touch={true} onTouchTap={props.menuToggle}>
+      <IconButton touch={true} onTouchTap={props.onIconClick}>
         <NavigationMenuIcon />
       </IconButton>
       <ToolbarTitle text="Lit Hub" />
@@ -26,4 +26,4 @@ const PrivateAppBar = (props) => (
   </Toolbar>
 )
 
-export default PrivateAppBar;
+export default AppBar;

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import PublicHome from '../components/public/Home';
-import PrivateHome from './PrivateHome';
 
 class Home extends React.Component {
   render() {
     const { isAuthenticated } = this.props;
     if (isAuthenticated) {
-      return <PrivateHome />
+      return <Redirect to="/home"/>
     }
     return <PublicHome />
   }

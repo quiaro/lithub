@@ -2,13 +2,9 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem } from 'material-ui/List';
 import { Link } from 'react-router-dom';
-import PrivateAppBar from './AppBar'
-import SideMenu from './SideMenu'
 
-const PrivateHome = (props) => (
+const Dashboard = (props) => (
   <div>
-    <SideMenu {...props} />
-    <PrivateAppBar user={props.currentUser} menuToggle={props.menuToggle} />
     <div>What have others read lately?</div>
     <List>
       <ListItem><Link to={'/books'}>Books</Link></ListItem>
@@ -21,4 +17,4 @@ const PrivateHome = (props) => (
   </div>
 )
 
-export default PrivateHome;
+export default Dashboard;
