@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import * as selectors from '../reducers'
-import PrivateHomeComponent from '../components/PrivateHome';
 import { fetchCurrentUser } from '../actions/users';
 import { getAuthToken } from '../common/auth';
+import PrivateHomeComponent from '../components/private/Home';
 
 class PrivateHome extends React.Component {
   componentDidMount() {

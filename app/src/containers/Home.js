@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import PublicHome from '../components/PublicHome';
+import PublicHome from '../components/public/Home';
 import PrivateHome from './PrivateHome';
 
 class Home extends React.Component {

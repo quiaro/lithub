@@ -4,7 +4,7 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 
-const PublicSummary = (props) => (
+const OverviewSummary = (props) => (
   <CardText>
     Find out what others are sharing
     <List>
@@ -29,4 +29,4 @@ const PublicSummary = (props) => (
   </CardText>
 )
 
-export default PublicSummary;
+export default OverviewSummary;

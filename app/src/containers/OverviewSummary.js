@@ -5,10 +5,10 @@ import { fetchBooks } from '../actions/books';
 import { fetchArticles } from '../actions/articles';
 import { fetchQuotes } from '../actions/quotes';
 import CircularProgress from 'material-ui/CircularProgress';
-import PublicSummaryComponent from '../components/PublicSummary'
+import PublicSummaryComponent from '../components/OverviewSummary'
 import * as selectors from '../reducers'
 
-class PublicSummary extends Component {
+class OverviewSummary extends Component {
 
   componentDidMount() {
     const { fetchBooks, fetchArticles, fetchQuotes } = this.props;
@@ -41,9 +41,9 @@ const mapStateToProps = (state) => ({
   isFetchingQuotes: selectors.getIsFetchingQuotes(state)
 })
 
-PublicSummary = connect(
+OverviewSummary = connect(
   mapStateToProps,
   { fetchBooks, fetchArticles, fetchQuotes }
-)(PublicSummary)
+)(OverviewSummary)
 
-export default PublicSummary
+export default OverviewSummary

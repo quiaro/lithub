@@ -1,5 +1,5 @@
 import React from 'react';
-import PrivateAppBar from './PrivateAppBar'
+import PrivateAppBar from './AppBar'
 
 const PrivateHome = (props) => (
   <div>
