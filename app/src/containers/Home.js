@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PublicHome from '../components/PublicHome';
-import PrivateHome from '../components/PrivateHome';
+import PrivateHome from './PrivateHome';
 
 class Home extends React.Component {
   render() {
