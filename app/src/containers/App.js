@@ -13,12 +13,17 @@ class App extends React.Component {
     this.menuToggleHandler.bind(this);
     this.menuCloseHandler.bind(this);
     this.menuUpdateHandler.bind(this);
+    this.onMenuChange.bind(this);
   }
 
   // Handlers for the side menu
   menuToggleHandler = () => this.setState({ 'isSideMenuOpen': !this.state.open });
   menuCloseHandler = () => this.setState({ 'isSideMenuOpen': false });
   menuUpdateHandler = (state) => this.setState({ 'isSideMenuOpen': state });
+  onMenuChange = (event, value) => {
+    this.props.history.push(value);
+    this.menuCloseHandler();
+  };
 
   componentDidMount() {
     const { currentUser, fetchCurrentUser } = this.props;
@@ -36,7 +41,8 @@ class App extends React.Component {
     return <AppComponent {...this.state} {...this.props}
               menuToggle={this.menuToggleHandler}
               menuClose={this.menuCloseHandler}
-              menuUpdate={this.menuUpdateHandler} />
+              menuUpdate={this.menuUpdateHandler}
+              onMenuChange={this.onMenuChange} />
   }
 }
 
