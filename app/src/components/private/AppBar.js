@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const PrivateAppBar = (props) => (
   <Toolbar>
     <ToolbarGroup>
-      <IconButton touch={true}>
+      <IconButton touch={true} onTouchTap={props.menuToggle}>
         <NavigationMenuIcon />
       </IconButton>
       <ToolbarTitle text="Lit Hub" />
