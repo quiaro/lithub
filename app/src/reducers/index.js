@@ -20,6 +20,9 @@ export const getIsFetchingArticlesHistory = (state) => articleSelectors.getIsFet
 export const getAllQuotes = (state) => quoteSelectors.getAll(state.quotes);
 export const getIsFetchingQuotes = (state) => quoteSelectors.getIsFetching(state.quotes);
 
+export const getAllQuotesHistory = (state) => quoteSelectors.getAllHistory(state.quotes);
+export const getIsFetchingQuotesHistory = (state) => quoteSelectors.getIsFetchingHistory(state.quotes);
+
 export const getCurrentUser = (state) => userSelectors.getCurrentUser(state.users);
 
 const reducers = combineReducers({

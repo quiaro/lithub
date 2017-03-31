@@ -1,6 +1,7 @@
 import books from '../__mocks__/books'
 import booksHistory from '../__mocks__/history/books'
-import articlesHistory from '../__mocks__/history/books'
+import articlesHistory from '../__mocks__/history/articles'
+import quotesHistory from '../__mocks__/history/quotes'
 import articles from '../__mocks__/articles'
 import quotes from '../__mocks__/quotes'
 import user from '../__mocks__/user'
@@ -29,6 +30,11 @@ export const fetchArticlesHistory = () =>
 export const fetchQuotes = () =>
   serverDelay(2000).then(() => {
     return quotes;
+  });
+
+export const fetchQuotesHistory = () =>
+  serverDelay(2000).then(() => {
+    return quotesHistory;
   });
 
 export const fetchCurrentUser = (token) =>
