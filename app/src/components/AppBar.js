@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 import {Toolbar, ToolbarGroup, ToolbarTitle} from 'material-ui/Toolbar';
 import FlatButton from 'material-ui/FlatButton';
+import { Link } from 'react-router-dom';
 
 const AppBar = (props) => (
   <Toolbar>
@@ -11,7 +12,7 @@ const AppBar = (props) => (
       <IconButton touch={true} onTouchTap={props.onIconClick}>
         <NavigationMenuIcon />
       </IconButton>
-      <ToolbarTitle text="Lit Hub" />
+      <Link to="/home">Lit Hub</Link>
     </ToolbarGroup>
     { props.user ?
       <ToolbarGroup lastChild={true}>
