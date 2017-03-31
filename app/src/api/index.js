@@ -1,4 +1,5 @@
 import books from '../__mocks__/books'
+import booksHistory from '../__mocks__/history/books'
 import articles from '../__mocks__/articles'
 import quotes from '../__mocks__/quotes'
 import user from '../__mocks__/user'
@@ -7,6 +8,11 @@ import { serverDelay } from '../common/utils'
 export const fetchBooks = () =>
   serverDelay(2000).then(() => {
     return books;
+  });
+
+export const fetchBooksHistory = () =>
+  serverDelay(2000).then(() => {
+    return booksHistory;
   });
 
 export const fetchArticles = () =>

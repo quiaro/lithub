@@ -14,7 +14,6 @@ const SideMenu = (props) => (
           onRequestChange={props.onUpdate}>
     <Subheader>My History</Subheader>
     <SelectableList value={props.location.pathname} onChange={props.onMenuChange}>
-      <ListItem primaryText="All items" value="/history" />
       <ListItem primaryText="Books" value="/history/books" />
       <ListItem primaryText="Articles" value="/history/articles" />
       <ListItem primaryText="Quotes" value="/history/quotes" />
