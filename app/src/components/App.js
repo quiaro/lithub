@@ -4,6 +4,7 @@ import SideMenu from './SideMenu'
 import Dashboard from './Dashboard';
 import PrivateRoute from './PrivateRoute';
 import HistoryBooks from '../containers/history/Books';
+import HistoryArticles from '../containers/history/Articles';
 
 const App = (props) => {
   const { isAuthenticated,
@@ -28,6 +29,7 @@ const App = (props) => {
           to login */}
       <PrivateRoute path='/home' component={Dashboard} isAuthenticated={isAuthenticated} />
       <PrivateRoute path='/history/books' component={HistoryBooks} isAuthenticated={isAuthenticated} />
+      <PrivateRoute path='/history/articles' component={HistoryArticles} isAuthenticated={isAuthenticated} />
     </div>
   )
 }

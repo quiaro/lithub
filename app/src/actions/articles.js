@@ -6,9 +6,10 @@ const articleSchema = new schema.Entity('articles');
 
 const actions = createActions({
   ARTICLE: {
-    FETCH_DONE: response => normalize(response, [ articleSchema ])
+    FETCH_DONE: response => normalize(response, [ articleSchema ]),
+    HISTORY_FETCH_DONE: response => normalize(response, [ articleSchema ])
   }
-}, 'ARTICLE_FETCH');
+}, 'ARTICLE_FETCH', 'ARTICLE_HISTORY_FETCH');
 
 export const fetchArticles = () => (dispatch) => {
   dispatch(actions.articleFetch());
@@ -17,5 +18,15 @@ export const fetchArticles = () => (dispatch) => {
     },
     error => {
       dispatch(actions.article.fetchDone(error));
+    });
+}
+
+export const fetchArticlesHistory = () => (dispatch) => {
+  dispatch(actions.articleHistoryFetch());
+  return api.fetchArticlesHistory().then(response => {
+      dispatch(actions.article.historyFetchDone(response))
+    },
+    error => {
+      dispatch(actions.article.historyFetchDone(error));
     });
 }

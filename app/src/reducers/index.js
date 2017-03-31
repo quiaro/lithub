@@ -14,6 +14,9 @@ export const getIsFetchingBooks = (state) => bookSelectors.getIsFetching(state.b
 export const getAllBooksHistory = (state) => bookSelectors.getAllHistory(state.books);
 export const getIsFetchingBooksHistory = (state) => bookSelectors.getIsFetchingHistory(state.books);
 
+export const getAllArticlesHistory = (state) => articleSelectors.getAllHistory(state.articles);
+export const getIsFetchingArticlesHistory = (state) => articleSelectors.getIsFetchingHistory(state.articles);
+
 export const getAllQuotes = (state) => quoteSelectors.getAll(state.quotes);
 export const getIsFetchingQuotes = (state) => quoteSelectors.getIsFetching(state.quotes);
 

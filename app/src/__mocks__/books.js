@@ -12,7 +12,7 @@ const books = [
     title: 'Madame Bovary',
     authors: ['Gustave Flaubert'],
     genre: 'Romance',
-    readBy: ['102'],
+    readBy: ['101'],
     created: new Date(),
     lastModified: new Date()
   }, {
@@ -20,7 +20,7 @@ const books = [
     title: 'David Copperfield',
     author: ['Charles Dickens'],
     genre: 'Biography',
-    readBy: ['102'],
+    readBy: ['101'],
     created: new Date(),
     lastModified: new Date()
   }
