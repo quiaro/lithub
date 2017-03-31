@@ -4,17 +4,16 @@ import { Switch } from 'react-router-dom';
 import AppBar from './AppBar'
 import SideMenu from './SideMenu'
 import Dashboard from './Dashboard';
+import AddItem from './AddItem';
 import PrivateRoute from './PrivateRoute';
 import BooksHistory from '../containers/history/Books';
 import ArticlesHistory from '../containers/history/Articles';
 import QuotesHistory from '../containers/history/Quotes';
-import AddItem from '../components/add/Item';
 
 const App = (props) => {
   const { isAuthenticated,
           currentUser,
           logout,
-          history,
           location,
           isSideMenuOpen,
           menuClose,
@@ -34,11 +33,11 @@ const App = (props) => {
           will determine whether to show the corresponding component or redirect the user
           to login */}
       <Switch>
-        <PrivateRoute path='/home' component={Dashboard} isAuthenticated={isAuthenticated} />
-        <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated} history={history} />
-        <PrivateRoute path='/history/books' component={BooksHistory} isAuthenticated={isAuthenticated} />
-        <PrivateRoute path='/history/articles' component={ArticlesHistory} isAuthenticated={isAuthenticated} />
-        <PrivateRoute path='/history/quotes' component={QuotesHistory} isAuthenticated={isAuthenticated} />
+        <PrivateRoute path='/home' component={Dashboard} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/books' component={BooksHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/articles' component={ArticlesHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/quotes' component={QuotesHistory} isAuthenticated={isAuthenticated}/>
       </Switch>
     </div>
   )
