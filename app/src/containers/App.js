@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 
 import * as selectors from '../reducers'
 import { fetchCurrentUser } from '../actions/users';
-import { getAuthToken } from '../common/auth';
+import { logOut } from '../actions/auth';
+import { getAuthToken, clearAuthToken } from '../common/auth';
 import AppComponent from '../components/App';
 
 class App extends React.Component {
@@ -14,6 +15,7 @@ class App extends React.Component {
     this.menuCloseHandler.bind(this);
     this.menuUpdateHandler.bind(this);
     this.onMenuChange.bind(this);
+    this.logoutHandler.bind(this);
   }
 
   // Handlers for the side menu
@@ -24,6 +26,18 @@ class App extends React.Component {
     this.props.history.push(value);
     this.menuCloseHandler();
   };
+
+  // Logout handler
+  /*
+   * Remove the auth token from storage and dispatch a logout action which
+   * will set the isAuthenticated property in the state to false. Any
+   * private route that the user is in will, as a result, redirect the user
+   * to the login page.
+   */
+  logoutHandler = () => {
+    clearAuthToken();
+    this.props.logOut();
+  }
 
   componentDidMount() {
     const { currentUser, fetchCurrentUser } = this.props;
@@ -42,7 +56,8 @@ class App extends React.Component {
               menuToggle={this.menuToggleHandler}
               menuClose={this.menuCloseHandler}
               menuUpdate={this.menuUpdateHandler}
-              onMenuChange={this.onMenuChange} />
+              onMenuChange={this.onMenuChange}
+              logout={this.logoutHandler} />
   }
 }
 
@@ -53,7 +68,7 @@ const mapStateToProps = (state) => ({
 
 App = connect(
   mapStateToProps,
-  { fetchCurrentUser }
+  { fetchCurrentUser, logOut }
 )(App)
 
 export default App;

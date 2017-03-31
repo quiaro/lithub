@@ -10,6 +10,7 @@ import QuotesHistory from '../containers/history/Quotes';
 const App = (props) => {
   const { isAuthenticated,
           currentUser,
+          logout,
           location,
           isSideMenuOpen,
           menuClose,
@@ -23,7 +24,7 @@ const App = (props) => {
                 onClose={menuClose}
                 onUpdate={menuUpdate}
                 onMenuChange={onMenuChange} />
-      <AppBar user={currentUser} onIconClick={menuToggle} />
+      <AppBar user={currentUser} onIconClick={menuToggle} onLogout={logout} />
       {/* If a user navigates to a specific URL, the App component will pass on the prop
           'isAuthenticated' to the matching private route. The private route component
           will determine whether to show the corresponding component or redirect the user
