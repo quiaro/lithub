@@ -13,8 +13,9 @@ class GoogleSignin extends React.Component {
         // be done using the JWT. On the other hand, if it wasn't possible
         // to issue a JWT, revoke all permissions so if the user tries to
         // log in again he'll be prompted to grant permissions again.
-        googleUser.disconnect();
-        console.log('Redirect to app dashboard');
+        // After revoking permissions, call the prop function to dispatch
+        // an authenticate action.
+        googleUser.disconnect().then(this.props.onSignIn);
       })
       .catch(e => {
         // TODO: Show a notification that an error ocurred
@@ -63,7 +64,13 @@ class GoogleSignin extends React.Component {
   }
 
   componentDidMount() {
-    loadScript('https://apis.google.com/js/platform.js', 'google-api', this.setupGoogleSignin.bind(this));
+    // Check if the google api script already exists. If it doesn't, load
+    // the script before rendering the Google Sign In button.
+    if (!document.getElementById('google-api')) {
+      loadScript('https://apis.google.com/js/platform.js', 'google-api', this.setupGoogleSignin.bind(this));
+    } else {
+      this.setupGoogleSignin()
+    }
   }
 
   render() {

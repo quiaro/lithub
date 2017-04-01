@@ -9,6 +9,7 @@ import FacebookSignin from '../../containers/forms/FacebookSignin'
 const LoginForm = ({
   onSubmit,
   onChange,
+  onSignIn,
   errors,
   user
 }) => (
@@ -43,8 +44,8 @@ const LoginForm = ({
     <CardText>
       <p>Don't have an account?</p>
       <Link to={'/signup'}>Create one</Link>
-      <GoogleSignin></GoogleSignin>
-      <FacebookSignin></FacebookSignin>
+      <GoogleSignin onSignIn={onSignIn}></GoogleSignin>
+      <FacebookSignin onSignIn={onSignIn}></FacebookSignin>
     </CardText>
   </Card>
 );

@@ -85,13 +85,11 @@ class FacebookSignin extends React.Component {
           // be done using the JWT. On the other hand, if it wasn't possible
           // to issue a JWT, revoke all permissions so if the user tries to
           // log in again he'll be prompted to grant the app the correct permissions.
+
+          // After revoking permissions, call the prop function to dispatch
+          // an authenticate action.
           return this.revokePermissions(response.authResponse.userID)
-            .then(() => {
-              // TODO: redirect to app dashboard
-              console.log('Facebook permissions revoked after token creation');
-              console.log('Redirect to app dashboard');
-              return;
-            })
+            .then(this.props.onSignIn)
         })
         .catch(e => {
           // TODO: Show a notification that an error ocurred
@@ -107,19 +105,38 @@ class FacebookSignin extends React.Component {
   }
 
   componentWillUnmount() {
-    window.FB && window.FB.Event.unsubscribe('auth.statusChange', this.statusChangeCallback)
+    // Remove everything that is related to the Facebook SDK:
+    // - The subscription to the 'auth.statusChange' event
+    window.FB && window.FB.Event.unsubscribe('auth.statusChange', this.statusChangeCallback);
+    window.FB = null;
+
+    // - The Facebook SDK script
+    let FBscript = document.getElementById('facebook-jssdk');
+    FBscript.parentNode.removeChild(FBscript);
+    FBscript = null;
+
+    // - The DOM element that contains the Facebook iframe
+    let FBroot = document.getElementById('fb-root');
+    FBroot.parentNode.removeChild(FBroot);
+    FBroot = null;
+
+    // Several attempts were made to keep the SDK script and only run the
+    // init callback on subsequent mounts (like the Google Sign In component)
+    // but then, there were problems with the 'auth.statusChange' event handler
+    // not running after the component was mounted a second time. In the end,
+    // this was the way to make it work on subsequent mounts ... what a pity!
   }
 
   componentDidMount() {
     loadScript('//connect.facebook.net/en_US/sdk.js',
                'facebook-jssdk', () => {
-                 FB.init({
+                 window.FB.init({
                    appId      : '856911707780213',
                    cookie     : true,
                    xfbml      : true,
                    version    : 'v2.8'
                  });
-                 FB.Event.subscribe('auth.statusChange', this.statusChangeCallback.bind(this))
+                 window.FB.Event.subscribe('auth.statusChange', this.statusChangeCallback.bind(this))
                });
   }
 

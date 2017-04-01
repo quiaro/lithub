@@ -27,6 +27,15 @@ class Login extends React.Component {
 
     this.processForm = this.processForm.bind(this);
     this.changeUser = this.changeUser.bind(this);
+    this.authenticateUser = this.authenticateUser.bind(this);
+  }
+
+  /**
+   * Dispatch an authenticate action to change the state and mark
+   * the user as authenticated.
+   */
+  authenticateUser() {
+    this.props.authenticate();
   }
 
   /**
@@ -52,7 +61,6 @@ class Login extends React.Component {
           this.setState({
             errors: {}
           });
-          console.log('Redirect to app dashboard');
           this.props.authenticate();
         })
         .catch(errors => {
@@ -144,8 +152,9 @@ class Login extends React.Component {
     }
     return (<LoginForm onSubmit={this.processForm}
                        onChange={this.changeUser}
+                       onSignIn={this.authenticateUser}
                        errors={this.state.errors}
-                       user={this.state.user}/>);
+                       user={this.state.user} />);
   }
 }
 
