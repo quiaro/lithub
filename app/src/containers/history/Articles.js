@@ -14,12 +14,12 @@ class ArticlesHistory extends Component {
   }
 
   render() {
-    const { articles, isFetchingArticlesHistory } = this.props;
+    const { articles, isFetchingArticlesHistory, history } = this.props;
 
     if (isFetchingArticlesHistory) {
       return <CircularProgress size={60} thickness={7} />
     }
-    return <ArticlesHistoryComponent articles={articles} />
+    return <ArticlesHistoryComponent articles={articles} history={history} />
   }
 }
 

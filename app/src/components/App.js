@@ -19,14 +19,16 @@ const App = (props) => {
           menuClose,
           menuUpdate,
           menuToggle,
-          onMenuChange } = props;
+          onMenuChange,
+          redirect } = props;
   return (
     <div>
       <SideMenu location={location}
                 isOpen={isSideMenuOpen}
                 onClose={menuClose}
                 onUpdate={menuUpdate}
-                onMenuChange={onMenuChange} />
+                onMenuChange={onMenuChange}
+                onBtnClick={redirect} />
       <AppBar user={currentUser} onIconClick={menuToggle} onLogout={logout} />
       {/* If a user navigates to a specific URL, the App component will pass on the prop
           'isAuthenticated' to the matching private route. The private route component

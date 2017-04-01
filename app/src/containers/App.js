@@ -15,6 +15,7 @@ class App extends React.Component {
     this.menuCloseHandler.bind(this);
     this.menuUpdateHandler.bind(this);
     this.onMenuChange.bind(this);
+    this.redirectHandler.bind(this);
     this.logoutHandler.bind(this);
   }
 
@@ -23,9 +24,12 @@ class App extends React.Component {
   menuCloseHandler = () => this.setState({ 'isSideMenuOpen': false });
   menuUpdateHandler = (state) => this.setState({ 'isSideMenuOpen': state });
   onMenuChange = (event, value) => {
-    this.props.history.push(value);
-    this.menuCloseHandler();
+    this.redirectHandler(value)
   };
+  redirectHandler = (path) => {
+    this.props.history.push(path);
+    this.menuCloseHandler();
+  }
 
   // Logout handler
   /*
@@ -57,6 +61,7 @@ class App extends React.Component {
               menuClose={this.menuCloseHandler}
               menuUpdate={this.menuUpdateHandler}
               onMenuChange={this.onMenuChange}
+              redirect={this.redirectHandler}
               logout={this.logoutHandler} />
   }
 }

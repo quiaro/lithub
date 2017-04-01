@@ -14,12 +14,12 @@ class BooksHistory extends Component {
   }
 
   render() {
-    const { books, isFetchingBooksHistory } = this.props;
+    const { books, isFetchingBooksHistory, history } = this.props;
 
     if (isFetchingBooksHistory) {
       return <CircularProgress size={60} thickness={7} />
     }
-    return <BooksHistoryComponent books={books} />
+    return <BooksHistoryComponent books={books} history={history} />
   }
 }
 

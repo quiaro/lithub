@@ -7,19 +7,25 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const SelectableList = makeSelectable(List);
 
-const SideMenu = (props) => (
-  <Drawer docked={false}
-          width={300}
-          open={props.isOpen}
-          onRequestChange={props.onUpdate}>
-    <Subheader>My History</Subheader>
-    <SelectableList value={props.location.pathname} onChange={props.onMenuChange}>
-      <ListItem primaryText="Books" value="/history/books" />
-      <ListItem primaryText="Articles" value="/history/articles" />
-      <ListItem primaryText="Quotes" value="/history/quotes" />
-    </SelectableList>
-    <Divider />
-    <RaisedButton label="Add new read item" primary={true} />
-  </Drawer>
-)
+const SideMenu = ({
+    isOpen,
+    onUpdate,
+    location,
+    onMenuChange,
+    onBtnClick
+  }) => (
+    <Drawer docked={false}
+            width={300}
+            open={isOpen}
+            onRequestChange={onUpdate}>
+      <Subheader>My History</Subheader>
+      <SelectableList value={location.pathname} onChange={onMenuChange}>
+        <ListItem primaryText="Books" value="/history/books" />
+        <ListItem primaryText="Articles" value="/history/articles" />
+        <ListItem primaryText="Quotes" value="/history/quotes" />
+      </SelectableList>
+      <Divider />
+      <RaisedButton label="Add new item" onTouchTap={() => onBtnClick('/add')} primary={true} />
+    </Drawer>
+  )
 export default SideMenu;

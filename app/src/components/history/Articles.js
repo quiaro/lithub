@@ -40,7 +40,6 @@ const ArticlesHistory = (props) => {
     body = (
       <div>
         <p>Your history list is currently empty</p>
-        <RaisedButton label="Add an article" primary={true} />
       </div>
     );
   }
@@ -48,6 +47,7 @@ const ArticlesHistory = (props) => {
     <div>
       <h1>My Article History</h1>
       {body}
+      <RaisedButton label="Add an article" primary={true} onTouchTap={() => { props.history.push('/add/article') }} />
     </div>
   )
 }

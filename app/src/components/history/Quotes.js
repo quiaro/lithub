@@ -38,7 +38,6 @@ const QuotesHistory = (props) => {
     body = (
       <div>
         <p>Your history list is currently empty</p>
-        <RaisedButton label="Add a quote" primary={true} />
       </div>
     );
   }
@@ -46,6 +45,7 @@ const QuotesHistory = (props) => {
     <div>
       <h1>My Quote History</h1>
       {body}
+      <RaisedButton label="Add a quote" primary={true} onTouchTap={() => { props.history.push('/add/quote') }} />
     </div>
   )
 }

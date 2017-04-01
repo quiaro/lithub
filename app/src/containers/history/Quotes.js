@@ -14,12 +14,12 @@ class QuotesHistory extends Component {
   }
 
   render() {
-    const { quotes, isFetchingQuotesHistory } = this.props;
+    const { quotes, isFetchingQuotesHistory, history } = this.props;
 
     if (isFetchingQuotesHistory) {
       return <CircularProgress size={60} thickness={7} />
     }
-    return <QuotesHistoryComponent quotes={quotes} />
+    return <QuotesHistoryComponent quotes={quotes} history={history} />
   }
 }
 
