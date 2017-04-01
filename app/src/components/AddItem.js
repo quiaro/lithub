@@ -4,6 +4,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
 import AddBook from '../containers/forms/AddBook';
+import AddArticle from '../containers/forms/AddArticle';
+import AddQuote from '../containers/forms/AddQuote';
 
 const AddItem = (props) => {
   let handleChange = (event, index, value) => props.history.push(value);
@@ -31,6 +33,8 @@ const AddItem = (props) => {
         */}
       <Switch>
         <Route path='/add/book' component={AddBook} />
+        <Route path='/add/article' component={AddArticle} />
+        <Route path='/add/quote' component={AddQuote} />
       </Switch>
     </div>
   )

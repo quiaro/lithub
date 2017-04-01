@@ -4,12 +4,12 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const AddBookForm = ({
+const AddArticleForm = ({
   onSubmit,
   onChange,
   onSliderChange,
   errors,
-  book
+  article
 }) => (
   <Card className="container">
     <form onSubmit={onSubmit}>
@@ -21,7 +21,7 @@ const AddBookForm = ({
           name="title"
           errorText={errors.title}
           onChange={onChange}
-          value={book.title}
+          value={article.title}
         />
 
         <TextField
@@ -30,24 +30,33 @@ const AddBookForm = ({
           name="author"
           errorText={errors.author}
           onChange={onChange}
-          value={book.author}
+          value={article.author}
+        />
+
+        <TextField
+          floatingLabelText="Link/URL"
+          fullWidth={true}
+          name="link"
+          errorText={errors.link}
+          onChange={onChange}
+          value={article.link}
         />
 
         <div>
-          <p>What rating would you give this book?</p>
+          <p>What rating would you give this article?</p>
           <Slider
             name="rating"
             min={0}
             max={10}
             step={1.0}
-            value={book.rating}
+            value={article.rating}
             onChange={onSliderChange} />
           <span>I don't like it</span>
           <span>I love it</span>
         </div>
 
         <TextField
-          hintText="Comments or thoughts on the book"
+          hintText="Comments or thoughts on the article"
           fullWidth={true}
           multiLine={true}
           rows={3}
@@ -59,11 +68,11 @@ const AddBookForm = ({
   </Card>
 );
 
-AddBookForm.propTypes = {
+AddArticleForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  book: PropTypes.object.isRequired
+  article: PropTypes.object.isRequired
 };
 
-export default AddBookForm;
+export default AddArticleForm;

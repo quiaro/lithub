@@ -4,12 +4,12 @@ import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
 
-const AddBookForm = ({
+const AddQuoteForm = ({
   onSubmit,
   onChange,
   onSliderChange,
   errors,
-  book
+  quote
 }) => (
   <Card className="container">
     <form onSubmit={onSubmit}>
@@ -18,10 +18,10 @@ const AddBookForm = ({
         <TextField
           floatingLabelText="Title"
           fullWidth={true}
-          name="title"
-          errorText={errors.title}
+          name="text"
+          errorText={errors.text}
           onChange={onChange}
-          value={book.title}
+          value={quote.text}
         />
 
         <TextField
@@ -30,24 +30,33 @@ const AddBookForm = ({
           name="author"
           errorText={errors.author}
           onChange={onChange}
-          value={book.author}
+          value={quote.author}
+        />
+
+        <TextField
+          floatingLabelText="Source"
+          fullWidth={true}
+          name="source"
+          errorText={errors.source}
+          onChange={onChange}
+          value={quote.source}
         />
 
         <div>
-          <p>What rating would you give this book?</p>
+          <p>What rating would you give this quote?</p>
           <Slider
             name="rating"
             min={0}
             max={10}
             step={1.0}
-            value={book.rating}
+            value={quote.rating}
             onChange={onSliderChange} />
           <span>I don't like it</span>
           <span>I love it</span>
         </div>
 
         <TextField
-          hintText="Comments or thoughts on the book"
+          hintText="Comments or thoughts on the quote"
           fullWidth={true}
           multiLine={true}
           rows={3}
@@ -59,11 +68,11 @@ const AddBookForm = ({
   </Card>
 );
 
-AddBookForm.propTypes = {
+AddQuoteForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  book: PropTypes.object.isRequired
+  quote: PropTypes.object.isRequired
 };
 
-export default AddBookForm;
+export default AddQuoteForm;
