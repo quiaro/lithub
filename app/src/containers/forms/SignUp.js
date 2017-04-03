@@ -4,6 +4,7 @@ import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
 import matches from 'validator/lib/matches';
 import SignUpForm from '../../components/forms/SignUp';
+import * as apiAuth from '../../api/auth';
 
 class SignUpPage extends React.Component {
 
@@ -76,32 +77,12 @@ class SignUpPage extends React.Component {
    * Submit the form to be processed by the server
    */
   submitForm() {
-    return new Promise((resolve, reject) => {
-      // create a string for an HTTP body message
-      const username = encodeURIComponent(this.state.user.username);
-      const email = encodeURIComponent(this.state.user.email);
-      const password = encodeURIComponent(this.state.user.password);
-      const name = this.state.user.name;
-
-      let formData = `username=${username}&email=${email}&password=${password}`;
-      formData = name ? formData + `&name=${name}` : formData;
-
-      // create an AJAX request
-      const xhr = new XMLHttpRequest();
-      xhr.open('post', '/api/auth/signup');
-      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 201) {
-          resolve(xhr.response)
-        } else {
-          const errors = xhr.response.errors ? xhr.response.errors : {};
-          errors.summary = xhr.response.message;
-          reject(errors)
-        }
-      });
-      xhr.send(formData);
-    });
+    return apiAuth.signUp({
+      username: this.state.user.username,
+      email: this.state.user.email,
+      password: this.state.user.password,
+      name: this.state.user.name
+    })
   }
 
   /**

@@ -1,6 +1,7 @@
 import React from 'react';
 import { saveAuthToken } from '../../common/auth';
 import { loadScript } from '../../common/utils';
+import * as apiAuth from '../../api/auth';
 
 class GoogleSignin extends React.Component {
 
@@ -34,22 +35,7 @@ class GoogleSignin extends React.Component {
    * @param {object} googleUser - https://developers.google.com/identity/sign-in/web/reference#users
    */
   getAppToken(idToken) {
-    return new Promise((resolve, reject) => {
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/auth/from_google_token');
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText).token)
-        } else {
-          reject({
-            code: 500,
-            message: 'Failed to create authentication token'
-          })
-        }
-      };
-      xhr.send('id_token=' + idToken);
-    });
+    return apiAuth.viaGoogleToken(idToken);
   }
 
   setupGoogleSignin() {

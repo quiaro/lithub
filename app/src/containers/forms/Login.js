@@ -7,6 +7,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import LoginForm from '../../components/forms/Login';
 import { saveAuthToken } from '../../common/auth';
 import { authenticate } from '../../actions/auth';
+import * as apiAuth from '../../api/auth';
 
 class Login extends React.Component {
 
@@ -90,25 +91,9 @@ class Login extends React.Component {
    * Submit the form to be processed by the server
    */
   submitForm() {
-    return new Promise((resolve, reject) => {
-      const email = encodeURIComponent(this.state.user.email);
-      const password = encodeURIComponent(this.state.user.password);
-      const formData = `email=${email}&password=${password}`;
-      const xhr = new XMLHttpRequest();
-
-      xhr.open('post', '/api/auth/login');
-      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 200) {
-          resolve(xhr.response.token)
-        } else {
-          const errors = xhr.response.errors ? xhr.response.errors : {};
-          errors.summary = xhr.response.message;
-          reject(errors)
-        }
-      });
-      xhr.send(formData);
+    return apiAuth.viaLogin({
+      email: this.state.user.email,
+      password: this.state.user.password
     });
   }
 

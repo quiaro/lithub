@@ -2,6 +2,7 @@
 import React from 'react';
 import { saveAuthToken } from '../../common/auth';
 import { loadScript } from '../../common/utils';
+import * as apiAuth from '../../api/auth';
 
 class FacebookSignin extends React.Component {
 
@@ -47,29 +48,14 @@ class FacebookSignin extends React.Component {
    * @param {object} facebookUser - https://developers.facebook.com/identity/sign-in/web/reference#users
    */
   getAppToken(facebookUser, accessToken) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', '/api/auth/from_facebook_token');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          resolve(JSON.parse(xhr.responseText).token)
-        } else {
-          reject({
-            code: 500,
-            message: 'Failed to create authentication token'
-          })
-        }
-      };
-      xhr.send(JSON.stringify({
-        uid: facebookUser.id,
-        email: facebookUser.email,
-        name: facebookUser.name,
-        username: facebookUser.first_name,
-        picture: facebookUser.picture.data.url,
-        token: accessToken
-      }));
-    })
+    return apiAuth.viaFacebookToken({
+      uid: facebookUser.id,
+      email: facebookUser.email,
+      name: facebookUser.name,
+      username: facebookUser.first_name,
+      picture: facebookUser.picture.data.url,
+      token: accessToken
+    }, accessToken);
   }
 
   statusChangeCallback(response) {
