@@ -12,14 +12,9 @@ const secret = require('../../secrets/secrets')
  */
 function handleError(e) {
   let error = new Error('Unexpected error');
-
-  // Log error detail
   console.error(e);
 
-  if (e.name == 'MongoError') {
-    error.code = 503;
-    error.message = 'Unable to connect to database. Please try again shortly.';
-  } if (e.code == 409) {
+  if (e.code == 409) {
     error.code = e.code;
     error.message = 'User already exists with the specified email address.';
   } else {
@@ -88,49 +83,31 @@ function post(req, res) {
          errors: paramErrors
        })
   } else {
-    // Create a new user with the data provided.
-    // TODO: Instead of creating the user right away, an email should be sent
-    // to the user which they can then use to complete the creation of the user.
-    hashPromise = secret.getHashedPassword(userInfo.password, null);
-    dbPromise = mongo.connect();
 
-    Promise.all([hashPromise, dbPromise])
-      .then(values => {
-        hash = values[0];
-        db = values[1];
-
-        // Check if a user already exists with the email provided
-        return mongo.findUserByEmail(userInfo.email, db)
-          .then(() => {
-            const error = new Error('Duplicate user')
-            error.code = 409;
-            // Throw error over to the 'catch' branch where the database
-            // connection will be closed before throwing the error again to
-            // the outer most 'catch' branch where all errors are handled.
-            throw error;
-          })
-          .catch(e => {
-            if (e.message == 'User not found') {
-              // The email is available. We can proceed with creating the user.
-              return mongo.createUser(userInfo, hash, db)
+    // Check if a user already exists with the email provided
+    return mongo.findUserByEmail(userInfo.email)
+      .then(() => {
+        // Throw error over to the 'catch' branch
+        const error = new Error('Duplicate user')
+        error.code = 409;
+        throw error;
+      })
+      .catch(e => {
+        if (e.message == 'User not found') {
+          // The email is available. We can proceed with creating the user.
+          // TODO: Instead of creating the user right away, an email should be sent
+          // to the user which they can then use to complete the creation of the user.
+          return secret.getHashedPassword(userInfo.password, null)
+            .then(hash => {
+              return mongo.createUser(userInfo, hash)
                 .then(userInfo => {
-                  return db.close().then(() => {
-                    res.status(201).json(userInfo)
-                  })
+                  res.status(201).json(userInfo)
                 })
-            } else {
-              // Close the database connection before throwing the error to
-              // the outer most 'catch' branch where all errors are handled.
-              return db.close().then(() => {
-                throw e;
-              })
-            }
-          })
-      }).catch(e => {
-        let error = handleError(e);
-        res.status(error.code).json({
-             message: error.message
-           })
+            })
+        } else {
+          let error = handleError(e);
+          res.status(error.code).json({ message: error.message })
+        }
       })
   }
 }

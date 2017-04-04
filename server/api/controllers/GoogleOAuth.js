@@ -39,26 +39,14 @@ function verifyGoogleToken(token) {
 function fromGoogleToken(req, res) {
   const token = req.swagger.params.id_token.value;
   verifyGoogleToken(token)
-    .then(userProfile => {
-      // Create user in the DB if he doesn't already exist
-      return mongo.connect().then(db => {
-        return mongo.findUserOrCreate(userProfile, db).then(userProfile => {
-          return db.close().then(() => {
-            return userProfile;
-          })
-        }, () => {
-          return db.close().then(() => {
-            throw new Error('Check existence of user failed')
-          })
-        })
-      })
-    })
+    // Create user in the DB if he doesn't already exist
+    .then(mongo.findUserOrCreate)
     .then(utils.getUserToken)
     .then(token => {
       res.status(200).json({ token: token })
     })
     .catch(e => {
-      console.log(e);
+      console.error(e);
       res.status(500).json({ message: 'Unable to sign in user' });
     })
 }

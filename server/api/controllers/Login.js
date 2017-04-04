@@ -16,21 +16,21 @@ function getLoginInfo(reqParams) {
 
 /**
  * Check that the login information is valid.
- * @param {object} loginInfo
+ * @param {object} payload
  * @return {object} paramErrors - Error strings associated to their specific
  *                                login info property.
  */
-function validateLoginInfo(loginInfo) {
+function validateLoginInfo(payload) {
   return utils.validateParams([
     {
       label: 'email',
       type: 'email',
-      value: loginInfo.email,
+      value: payload.email,
       emptyError: 'Please provide your email address'
     },
     {
       label: 'password',
-      value: loginInfo.password,
+      value: payload.password,
       emptyError: 'Please provide your password'
     }
   ])
@@ -77,13 +77,7 @@ function verifyUser(user, password) {
  */
 function handleError(e) {
   let error = new Error('Unexpected error');
-
   console.error(e);
-
-  if (e.name == 'MongoError') {
-    error.code = 503;
-    error.message = 'Unable to connect to database. Please try again shortly.';
-  }
   if (e.message == 'User not found' || e.code == 401) {
     error.code = 401;
     error.message = 'Invalid email/password combination.';
@@ -95,8 +89,8 @@ function handleError(e) {
 }
 
 function post(req, res) {
-  let loginInfo = getLoginInfo(req.swagger.params);
-  let paramErrors = validateLoginInfo(loginInfo);
+  let payload = getLoginInfo(req.swagger.params);
+  let paramErrors = validateLoginInfo(payload);
 
   if (Object.keys(paramErrors).length) {
     res.status(401).json({
@@ -105,22 +99,13 @@ function post(req, res) {
        })
   } else {
     // Query the database if there are no errors with the login information
-    mongo.connect()
-      .then(db => {
-        return mongo.findUserByEmail(loginInfo.email, db)
-          .then(user => {
-            return verifyUser(user, loginInfo.password)
-          })
-          .then(utils.getUserToken)
-          .then(token => {
-            return db.close().then(() => {
-              res.status(200).json({ token: token })
-            })
-          })
-          .catch(e => {
-            // Close the DB connection and throw the error to be handled higher up
-            db.close().then(() => { throw e; })
-          })
+    mongo.findUserByEmail(payload.email)
+      .then(user => {
+        return verifyUser(user, payload.password)
+      })
+      .then(utils.getUserToken)
+      .then(token => {
+        res.status(200).json({ token: token })
       })
       .catch(e => {
         let error = handleError(e);

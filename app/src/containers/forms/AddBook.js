@@ -49,17 +49,17 @@ class AddBook extends React.Component {
           // this.props.authenticate();
         })
         .catch(error => {
-          // if (error.code === 401) {
+          if (error.code === 401) {
             // User is not authorized to perform this request. The token is
             // invalid so the user should log in again to get a new one.
-            // this.props.history.push('/login');
-          // } else {
+            this.props.history.push('/logout');
+          } else {
             this.setState({
               errors: {
                 summary: error.message
               }
             });
-          // }
+          }
         })
     } else {
       this.setState({errors: validatedForm.errors})

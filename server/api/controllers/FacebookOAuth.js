@@ -1,5 +1,5 @@
-const mongo = require('../helpers/mongo')
-const utils = require('../helpers/utils')
+const mongo = require('../helpers/mongo');
+const utils = require('../helpers/utils');
 
 /**
  * Verify if a Facebook Access Token is valid or not.
@@ -27,25 +27,14 @@ function fromFacebookToken(req, res) {
   const userProfile = req.swagger.params.userProfile.value;
   verifyFacebookToken(userProfile.token)
     .then(() => {
-      // Create user in the DB if he doesn't already exist
-      return mongo.connect().then(db => {
-        return mongo.findUserOrCreate(userProfile, db).then(userProfile => {
-          return db.close().then(() => {
-            return userProfile;
-          })
-        }, () => {
-          return db.close().then(() => {
-            throw new Error('Check existence of user failed')
-          })
-        })
-      })
+      return mongo.findUserOrCreate(userProfile);
     })
     .then(utils.getUserToken)
     .then(token => {
       res.status(200).json({ token: token })
     })
     .catch(e => {
-      console.log(e);
+      console.error(e);
       res.status(500).json({ message: 'Unable to sign in user' });
     })
 }
