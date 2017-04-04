@@ -21,7 +21,10 @@ config.swaggerSecurityHandlers = {
         err['statusCode'] = 401; // custom error code
         cb(err);
       } else {
-        // Authentication was successful
+        // Authentication was successful.
+        // Attach decoded token to request object so the token decoding process
+        // doesn't have to be repeated anywhere else
+        req.__decodedToken__ = decoded;
         cb();
       }
     })
