@@ -20,7 +20,7 @@ const AppBar = (props) => (
         { props.user.picture && <Avatar src="{props.user.picture}" /> }
         { !props.user.picture &&
           <Avatar>{props.user.username.charAt(0).toUpperCase()}</Avatar> }
-        <FlatButton label="Logout" onTouchTap={props.onLogout} primary={true} />
+        <FlatButton label="Logout" onTouchTap={() => props.history.push('/logout') } primary={true} />
       </ToolbarGroup>
       : <div></div>
     }

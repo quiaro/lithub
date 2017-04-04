@@ -9,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import * as Store from './app/store'
 import Home from './containers/Home';
 import App from './containers/App';
+import Logout from './containers/Logout';
 import Login from './containers/forms/Login';
 import SignUp from './containers/forms/SignUp';
 
@@ -26,6 +27,7 @@ ReactDom.render((
               login. */}
           <Route exact path="/" component={Home} />
         	<Route path="/login" component={Login} />
+          <Route path="/logout" component={Logout} />
         	<Route path="/signup" component={SignUp} />
           <Route component={App} />
         </Switch>

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 
 import * as selectors from '../reducers'
 import { fetchCurrentUser } from '../actions/users';
-import { logOut } from '../actions/auth';
-import { getAuthToken, clearAuthToken } from '../common/auth';
+import { getAuthToken } from '../common/auth';
 import AppComponent from '../components/App';
 
 class App extends React.Component {
@@ -16,7 +15,6 @@ class App extends React.Component {
     this.menuUpdateHandler.bind(this);
     this.onMenuChange.bind(this);
     this.redirectHandler.bind(this);
-    this.logoutHandler.bind(this);
   }
 
   // Handlers for the side menu
@@ -29,18 +27,6 @@ class App extends React.Component {
   redirectHandler = (path) => {
     this.props.history.push(path);
     this.menuCloseHandler();
-  }
-
-  // Logout handler
-  /*
-   * Remove the auth token from storage and dispatch a logout action which
-   * will set the isAuthenticated property in the state to false. Any
-   * private route that the user is in will, as a result, redirect the user
-   * to the login page.
-   */
-  logoutHandler = () => {
-    clearAuthToken();
-    this.props.logOut();
   }
 
   componentDidMount() {
@@ -61,8 +47,7 @@ class App extends React.Component {
               menuClose={this.menuCloseHandler}
               menuUpdate={this.menuUpdateHandler}
               onMenuChange={this.onMenuChange}
-              redirect={this.redirectHandler}
-              logout={this.logoutHandler} />
+              redirect={this.redirectHandler} />
   }
 }
 
@@ -73,7 +58,7 @@ const mapStateToProps = (state) => ({
 
 App = connect(
   mapStateToProps,
-  { fetchCurrentUser, logOut }
+  { fetchCurrentUser }
 )(App)
 
 export default App;
