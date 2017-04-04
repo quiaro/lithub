@@ -113,9 +113,13 @@ function post(req, res) {
           })
           .then(utils.getUserToken)
           .then(token => {
-            res.status(200).json({
-                 token: token
-               })
+            return db.close().then(() => {
+              res.status(200).json({ token: token })
+            })
+          })
+          .catch(e => {
+            // Close the DB connection and throw the error to be handled higher up
+            db.close().then(() => { throw e; })
           })
       })
       .catch(e => {
