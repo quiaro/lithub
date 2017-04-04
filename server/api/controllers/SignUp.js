@@ -2,24 +2,6 @@ const mongo = require('../helpers/mongo')
 const utils = require('../helpers/utils')
 const secret = require('../../secrets/secrets')
 
-function addUserToDatabase(userInfo, hash, db) {
-  return db.collection('users').insertOne({
-    email: userInfo.email,
-    name: userInfo.name,
-    username: userInfo.username,
-    picture: userInfo.picture,
-    password: hash.key,
-    salt: hash.salt
-  }).then((doc) => {
-    console.log(`LOG: User with ID ${doc.insertedId} inserted in the DB`);
-    userInfo.uid = doc.insertedId;
-    return db.close().then(() => {
-      console.log('LOG: DB connection closed');
-      return userInfo;
-    })
-  })
-}
-
 /**
  * Receives an error and transforms it into a standard app error object
  *
@@ -120,20 +102,28 @@ function post(req, res) {
         // Check if a user already exists with the email provided
         return mongo.findUserByEmail(userInfo.email, db)
           .then(() => {
-            let error = handleError({ code: 409});
-            res.status(error.code).json({
-                 message: error.message
-               })
+            const error = new Error('Duplicate user')
+            error.code = 409;
+            // Throw error over to the 'catch' branch where the database
+            // connection will be closed before throwing the error again to
+            // the outer most 'catch' branch where all errors are handled.
+            throw error;
           })
           .catch(e => {
             if (e.message == 'User not found') {
               // The email is available. We can proceed with creating the user.
-              return addUserToDatabase(userInfo, hash, db)
+              return mongo.createUser(userInfo, hash, db)
                 .then(userInfo => {
-                  res.status(201).json(userInfo)
+                  return db.close().then(() => {
+                    res.status(201).json(userInfo)
+                  })
                 })
             } else {
-              throw e;
+              // Close the database connection before throwing the error to
+              // the outer most 'catch' branch where all errors are handled.
+              return db.close().then(() => {
+                throw e;
+              })
             }
           })
       }).catch(e => {
