@@ -54,7 +54,9 @@ function verifyUser(user, password) {
     }
     secret.getHashedPassword(password, user.salt.buffer)
       .then(hash => {
-        console.log('LOG: Verifying user');
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('LOG: Verifying user');
+        }
         // Compare the buffers with the two hashed values
         if (user.password.buffer.compare(hash.key) === 0) {
           resolve(user)
