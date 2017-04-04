@@ -8,29 +8,28 @@ const AddBookForm = ({
   onSubmit,
   onChange,
   onSliderChange,
-  errors,
-  book
+  state
 }) => (
   <Card className="container">
     <form onSubmit={onSubmit}>
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+      {state.errors.summary && <p className="error-message">{state.errors.summary}</p>}
 
         <TextField
           floatingLabelText="Title"
           fullWidth={true}
           name="title"
-          errorText={errors.title}
+          errorText={state.errors.title}
           onChange={onChange}
-          value={book.title}
+          value={state.title}
         />
 
         <TextField
           floatingLabelText="Author"
           fullWidth={true}
           name="author"
-          errorText={errors.author}
+          errorText={state.errors.author}
           onChange={onChange}
-          value={book.author}
+          value={state.author}
         />
 
         <div>
@@ -40,7 +39,7 @@ const AddBookForm = ({
             min={0}
             max={10}
             step={1.0}
-            value={book.rating}
+            value={state.rating}
             onChange={onSliderChange} />
           <span>I don't like it</span>
           <span>I love it</span>
@@ -51,7 +50,10 @@ const AddBookForm = ({
           fullWidth={true}
           multiLine={true}
           rows={3}
-          rowsMax={10} />
+          rowsMax={10}
+          onChange={onChange}
+          name="comments"
+          value={state.comments} />
 
       <RaisedButton type="submit" label="Done" primary />
       <RaisedButton type="cancel" label="Cancel" />
@@ -62,8 +64,8 @@ const AddBookForm = ({
 AddBookForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
-  book: PropTypes.object.isRequired
+  onSliderChange: PropTypes.func.isRequired,
+  state: PropTypes.object.isRequired
 };
 
 export default AddBookForm;

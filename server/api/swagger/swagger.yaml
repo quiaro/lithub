@@ -90,7 +90,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-            
+
   /auth/from_google_token:
     x-swagger-router-controller: GoogleOAuth
     post:
@@ -113,7 +113,7 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-            
+
   /auth/from_facebook_token:
     x-swagger-router-controller: FacebookOAuth
     post:
@@ -131,6 +131,29 @@ paths:
           description: Authentication Token
           schema:
             $ref: "#/definitions/Token"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /my/books:
+    x-swagger-router-controller: Book
+    post:
+      security:
+      - Bearer: []
+      description: Create a new book entry if there isn't one and save the book assessment for a user
+      parameters:
+      - name: bookReview
+        in: body
+        description: "Personal assessment of a book"
+        required: true
+        schema:
+          $ref: "#/definitions/BookReview"
+      responses:
+        '201':
+          description: "Book successfully added to history"
+          schema:
+            $ref: "#/definitions/BookHistoryEntry"
         default:
           description: Unexpected error
           schema:
@@ -307,7 +330,7 @@ definitions:
           type: "string"
         }
         description: "List of IDs of all the users that have read this literary work"
-        
+
   UserProfile:
     type: "object"
     properties:
@@ -328,8 +351,46 @@ definitions:
         description: "URL of the user's profile picture"
       token:
         type: "string"
-        description: "User token from a 3rd-party OAuth system to be verified by the app server"  
-        
+        description: "User token from a 3rd-party OAuth system to be verified by the app server"
+
+  BookReview:
+    type: "object"
+    properties:
+      title:
+        type: "string"
+        description: "Book title"
+      author:
+        type: "string"
+        description: "Book author"
+      rating:
+        type: "number"
+        description: "User rating for the book"
+      comments:
+        type: "string"
+        description: "User's thoughts or comments on the book"
+  
+  BookHistoryEntry:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        description: "ID of the entry in the book history"
+      book_id:
+        type: "string"
+        description: "Book ID"
+      book_title:
+        type: "string"
+        description: "Book title"
+      user_id:
+        type: "string"
+        description: "ID of the user that submitted the entry"
+      rating:
+        type: "number"
+        description: "User's rating for the book"
+      created:
+        type: "string"
+        format: "date-time"
+        description: "Date this entry was created"  
 
   Token:
     type: object

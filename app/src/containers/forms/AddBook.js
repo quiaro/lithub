@@ -5,24 +5,20 @@ import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
 
 import AddBookForm from '../../components/forms/AddBook';
+import * as apiBooks from '../../api/books';
 
 class AddBook extends React.Component {
 
-  /**
-   * Class constructor.
-   */
   constructor(props) {
     super(props);
 
     // set the initial component state
     this.state = {
       errors: {},
-      book: {
-        title: '',
-        author: '',
-        rating: 0,
-        comments: ''
-      }
+      title: '',
+      author: '',
+      rating: 0,
+      comments: ''
     };
 
     this.processForm = this.processForm.bind(this);
@@ -39,12 +35,12 @@ class AddBook extends React.Component {
     // prevent default action i.e. the form submission event
     event.preventDefault();
 
-    let validatedForm = this.validateBook(this.state.book);
+    let validatedForm = this.validateForm();
 
     if (validatedForm.isValid) {
       // proceed with submission
-      this.submitForm()
-        .then(book => {
+      apiBooks.save(validatedForm.payload)
+        .then(() => {
           this.setState({
             errors: {}
           });
@@ -52,10 +48,18 @@ class AddBook extends React.Component {
           // dispatch action to add book to history
           // this.props.authenticate();
         })
-        .catch(errors => {
-          this.setState({
-            errors
-          });
+        .catch(error => {
+          // if (error.code === 401) {
+            // User is not authorized to perform this request. The token is
+            // invalid so the user should log in again to get a new one.
+            // this.props.history.push('/login');
+          // } else {
+            this.setState({
+              errors: {
+                summary: error.message
+              }
+            });
+          // }
         })
     } else {
       this.setState({errors: validatedForm.errors})
@@ -63,16 +67,14 @@ class AddBook extends React.Component {
   }
 
   /**
-   * Update the book object
+   * Update a field value in the form
    *
    * @param {object} event - the JavaScript event object
    */
   updateForm(event) {
     const field = event.target.name;
-    const book = this.state.book;
-    book[field] = event.target.value;
-
-    this.setState({book});
+    const newValue = event.target.value;
+    this.setState({ [field]: newValue });
   }
 
   /**
@@ -81,62 +83,38 @@ class AddBook extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   updateRating(event, value) {
-    const book = this.state.book;
-    book.rating = value;
-    this.setState({book})
+    this.setState({ rating: value })
   }
 
   /**
-   * Submit the form to be processed by the server
-   */
-  submitForm() {
-    return new Promise((resolve, reject) => {
-      // Create a copy of the book to modify any book values
-      // before submitting the form
-      const book = Object.assign({}, this.state.book);
-
-      // Sanitize the comments
-      book.comments = escape(book.comments);
-      const xhr = new XMLHttpRequest();
-
-      xhr.open('post', '/api/books');
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.responseType = 'json';
-      xhr.addEventListener('load', () => {
-        if (xhr.status === 200) {
-          resolve(xhr.response.book)
-        } else {
-          const errors = xhr.response.errors ? xhr.response.errors : {};
-          errors.summary = xhr.response.message;
-          reject(errors)
-        }
-      });
-      xhr.send(JSON.stringify(book));
-    });
-  }
-
-  /**
-   * Validate a book's information
+   * Validate the state properties that need validating.
    *
-   * @param {object} book
-   * @return {object}
+   * @return {object} - Object with three properties:
+   *                    - isValid: are all the properties valid?
+   *                    - errors: dictionary of error messages (if isValid is false)
+   *                    - payload: object with sanitized properties ready for submission
    */
-  validateBook(book) {
+  validateForm() {
     const errors = {};
     let isFormValid = true;
 
-    if (isEmpty(book.title)) {
+    // Create a book out of the state properties (minus the errors) which could then
+    // be modified if necessary before submitting the form (e.g. sanitize content)
+    const payload = Object.assign({}, this.state);
+    delete payload.errors;
+
+    if (isEmpty(payload.title)) {
       errors.title = 'Please provide the book\'s title';
     } else {
-      if (!matches(book.title, /^[A-Za-z\u0080-\u00FF ]+$/)) {
+      if (!matches(payload.title, /^[A-Za-z\u0080-\u00FF ]+$/)) {
         errors.title = 'Please use only letters and spaces';
       }
     }
 
-    if (isEmpty(book.author)) {
+    if (isEmpty(payload.author)) {
       errors.author = 'Please provide the book\'s author';
     } else {
-      if (!matches(book.author, /^[A-Za-z\u0080-\u00FF ]+$/)) {
+      if (!matches(payload.author, /^[A-Za-z\u0080-\u00FF ]+$/)) {
         errors.author = 'Please use only letters and spaces';
       }
     }
@@ -144,9 +122,13 @@ class AddBook extends React.Component {
     if (errors.title || errors.author) {
       isFormValid = false;
       errors.summary = 'Unable to submit form. Please check the form for errors.';
+    } else {
+      // Sanitize properties -do it only if no errors were found; otherwise, it's
+      // not necessary because the object should not be submitted while there are errors.
+      payload.comments = escape(payload.comments);
     }
 
-    return {isValid: isFormValid, errors};
+    return {isValid: isFormValid, errors, payload};
   }
 
   /**
@@ -156,8 +138,7 @@ class AddBook extends React.Component {
     return (<AddBookForm onSubmit={this.processForm}
                          onChange={this.updateForm}
                          onSliderChange={this.updateRating}
-                         errors={this.state.errors}
-                         book={this.state.book}/>);
+                         state={this.state} />);
   }
 }
 
