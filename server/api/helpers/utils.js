@@ -16,13 +16,12 @@ function getUserToken(user) {
   return new Promise((resolve, reject) => {
     jwt.sign({
       iss: 'lithub',
-      uid: user.uid || '',
+      uid: user._id || '',
       preferred_username: user.username,
       name: user.name,
       email: user.email,
       picture: user.picture || ''
     }, secret.secret, { expiresIn: '7d' }, (err, token) => {
-      console.log('LOG: Returning user token');
       if (err) {
         reject({ code: 500 });
       } else {
