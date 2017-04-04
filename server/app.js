@@ -4,6 +4,7 @@ const SwaggerExpress = require('swagger-express-mw');
 const app = require('express')();
 const jwt = require('jsonwebtoken');
 const secret = require('./secrets/secrets');
+const mongo = require('./api/helpers/mongo')
 
 module.exports = app; // for testing
 
@@ -31,12 +32,20 @@ config.swaggerSecurityHandlers = {
   }
 };
 
-SwaggerExpress.create(config, function(err, swaggerExpress) {
-  if (err) { throw err; }
+mongo.connect()
+  .then(() => {
+    // Start the app only if a database connection was established
+    SwaggerExpress.create(config, function(err, swaggerExpress) {
+      if (err) { throw err; }
 
-  // install middleware
-  swaggerExpress.register(app);
+      // install middleware
+      swaggerExpress.register(app);
 
-  var port = process.env.PORT || 10010;
-  app.listen(port);
-});
+      const port = process.env.PORT || 10010;
+      app.listen(port);
+    });
+  }).catch(e => {
+    if (e.name == 'MongoError') {
+      console.error('Unable to establish connection to the database. Aborting ...');  
+    }
+  })

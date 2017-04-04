@@ -1,10 +1,27 @@
 let MongoClient = require('mongodb').MongoClient;
+let databaseConnection;
 
 /**
- * Provide a connection to the DB
+ * Establishes and saves a connection to the DB
+ * @return {Promise.<Object|Error>} - database connection
  */
 function connect() {
   return MongoClient.connect('mongodb://lithub:fudgemania!@localhost:27017/lithub')
+    .then(db => {
+      // Save database connection to be reused in the app
+      databaseConnection = db;
+      return databaseConnection;
+    })
+}
+
+/**
+ * Gets a database connection
+ * @return {Object} - database connection
+ * @throws {Error} - if no database connection was found
+ */
+function getDBConnection() {
+  if (!databaseConnection) { throw new Error('No database connection found'); }
+  return databaseConnection;
 }
 
 /**
@@ -114,6 +131,7 @@ function findUserOrCreate(userProfile, db) {
 
 module.exports = {
   connect,
+  getDBConnection,
   createUser,
   findUserByEmail,
   findUserOrCreate
