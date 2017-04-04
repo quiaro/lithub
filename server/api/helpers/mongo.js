@@ -68,8 +68,10 @@ function createUser(userProfile, hash, db) {
  var user = Object.assign({}, userProfile);
  // Prepare user profile object for saving
  delete user.token;
- delete user.uid;
+ delete user.uid;  // For saving, the attribute _id will be used instead of uid
+
  if (userProfile.uid) {
+    // In the case of Facebook, the user will be saved using Facebook's ID
     user._id = userProfile.uid;
  }
 
@@ -78,10 +80,10 @@ function createUser(userProfile, hash, db) {
    user['salt'] = hash.salt;
  }
  return db.collection('users').insertOne(user).then((doc) => {
-   console.log('LOG: New user added to the DB');
+   console.log(`LOG: New user added to the DB with ID: ${doc.insertedId}`);
    // If the user profile had a uid then doc's _id value should not
    // have changed
-   userProfile.uid = doc._id;
+   userProfile.uid = doc.insertedId;
    return userProfile;
  })
 }
@@ -104,14 +106,7 @@ function findUserOrCreate(userProfile, db) {
            resolve(userProfile)
          })
          .catch(() => {
-           createUser(userProfile, null, db)
-             .then((doc) => {
-               userProfile.uid = doc._id;
-               resolve(userProfile)
-             })
-             .catch(() => {
-               reject(new Error('Unable to create new user'));
-             })
+           return createUser(userProfile, null, db)
          })
      })
  })
@@ -119,6 +114,7 @@ function findUserOrCreate(userProfile, db) {
 
 module.exports = {
   connect,
+  createUser,
   findUserByEmail,
   findUserOrCreate
 }
