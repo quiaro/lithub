@@ -16,7 +16,7 @@ function getUserToken(user) {
   return new Promise((resolve, reject) => {
     jwt.sign({
       iss: 'lithub',
-      uid: user.uid || user._id || '',  // FIXME: Use only user._id
+      uid: user._id || '',
       preferred_username: user.username,
       name: user.name,
       email: user.email,

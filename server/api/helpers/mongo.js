@@ -1,4 +1,4 @@
-let MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 let dbConnection;
 
 /**
@@ -22,31 +22,6 @@ function connect() {
 function getDBConnection() {
   if (!dbConnection) { throw new Error('No database connection found'); }
   return dbConnection;
-}
-
-/**
- * Find user in the database by his ID
- * @param {string} uid - User ID in the DB
- * @param {object} db - Database reference
- * @return {Promise.<object|integer>} - user object | error code
- */
-function findUserById(uid) {
-  return new Promise((resolve, reject) => {
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('LOG: Finding user by uid in the DB');
-    }
-    // If there's no user id to search for then reject
-    if (!uid) { reject(null) }
-    db = getDBConnection();
-    db.collection('users').findOne({ _id: uid })
-      .then(doc => {
-        if (doc) {
-          resolve(doc)
-        } else {
-          reject(new Error('User not found'))
-        }
-      })
-    })
 }
 
 /**
@@ -91,12 +66,7 @@ function createUser(userProfile, hash) {
  var user = Object.assign({}, userProfile);
  // Prepare user profile object for saving
  delete user.token;
- delete user.uid;  // For saving, the attribute _id will be used instead of uid
-
- if (userProfile.uid) {
-    // In the case of Facebook, the user will be saved using Facebook's ID
-    user._id = userProfile.uid;
- }
+ delete user.uid;  // For saving, the auto-generated _id will be used instead of uid
 
  if (hash) {
    user['password'] = hash.key;
@@ -107,9 +77,8 @@ function createUser(userProfile, hash) {
    if (process.env.NODE_ENV !== 'production') {
      console.log(`LOG: New user added to the DB with ID: ${doc.insertedId}`);
    }
-   // If the user profile had a uid then doc's _id value should not
-   // have changed
-   userProfile.uid = doc.insertedId;
+   // Add the newly assigned ID to the user profile
+   userProfile._id = doc.insertedId;
    return userProfile;
  })
 }
@@ -123,19 +92,12 @@ function createUser(userProfile, hash) {
   */
 function findUserOrCreate(userProfile) {
  return new Promise((resolve, reject) => {
-   findUserById(userProfile.uid)
-     .then(() => { resolve(userProfile) })
+   findUserByEmail(userProfile.email)
+     .then(resolve)
      .catch(() => {
-       findUserByEmail(userProfile.email)
-         .then((doc) => {
-           userProfile.uid = doc._id;
-           resolve(userProfile)
-         })
-         .catch(() => {
-           createUser(userProfile, null)
-             .then(resolve)
-             .catch(reject)
-         })
+       createUser(userProfile, null)
+         .then(resolve)
+         .catch(reject)
      })
  })
 }

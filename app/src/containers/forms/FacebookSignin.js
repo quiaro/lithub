@@ -49,7 +49,6 @@ class FacebookSignin extends React.Component {
    */
   getAppToken(facebookUser, accessToken) {
     return apiAuth.viaFacebookToken({
-      uid: facebookUser.id,
       email: facebookUser.email,
       name: facebookUser.name,
       username: facebookUser.first_name,
@@ -60,7 +59,7 @@ class FacebookSignin extends React.Component {
 
   statusChangeCallback(response) {
     if (response.status === 'connected') {
-      return this.getUserInfo('id', 'email', 'name', 'first_name', 'picture')
+      return this.getUserInfo('email', 'name', 'first_name', 'picture')
         .then(userInfo => {
           return this.getAppToken(userInfo, response.authResponse.accessToken)
         })
