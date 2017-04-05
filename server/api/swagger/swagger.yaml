@@ -334,9 +334,6 @@ definitions:
   UserProfile:
     type: "object"
     properties:
-      uid:
-        type: "string"
-        description: "User ID"
       email:
         type: "string"
         description: "User email"
@@ -368,7 +365,7 @@ definitions:
       comments:
         type: "string"
         description: "User's thoughts or comments on the book"
-  
+
   BookHistoryEntry:
     type: "object"
     properties:
@@ -390,7 +387,7 @@ definitions:
       created:
         type: "string"
         format: "date-time"
-        description: "Date this entry was created"  
+        description: "Date this entry was created"
 
   Token:
     type: object
