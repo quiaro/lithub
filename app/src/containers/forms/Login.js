@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import isEmpty from 'validator/lib/isEmpty';
+import Snackbar from 'material-ui/Snackbar';
 
 import LoginForm from '../../components/forms/Login';
 import { saveAuthToken } from '../../common/auth';
@@ -132,14 +133,31 @@ class Login extends React.Component {
    */
   render() {
     if (this.props.isAuthenticated) {
+      // If user was redirected to login because he attempted to access a URL
+      // that required authentication, after he logs in, he's redirected back
+      // to the URL that he came from.
       const { from } = this.props.location.state || { from: { pathname: '/' } }
       return (<Redirect to={from}/>)
     }
-    return (<LoginForm onSubmit={this.processForm}
+
+    // Check if the URL query string corresponds to that of a user that just
+    // signed up
+    const newUser = this.props.location.search.indexOf('signup=success') >= 0;
+    let notification = '';
+
+    if (newUser) {
+      notification = <Snackbar open={true}
+                               message='Account created successfully'
+                               autoHideDuration={3000} />
+    }
+    return (<div>
+      <LoginForm onSubmit={this.processForm}
                        onChange={this.changeUser}
                        onSignIn={this.authenticateUser}
                        errors={this.state.errors}
-                       user={this.state.user} />);
+                       user={this.state.user} />
+      {notification}
+    </div>);
   }
 }
 

@@ -57,16 +57,11 @@ class SignUpPage extends React.Component {
       // proceed with submission
       this.submitForm()
         .then(userProfile => {
-          this.setState({
-            errors: {}
-          });
-          // TODO: Present success notification to user
-          console.log('New user registered: ', userProfile);
+          this.setState({ errors: {} });
+          this.props.history.push('/login?signup=success')
         })
         .catch(errors => {
-          this.setState({
-            errors
-          });
+          this.setState({ errors });
         })
     } else {
       this.setState({ errors: validatedForm.errors })
