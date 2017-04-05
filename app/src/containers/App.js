@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import * as selectors from '../reducers'
 import { fetchCurrentUser } from '../actions/users';
-import { getAuthToken } from '../common/auth';
 import AppComponent from '../components/App';
 
 class App extends React.Component {
@@ -36,8 +34,7 @@ class App extends React.Component {
       // a call is made to get the user information.
       // TODO: Save the user information in session storage and
       // if present, set it in the store's initial state.
-      const token = getAuthToken();
-      fetchCurrentUser(token);
+      fetchCurrentUser();
     }
   }
 
@@ -53,7 +50,7 @@ class App extends React.Component {
 
 const mapStateToProps = (state) => ({
   isAuthenticated: state.isAuthenticated,
-  currentUser: selectors.getCurrentUser(state)
+  currentUser: state.currentUser
 })
 
 App = connect(

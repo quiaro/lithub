@@ -2,8 +2,8 @@ import { combineReducers } from 'redux'
 import articles, * as articleSelectors from './articles'
 import books, * as bookSelectors from './books'
 import quotes, * as quoteSelectors from './quotes'
-import users, * as userSelectors from './users'
 import isAuthenticated from './auth'
+import currentUser from './currentUser'
 
 export const getAllArticles = (state) => articleSelectors.getAll(state.articles);
 export const getIsFetchingArticles = (state) => articleSelectors.getIsFetching(state.articles);
@@ -23,14 +23,12 @@ export const getIsFetchingQuotes = (state) => quoteSelectors.getIsFetching(state
 export const getAllQuotesHistory = (state) => quoteSelectors.getAllHistory(state.quotes);
 export const getIsFetchingQuotesHistory = (state) => quoteSelectors.getIsFetchingHistory(state.quotes);
 
-export const getCurrentUser = (state) => userSelectors.getCurrentUser(state.users);
-
 const reducers = combineReducers({
   isAuthenticated,
+  currentUser,
   books,
   articles,
-  quotes,
-  users
+  quotes
 })
 
 export default reducers

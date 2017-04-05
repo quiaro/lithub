@@ -136,6 +136,22 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /me:
+    x-swagger-router-controller: CurrentUser
+    get:
+      security:
+      - Bearer: []
+      description: Get the user's profile information
+      responses:
+        '200':
+          description: "User's profile information"
+          schema:
+            $ref: "#/definitions/CurrentUser"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
   /my/books:
     x-swagger-router-controller: Book
     post:
@@ -330,6 +346,40 @@ definitions:
           type: "string"
         }
         description: "List of IDs of all the users that have read this literary work"
+        
+  CurrentUser:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        description: "User email"
+      name:
+        type: "string"
+        description: "User full name"
+      username:
+        type: "string"
+        description: "Username or user first name"
+      picture:
+        type: "string"
+        description: "URL of the user's profile picture"
+      books:
+        type: "array"
+        items: {
+          type: "string"
+        }
+        description: "List of IDs of the books read by the user"
+      articles:
+        type: "array"
+        items: {
+          type: "string"
+        }
+        description: "List of IDs of the articles read by the user"
+      quotes:
+        type: "array"
+        items: {
+          type: "string"
+        }
+        description: "List of IDs of the quotes read by the user"
 
   UserProfile:
     type: "object"
