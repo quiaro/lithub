@@ -12,9 +12,7 @@ export const fetchCurrentUser = (token) => {
       if (xhr.status === 200) {
         resolve(JSON.parse(xhr.response))
       } else {
-        const errors = xhr.response.errors ? xhr.response.errors : {};
-        errors.summary = xhr.response.message;
-        reject(errors)
+        reject({code: xhr.status, message: JSON.parse(xhr.response).message })
       }
     });
     xhr.send();
