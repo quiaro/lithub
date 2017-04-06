@@ -85,7 +85,7 @@ paths:
         "201":
           description: Newly created user
           schema:
-            $ref: "#/definitions/UserProfile"
+            $ref: "#/definitions/User"
         default:
           description: Unexpected error
           schema:
@@ -120,12 +120,12 @@ paths:
       description: Exchanges a Facebook Access Token for an authentication token to use for API requests
       operationId: 'fromFacebookToken'
       parameters:
-      - name: userProfile
+      - name: user
         in: body
         description: "User profile information to store in an authentication token"
         required: true
         schema:
-          $ref: "#/definitions/UserProfile"
+          $ref: "#/definitions/User"
       responses:
         "200":
           description: Authentication Token
@@ -137,7 +137,7 @@ paths:
             $ref: "#/definitions/Error"
 
   /me:
-    x-swagger-router-controller: CurrentUser
+    x-swagger-router-controller: Profile
     get:
       security:
       - Bearer: []
@@ -146,34 +146,70 @@ paths:
         '200':
           description: "User's profile information"
           schema:
-            $ref: "#/definitions/CurrentUser"
+            $ref: "#/definitions/User"
         default:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-
+            
   /my/books:
-    x-swagger-router-controller: Book
+    x-swagger-router-controller: MyBooks
+    get:
+      security:
+      - Bearer: []
+      description: Get the list of books read by the token owner and his reviews
+      responses:
+        '200':
+          description: "List of books with reviews"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
     post:
       security:
       - Bearer: []
-      description: Create a new book entry if there isn't one and save the book assessment for a user
+      description: Create a new book entry if there isn't one and save the user's review
       parameters:
-      - name: bookReview
+      - name: review
         in: body
-        description: "Personal assessment of a book"
+        description: "Book review by a user"
         required: true
         schema:
-          $ref: "#/definitions/BookReview"
+          $ref: "#/definitions/Review"
       responses:
         '201':
-          description: "Book successfully added to history"
+          description: "Review saved successfully"
           schema:
-            $ref: "#/definitions/BookHistoryEntry"
+            $ref: "#/definitions/Review"
         default:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
+    put:
+      security:
+      - Bearer: []
+      description: Update a book entry and the user's corresponding review. If the book information is updated and the book has already received reviews from other users, then a new book entry is created.
+      parameters:
+      - name: review
+        in: body
+        description: "Book review by a user"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '200':
+          description: "Review saved successfully"
+          schema:
+            $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"            
+    
 
   /resources:
     x-swagger-router-controller: Resource
@@ -347,41 +383,7 @@ definitions:
         }
         description: "List of IDs of all the users that have read this literary work"
         
-  CurrentUser:
-    type: "object"
-    properties:
-      email:
-        type: "string"
-        description: "User email"
-      name:
-        type: "string"
-        description: "User full name"
-      username:
-        type: "string"
-        description: "Username or user first name"
-      picture:
-        type: "string"
-        description: "URL of the user's profile picture"
-      books:
-        type: "array"
-        items: {
-          type: "string"
-        }
-        description: "List of IDs of the books read by the user"
-      articles:
-        type: "array"
-        items: {
-          type: "string"
-        }
-        description: "List of IDs of the articles read by the user"
-      quotes:
-        type: "array"
-        items: {
-          type: "string"
-        }
-        description: "List of IDs of the quotes read by the user"
-
-  UserProfile:
+  User:
     type: "object"
     properties:
       email:
@@ -399,45 +401,33 @@ definitions:
       token:
         type: "string"
         description: "User token from a 3rd-party OAuth system to be verified by the app server"
-
-  BookReview:
-    type: "object"
-    properties:
-      title:
-        type: "string"
-        description: "Book title"
-      author:
-        type: "string"
-        description: "Book author"
-      rating:
-        type: "number"
-        description: "User rating for the book"
-      comments:
-        type: "string"
-        description: "User's thoughts or comments on the book"
-
-  BookHistoryEntry:
+        
+  Review:
     type: "object"
     properties:
       _id:
         type: "string"
-        description: "ID of the entry in the book history"
-      book_id:
+        description: "Resource ID"
+      title:
         type: "string"
-        description: "Book ID"
-      book_title:
+        description: "Title of the resource"
+      author:
         type: "string"
-        description: "Book title"
-      user_id:
-        type: "string"
-        description: "ID of the user that submitted the entry"
+        description: "Author of the resource"
       rating:
         type: "number"
-        description: "User's rating for the book"
+        description: "User rating for the resource"
+      comments:
+        type: "string"
+        description: "User's thoughts or comments on the resource"
       created:
         type: "string"
         format: "date-time"
-        description: "Date this entry was created"
+        description: "Date when user submitted the review"
+      last_modified:
+        type: "string"
+        format: "date-time"
+        description: "Date when the user last modified the review"
 
   Token:
     type: object

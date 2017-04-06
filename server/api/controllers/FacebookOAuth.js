@@ -24,7 +24,7 @@ function verifyFacebookToken(token) {
 }
 
 function fromFacebookToken(req, res) {
-  const userProfile = req.swagger.params.userProfile.value;
+  const userProfile = req.swagger.params.user.value;
   verifyFacebookToken(userProfile.token)
     .then(() => {
       return mongo.findUserOrCreate(userProfile);

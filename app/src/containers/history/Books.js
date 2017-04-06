@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBooksHistory } from '../../actions/books';
+import { fetchBookHistory } from '../../actions/books';
 import CircularProgress from 'material-ui/CircularProgress';
 import BooksHistoryComponent from '../../components/history/Books'
 import * as selectors from '../../reducers'
@@ -9,8 +9,8 @@ import * as selectors from '../../reducers'
 class BooksHistory extends Component {
 
   componentDidMount() {
-    const { fetchBooksHistory } = this.props;
-    fetchBooksHistory();
+    const { fetchBookHistory } = this.props;
+    fetchBookHistory();
   }
 
   render() {
@@ -30,7 +30,7 @@ const mapStateToProps = (state) => ({
 
 BooksHistory = connect(
   mapStateToProps,
-  { fetchBooksHistory }
+  { fetchBookHistory }
 )(BooksHistory)
 
 export default BooksHistory

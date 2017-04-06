@@ -27,7 +27,7 @@ const isFetching = handleActions({
 }, false);
 
 const historyById = handleAction('BOOK/HISTORY_FETCH_DONE', {
-  next: (state, action) => (action.payload.entities.books || {})
+  next: (state, action) => (action.payload.entities.reviews || {})
 }, {});
 
 const historyAllIds = handleAction('BOOK/HISTORY_FETCH_DONE', {
