@@ -1,6 +1,7 @@
 import {combineReducers} from 'redux';
 import { handleAction, handleActions } from 'redux-actions';
 
+import review from './review';
 /*
  * ----- SELECTORS
  */
@@ -26,12 +27,21 @@ const isFetching = handleActions({
   'BOOK/FETCH_DONE': (state, action) => false
 }, false);
 
-const historyById = handleAction('BOOK/HISTORY_FETCH_DONE', {
-  next: (state, action) => (action.payload.entities.reviews || {})
+const historyById = handleActions({
+  'BOOK/HISTORY_FETCH_DONE': {
+    next: (state, action) => (action.payload.entities.reviews || {})
+  },
+  'BOOK/ADD_TO_HISTORY': (state, action) => ({
+    ...state,
+    [action.payload.result]: review(state, action)
+  })
 }, {});
 
-const historyAllIds = handleAction('BOOK/HISTORY_FETCH_DONE', {
-  next: (state, action) => action.payload.result
+const historyAllIds = handleActions({
+  'BOOK/HISTORY_FETCH_DONE': {
+    next: (state, action) => action.payload.result
+  },
+  'BOOK/ADD_TO_HISTORY': (state, action) => ([...state, action.payload.result])
 }, []);
 
 const isFetchingHistory = handleActions({

@@ -39,7 +39,9 @@ class AddBook extends React.Component {
     let validatedForm = this.validateForm();
 
     if (validatedForm.isValid) {
-      apiBooks.addBookToHistory(validatedForm.payload).then(() => {
+      apiBooks.addBookToHistory(validatedForm.payload).then((review) => {
+        // Dispatch action to add review to history
+        this.props.addBookToHistory(review);
         this.setState({ errors: {} });
         this.props.history.push('/history/books');
       })
