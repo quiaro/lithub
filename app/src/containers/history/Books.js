@@ -9,14 +9,13 @@ import * as selectors from '../../reducers'
 class BooksHistory extends Component {
 
   componentDidMount() {
-    const { books, fetchBookHistory } = this.props;
+    const { wasHistoryFetched, fetchBookHistory } = this.props;
 
-    // If there are books in the user's history, we'll assume that the book
-    // history has already been fetched and that the history will be kept up
+    // If the book history has already been fetched, the history will be kept up
     // to date with each subsequent post, put and delete made. This avoids
     // having to make a new request each time. It's possible to do this because
     // we know that only the user is allowed to modify her own history.
-    if (!books.length) {
+    if (!wasHistoryFetched) {
       fetchBookHistory();
     }
   }
@@ -33,7 +32,8 @@ class BooksHistory extends Component {
 
 const mapStateToProps = (state) => ({
   books: selectors.getAllBooksHistory(state),
-  isFetchingBooksHistory: selectors.getIsFetchingBooksHistory(state)
+  isFetchingBooksHistory: selectors.getIsFetchingBooksHistory(state),
+  wasHistoryFetched: selectors.getWasHistoryFetched(state)
 })
 
 BooksHistory = connect(

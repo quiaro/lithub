@@ -10,6 +10,7 @@ export const getIsFetching = (state) => state.isFetching;
 
 export const getAllHistory = (state) => state.historyAllIds.map(id => state.historyById[id]);
 export const getIsFetchingHistory = (state) => state.isFetchingHistory;
+export const getWasHistoryFetched = (state) => state.wasHistoryFetched;
 
 /*
  * ----- REDUCERS
@@ -49,13 +50,16 @@ const isFetchingHistory = handleActions({
   'BOOK/HISTORY_FETCH_DONE': (state, action) => false
 }, false);
 
+const wasHistoryFetched = handleAction('BOOK/HISTORY_FETCH_DONE', (state, action) => true, false);
+
 const books = combineReducers({
   byId,
   allIds,
   isFetching,
   historyById,
   historyAllIds,
-  isFetchingHistory
+  isFetchingHistory,
+  wasHistoryFetched
 });
 
 export default books
