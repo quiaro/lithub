@@ -1,11 +1,12 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import isEmpty from 'validator/lib/isEmpty';
 import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
 
-import AddBookForm from '../../components/forms/AddBook';
 import * as apiBooks from '../../api/books';
+import { addBookToHistory } from '../../actions/books';
+import AddBookForm from '../../components/forms/AddBook';
 
 class AddBook extends React.Component {
 
@@ -38,29 +39,19 @@ class AddBook extends React.Component {
     let validatedForm = this.validateForm();
 
     if (validatedForm.isValid) {
-      // proceed with submission
-      apiBooks.save(validatedForm.payload)
-        .then(() => {
-          this.setState({
-            errors: {}
-          });
-          console.log('Book was successfully added to your history');
-          // dispatch action to add book to history
-          // this.props.authenticate();
-        })
-        .catch(error => {
-          if (error.code === 401) {
-            // User is not authorized to perform this request. The token is
-            // invalid so the user should log in again to get a new one.
-            this.props.history.push('/logout');
-          } else {
-            this.setState({
-              errors: {
-                summary: error.message
-              }
-            });
-          }
-        })
+      apiBooks.addBookToHistory(validatedForm.payload).then(() => {
+        this.setState({ errors: {} });
+        this.props.history.push('/history/books');
+      })
+      .catch(error => {
+        if (error.code === 401) {
+          // User is not authorized to perform this request. The token is
+          // invalid so the user should log in again to get a new one.
+          this.props.history.push('/logout');
+        } else {
+          this.setState({ errors: { summary: error.message } });
+        }
+      })
     } else {
       this.setState({errors: validatedForm.errors})
     }
@@ -106,8 +97,8 @@ class AddBook extends React.Component {
     if (isEmpty(payload.title)) {
       errors.title = 'Please provide the book\'s title';
     } else {
-      if (!matches(payload.title, /^[A-Za-z\u0080-\u00FF ]+$/)) {
-        errors.title = 'Please use only letters and spaces';
+      if (!matches(payload.title, /^[0-9A-Za-z\u0080-\u00FF ]+$/)) {
+        errors.title = 'Please use only letters, spaces and numbers';
       }
     }
 
@@ -142,8 +133,9 @@ class AddBook extends React.Component {
   }
 }
 
-// AddBook = connect(
-//   { authenticate }
-// )(AddBook)
+AddBook = connect(
+  undefined,
+  { addBookToHistory }
+)(AddBook)
 
 export default AddBook;

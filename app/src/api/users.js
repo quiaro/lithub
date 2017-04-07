@@ -12,7 +12,14 @@ export const fetchCurrentUser = (token) => {
       if (xhr.status === 200) {
         resolve(JSON.parse(xhr.response))
       } else {
-        reject({code: xhr.status, message: JSON.parse(xhr.response).message })
+        if (typeof xhr.response === 'string') {
+          reject({
+            code: xhr.status,
+            message: 'Unable to fulfill request at this time. Please try again later.'
+          })
+        } else {
+          reject({ code: xhr.status, message: JSON.parse(xhr.response).message})
+        }
       }
     });
     xhr.send();
