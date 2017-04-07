@@ -11,6 +11,7 @@ export const getIsFetching = (state) => state.isFetching;
 export const getAllHistory = (state) => state.historyAllIds.map(id => state.historyById[id]);
 export const getIsFetchingHistory = (state) => state.isFetchingHistory;
 export const getWasHistoryFetched = (state) => state.wasHistoryFetched;
+export const getBook = (state, id) => state.historyById[id];
 
 /*
  * ----- REDUCERS

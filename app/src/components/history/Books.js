@@ -2,6 +2,7 @@ import React from 'react';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 const BooksHistory = (props) => {
@@ -28,7 +29,7 @@ const BooksHistory = (props) => {
           stripedRows={true}>
           {props.books.map((book, index) => (
             <TableRow key={index} selectable={false}>
-              <TableRowColumn>{book.title}</TableRowColumn>
+              <TableRowColumn><Link to={`/history/books/${book._id}`}>{book.title}</Link></TableRowColumn>
               <TableRowColumn>{book.rating}</TableRowColumn>
               <TableRowColumn>{moment(book.created).format('MMM D, YYYY')}</TableRowColumn>
             </TableRow>
