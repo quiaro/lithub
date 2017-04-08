@@ -1,5 +1,5 @@
 import {combineReducers} from 'redux';
-import { handleAction, handleActions } from 'redux-actions';
+import { handleAction, handleActions, combineActions } from 'redux-actions';
 
 import review from './review';
 /*
@@ -33,10 +33,12 @@ const historyById = handleActions({
   'BOOK/HISTORY_FETCH_DONE': {
     next: (state, action) => (action.payload.entities.reviews || {})
   },
-  'BOOK/ADD_TO_HISTORY': (state, action) => ({
-    ...state,
-    [action.payload.result]: review(state, action)
-  })
+  [combineActions('BOOK/ADD_TO_HISTORY', 'BOOK/EDIT_IN_HISTORY')](state, action) {
+    return {
+      ...state,
+      [action.payload.result]: review(state, action)
+    };
+  }
 }, {});
 
 const historyAllIds = handleActions({

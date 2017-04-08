@@ -8,6 +8,7 @@ const AddBookForm = ({
   onSubmit,
   onChange,
   onSliderChange,
+  history,
   state
 }) => (
   <Card className="container">
@@ -19,7 +20,9 @@ const AddBookForm = ({
                     state={state} />
 
       <RaisedButton type="submit" label="Done" primary />
-      <RaisedButton type="cancel" label="Cancel" />
+      <RaisedButton type="cancel"
+                    label="Cancel"
+                    onTouchTap={() => { history.push('/history/books') }} />
     </form>
   </Card>
 );
@@ -28,6 +31,7 @@ AddBookForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSliderChange: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   state: PropTypes.object.isRequired
 };
 

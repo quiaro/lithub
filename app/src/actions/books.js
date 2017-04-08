@@ -10,7 +10,8 @@ const actions = createActions({
   BOOK: {
     FETCH_DONE: response => normalize(response, [ bookSchema ]),
     HISTORY_FETCH_DONE: response => normalize(response, [ reviewSchema ]),
-    ADD_TO_HISTORY: response => normalize(response, reviewSchema)
+    ADD_TO_HISTORY: response => normalize(response, reviewSchema),
+    EDIT_IN_HISTORY: response => normalize(response, reviewSchema)
   }
 }, 'BOOK_FETCH', 'BOOK_HISTORY_FETCH');
 
@@ -42,4 +43,11 @@ export const fetchBookHistory = () => (dispatch) => {
  */
 export const addBookToHistory = (review) => (dispatch) => {
   dispatch(actions.book.addToHistory(review));
+}
+
+/**
+ * Edit a book review in a user's book history
+ */
+export const editBookInHistory = (review) => (dispatch) => {
+  dispatch(actions.book.editInHistory(review));
 }

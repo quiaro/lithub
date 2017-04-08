@@ -8,6 +8,7 @@ import AddItem from './AddItem';
 import PrivateRoute from './PrivateRoute';
 import BooksHistory from '../containers/history/Books';
 import BookViewHistory from '../containers/history/BookView';
+import BookEditHistory from '../containers/history/BookEdit';
 import ArticlesHistory from '../containers/history/Articles';
 import QuotesHistory from '../containers/history/Quotes';
 
@@ -38,6 +39,7 @@ const App = (props) => {
       <Switch>
         <PrivateRoute path='/home' component={Dashboard} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/books/:id/edit' component={BookEditHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id' component={BookViewHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books' component={BooksHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/articles' component={ArticlesHistory} isAuthenticated={isAuthenticated}/>

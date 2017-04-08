@@ -1,8 +1,8 @@
-import { handleActions } from 'redux-actions';
+import { handleActions, combineActions } from 'redux-actions';
 
 const review = handleActions({
-  'BOOK/ADD_TO_HISTORY': {
-    next: (state, action) => action.payload.entities.reviews[action.payload.result]
+  [combineActions('BOOK/ADD_TO_HISTORY', 'BOOK/EDIT_IN_HISTORY')](state, action) {
+    return action.payload.entities.reviews[action.payload.result];
   }
 }, {});
 

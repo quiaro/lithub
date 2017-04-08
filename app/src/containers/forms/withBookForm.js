@@ -4,17 +4,9 @@ import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
 import * as apiBooks from '../../api/books';
 
-function BookForm(WrappedComponent, initialState, apiMethod) {
+function withBookForm(WrappedComponent, apiMethod) {
 
   return class extends React.Component {
-    constructor(props) {
-      super(props);
-      // set the initial component state
-      this.state = Object.assign({}, initialState, { errors: {}});
-      this.processForm = this.processForm.bind(this);
-      this.updateForm = this.updateForm.bind(this);
-      this.updateRating = this.updateRating.bind(this);
-    }
 
     /**
      * Process the form
@@ -30,7 +22,7 @@ function BookForm(WrappedComponent, initialState, apiMethod) {
       if (validatedForm.isValid) {
         apiBooks[apiMethod](validatedForm.payload).then((review) => {
           // Dispatch action to add review to history
-          this.props.addBookToHistory(review);
+          this.props[apiMethod](review);
           this.setState({ errors: {} });
           this.props.history.push('/history/books');
         })
@@ -120,9 +112,11 @@ function BookForm(WrappedComponent, initialState, apiMethod) {
       return (<WrappedComponent processForm={this.processForm}
                                 updateForm={this.updateForm}
                                 updateRating={this.updateRating}
-                                state={this.state} />);
+                                validateForm={this.validateForm}
+                                history={this.props.history}
+                                match={this.props.match} />);
     }
   }
 }
 
-export default BookForm;
+export default withBookForm;
