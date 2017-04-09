@@ -38,6 +38,12 @@ const historyById = handleActions({
       ...state,
       [action.payload.result]: review(state, action)
     };
+  },
+  'BOOK/DELETE_FROM_HISTORY': (state, action) => {
+    // Remove key from copied state
+    const newState = { ...state };
+    delete newState[action.payload.result];
+    return newState;
   }
 }, {});
 
@@ -45,7 +51,11 @@ const historyAllIds = handleActions({
   'BOOK/HISTORY_FETCH_DONE': {
     next: (state, action) => action.payload.result
   },
-  'BOOK/ADD_TO_HISTORY': (state, action) => ([...state, action.payload.result])
+  'BOOK/ADD_TO_HISTORY': (state, action) => ([...state, action.payload.result]),
+  'BOOK/DELETE_FROM_HISTORY': (state, action) => {
+    // Return all ids minus the one of the review that is being deleted
+    return state.filter(id => id !== action.payload.result);
+  }
 }, []);
 
 const isFetchingHistory = handleActions({

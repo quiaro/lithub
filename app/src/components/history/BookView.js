@@ -1,8 +1,9 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import Dialog from 'material-ui/Dialog';
 import moment from 'moment';
 
-const BookView = ({ book, history }) => {
+const BookView = ({ book, history, isDeleteDialogOpen, onOpenDeleteDialog, onCloseDeleteDialog, onDelete}) => {
   let body;
   if (!book) {
     body = (<div>Oops! We couldn't find the book you're looking for</div>);
@@ -13,6 +14,9 @@ const BookView = ({ book, history }) => {
           <RaisedButton label="Edit"
                         primary={true}
                         onTouchTap={() => { history.push(`/history/books/${book._id}/edit`) }} />
+          <RaisedButton label="Delete"
+                        secondary={true}
+                        onTouchTap={onOpenDeleteDialog} />
         </div>
         <div className='details'>
           <div className='title'>
@@ -34,11 +38,32 @@ const BookView = ({ book, history }) => {
       </div>
     );
   }
+
+  const actions = [
+    <RaisedButton
+      label="Delete"
+      secondary={true}
+      keyboardFocused={true}
+      onTouchTap={onDelete}
+    />,
+    <RaisedButton
+      label="Cancel"
+      onTouchTap={onCloseDeleteDialog}
+    />
+  ];
+
   return (
     <div>
       <h1>Book Detail</h1>
       {body}
       <RaisedButton label="Back to History" primary={true} onTouchTap={() => { history.push('/history/books') }} />
+      <Dialog title="Dialog With Actions"
+          actions={actions}
+          modal={false}
+          open={isDeleteDialogOpen}
+          onRequestClose={onCloseDeleteDialog} >
+          Are you sure you want to delete your review from your book history?
+        </Dialog>
     </div>
   )
 }

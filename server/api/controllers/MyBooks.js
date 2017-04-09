@@ -144,8 +144,43 @@ function put(req, res) {
   })
 }
 
+function deleteReview(req, res) {
+  const uid = req.__decodedToken__.uid;
+  const r = req.swagger.params.review.value;
+  const bookId = r._id;
+
+  return db.collection('books').findOneAndUpdate({
+      _id: ObjectID.createFromHexString(bookId),
+      reviews: { $elemMatch: { 'uid': uid } }
+    }, {
+      $unset: { 'reviews.$': '' }
+    }, {
+      returnOriginal: false
+    }).then(doc => {
+      // Check if the book has any more reviews; if not, delete it.
+      const book = doc.value;
+      if (book.reviews.length === 1) {
+        // The book has only one review (i.e. the one that was just unset) so
+        // it's okay to delete it.
+        return db.collection('books').findOneAndDelete({
+            _id: ObjectID.createFromHexString(bookId)
+          }).then(() => {
+            res.status(204).json({});
+          })
+      } else {
+        // The book entry was updated, but it was not removed.
+        res.status(204).json({});
+      }
+    })
+    .catch(e => {
+      console.error(e);
+      res.status(500).json({ message: 'Unable to fulfill request at this time.' })
+    })
+}
+
 module.exports = {
   get: get,
   post: post,
-  put: put
+  put: put,
+  delete: deleteReview
 }

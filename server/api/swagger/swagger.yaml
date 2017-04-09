@@ -208,6 +208,24 @@ paths:
         default:
           description: Unexpected error
           schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+      - Bearer: []
+      description: Delete a user's review from a book entry. If the book entry only has that user review, then the book entry is deleted as well.
+      parameters:
+      - name: review
+        in: body
+        description: "Book review to delete"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '204':
+          description: "Review deleted successfully"
+        default:
+          description: Unexpected error
+          schema:
             $ref: "#/definitions/Error"            
     
 
