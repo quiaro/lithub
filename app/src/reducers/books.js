@@ -44,7 +44,8 @@ const historyById = handleActions({
     const newState = { ...state };
     delete newState[action.payload.result];
     return newState;
-  }
+  },
+  'LOG_OUT': (state, action) => ({})
 }, {});
 
 const historyAllIds = handleActions({
@@ -55,7 +56,8 @@ const historyAllIds = handleActions({
   'BOOK/DELETE_FROM_HISTORY': (state, action) => {
     // Return all ids minus the one of the review that is being deleted
     return state.filter(id => id !== action.payload.result);
-  }
+  },
+  'LOG_OUT': (state, action) => ([])
 }, []);
 
 const isFetchingHistory = handleActions({
@@ -63,7 +65,10 @@ const isFetchingHistory = handleActions({
   'BOOK/HISTORY_FETCH_DONE': (state, action) => false
 }, false);
 
-const wasHistoryFetched = handleAction('BOOK/HISTORY_FETCH_DONE', (state, action) => true, false);
+const wasHistoryFetched = handleActions({
+  'BOOK/HISTORY_FETCH_DONE': (state, action) => true,
+  'LOG_OUT': (state, action) => false
+}, false);
 
 const books = combineReducers({
   byId,
