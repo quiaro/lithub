@@ -37,7 +37,12 @@ const App = (props) => {
           will determine whether to show the corresponding component or redirect the user
           to login */}
       <Switch>
-        <PrivateRoute path='/home' component={Dashboard} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/home'
+                      component={Dashboard}
+                      isAuthenticated={isAuthenticated}
+                      location={location}
+                      onMenuChange={onMenuChange}
+                      onBtnClick={redirect} />
         <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id/edit' component={BookEditHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id' component={BookViewHistory} isAuthenticated={isAuthenticated}/>

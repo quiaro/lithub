@@ -2,10 +2,10 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 const PrivateRoute = (props) => {
-  const { component, isAuthenticated, ...rest} = props;
-  return <Route {...rest} render={ routeProps => (
+  const { component, isAuthenticated, path, ...rest} = props;
+  return <Route path={path} render={ routeProps => (
     isAuthenticated ? (
-      React.createElement(component, routeProps)
+      React.createElement(component, Object.assign({}, rest, routeProps))
     ) : (
       <Redirect to={{
         pathname: '/login',
