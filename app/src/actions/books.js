@@ -1,28 +1,30 @@
 import { normalize, schema } from 'normalizr';
 import { createActions } from 'redux-actions';
-import * as api from '../api'
 import * as apiBooks from '../api/books'
 
-const bookSchema = new schema.Entity('books');
+const bookSchema = new schema.Entity('books', {}, { idAttribute: '_id' });
 const reviewSchema = new schema.Entity('reviews', {}, { idAttribute: '_id' });
 
 const actions = createActions({
   BOOK: {
-    FETCH_DONE: response => normalize(response, [ bookSchema ]),
+    BY_OTHERS_FETCH_DONE: [
+      (data) => normalize(data, [ bookSchema ]),
+      (data, meta) => meta
+    ],
     HISTORY_FETCH_DONE: response => normalize(response, [ reviewSchema ]),
     ADD_TO_HISTORY: response => normalize(response, reviewSchema),
     EDIT_IN_HISTORY: response => normalize(response, reviewSchema),
     DELETE_FROM_HISTORY: response => normalize(response, reviewSchema)
   }
-}, 'BOOK_FETCH', 'BOOK_HISTORY_FETCH');
+}, 'BOOK_BY_OTHERS_FETCH', 'BOOK_HISTORY_FETCH');
 
-export const fetchBooks = () => (dispatch) => {
-  dispatch(actions.bookFetch());
-  return api.fetchBooks().then(response => {
-      dispatch(actions.book.fetchDone(response))
+export const fetchReadByOthers = () => (dispatch) => {
+  dispatch(actions.bookByOthersFetch());
+  return apiBooks.fetchReadByOthers().then(response => {
+      dispatch(actions.book.byOthersFetchDone(response.data, response.meta))
     },
     error => {
-      dispatch(actions.book.fetchDone(error));
+      dispatch(actions.book.byOthersFetchDone(error));
     });
 }
 

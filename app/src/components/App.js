@@ -6,6 +6,7 @@ import SideMenu from './SideMenu'
 import Dashboard from './Dashboard';
 import AddItem from './AddItem';
 import PrivateRoute from './PrivateRoute';
+import BooksReadByOthers from '../containers/BooksByOthers';
 import BooksHistory from '../containers/history/Books';
 import BookViewHistory from '../containers/history/BookView';
 import BookEditHistory from '../containers/history/BookEdit';
@@ -44,6 +45,7 @@ const App = (props) => {
                       onMenuChange={onMenuChange}
                       onBtnClick={redirect} />
         <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/books' component={BooksReadByOthers} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id/edit' component={BookEditHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id' component={BookViewHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books' component={BooksHistory} isAuthenticated={isAuthenticated}/>

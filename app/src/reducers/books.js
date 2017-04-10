@@ -5,8 +5,8 @@ import review from './review';
 /*
  * ----- SELECTORS
  */
-export const getAll = (state) => state.allIds.map(id => state.byId[id]);
-export const getIsFetching = (state) => state.isFetching;
+export const getAllReadByOthers = (state) => state.readByOthersAllIds.map(id => state.readByOthersById[id]);
+export const getIsFetchingReadByOthers = (state) => state.isFetchingReadByOthers;
 
 export const getAllHistory = (state) => state.historyAllIds.map(id => state.historyById[id]);
 export const getIsFetchingHistory = (state) => state.isFetchingHistory;
@@ -16,19 +16,45 @@ export const getBook = (state, id) => state.historyById[id];
 /*
  * ----- REDUCERS
  */
-const byId = handleAction('BOOK/FETCH_DONE', {
-  next: (state, action) => (action.payload.entities.books || {})
+
+/*
+ * State for Books Read by Others
+ */
+const readByOthersById = handleAction('BOOK/BY_OTHERS_FETCH_DONE', {
+  next: (state, action) => {
+    if (action.meta.limit === action.meta.start) {
+      // Results correspond to the first page so set the state
+      // to the current result
+      return action.payload.entities.books || {};
+    }
+    // Merge in the result to the previous state
+    return Object.assign({}, ...state, action.payload.entities.books);
+  }
 }, {});
 
-const allIds = handleAction('BOOK/FETCH_DONE', {
-  next: (state, action) => action.payload.result
+const readByOthersAllIds = handleAction('BOOK/BY_OTHERS_FETCH_DONE', {
+  next: (state, action) => {
+    if (action.meta.limit === action.meta.start) {
+      // Results correspond to the first page so set the state
+      // to the current result
+      return action.payload.result;
+    }
+    // Merge in the result to the previous state
+    return [...state, action.payload.result]
+  }
 }, []);
 
-const isFetching = handleActions({
-  'BOOK_FETCH': (state, action) => true,
-  'BOOK/FETCH_DONE': (state, action) => false
+const readByOthersPageStart = handleAction('BOOK/BY_OTHERS_FETCH_DONE',
+  (state, action) => action.meta.start, 0)
+
+const isFetchingReadByOthers = handleActions({
+  'BOOK_BY_OTHERS_FETCH': (state, action) => true,
+  'BOOK/BY_OTHERS_FETCH_DONE': (state, action) => false
 }, false);
 
+/*
+ * State for Books History
+ */
 const historyById = handleActions({
   'BOOK/HISTORY_FETCH_DONE': {
     next: (state, action) => (action.payload.entities.reviews || {})
@@ -71,9 +97,10 @@ const wasHistoryFetched = handleActions({
 }, false);
 
 const books = combineReducers({
-  byId,
-  allIds,
-  isFetching,
+  readByOthersById,
+  readByOthersAllIds,
+  isFetchingReadByOthers,
+  readByOthersPageStart,
   historyById,
   historyAllIds,
   isFetchingHistory,

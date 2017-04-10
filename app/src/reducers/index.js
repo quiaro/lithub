@@ -8,9 +8,8 @@ import currentUser from './currentUser'
 export const getAllArticles = (state) => articleSelectors.getAll(state.articles);
 export const getIsFetchingArticles = (state) => articleSelectors.getIsFetching(state.articles);
 
-export const getAllBooks = (state) => bookSelectors.getAll(state.books);
-export const getIsFetchingBooks = (state) => bookSelectors.getIsFetching(state.books);
-
+export const getAllBooksReadByOthers = (state) => bookSelectors.getAllReadByOthers(state.books);
+export const getIsFetchingBooksReadByOthers = (state) => bookSelectors.getIsFetchingReadByOthers(state.books);
 export const getAllBooksHistory = (state) => bookSelectors.getAllHistory(state.books);
 export const getIsFetchingBooksHistory = (state) => bookSelectors.getIsFetchingHistory(state.books);
 export const getWasHistoryFetched = (state) => bookSelectors.getWasHistoryFetched(state.books);
