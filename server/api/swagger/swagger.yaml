@@ -227,7 +227,41 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"            
-    
+
+  /books:
+    x-swagger-router-controller: BooksByOthers
+    get:
+      security:
+      - Bearer: []
+      description: Returns a paginated list of books that other users have read sorted by their last modified date
+      parameters:
+        - name: limit
+          in: query
+          description: Number of books per page
+          required: false
+          type: string
+        - name: start
+          in: query
+          description: Page index start
+          required: false
+          type: string  
+      responses:
+        "200":
+          description: Array of books
+          schema:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Resource"
+              meta:
+                type: "object"
+              
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
 
   /resources:
     x-swagger-router-controller: Resource
@@ -375,31 +409,6 @@ definitions:
         type: string
       errors:
         type: object
-
-  Resource:
-    type: "object"
-    properties:
-      _id:
-        type: "string"
-        description: "ID of the literary work"
-      type:
-        type: "string"
-        description: "Type of literary resource: book, article or quote"
-      title:
-        type: "string"
-        description: "Title of a book or article or the text for a quote"
-      authors:
-        type: "array"
-        items: {
-          type: "string"
-        }
-        description: "List of authors of the literary work"
-      readBy:
-        type: "array"
-        items: {
-          type: "string"
-        }
-        description: "List of IDs of all the users that have read this literary work"
         
   User:
     type: "object"
@@ -446,6 +455,32 @@ definitions:
         type: "string"
         format: "date-time"
         description: "Date when the user last modified the review"
+        
+  Resource:
+    type: "object"
+    properties:
+      _id:
+        type: "string"
+        description: "Resource ID"
+      title:
+        type: "string"
+        description: "Title of the resource"
+      author:
+        type: "string"
+        description: "Author of the resource"
+      reviews:
+        type: "array"
+        items:
+          $ref: "#/definitions/Review"
+        description: "List of reviews by users for this resource"
+      created:
+        type: "string"
+        format: "date-time"
+        description: "Date when the resource was first submitted"
+      last_modified:
+        type: "string"
+        format: "date-time"
+        description: "Date when the resource was last modified"        
 
   Token:
     type: object

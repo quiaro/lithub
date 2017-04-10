@@ -48,7 +48,7 @@ function post(req, res) {
     }, { $setOnInsert: {
       created: new Date()
     }, $set: {
-      lastModified: new Date(),
+      last_modified: new Date(),
     }, $push: {
       reviews: review
     } }, {
@@ -90,7 +90,7 @@ function put(req, res) {
           reviews: { $elemMatch: { 'uid': uid } }
         }, {
           $set: {
-            lastModified: new Date(),
+            last_modified: new Date(),
             'reviews.$': review
           }
         }).then(doc => {
@@ -122,7 +122,7 @@ function put(req, res) {
         }, { $setOnInsert: {
           created: new Date()
         }, $set: {
-          lastModified: new Date(),
+          last_modified: new Date(),
         }, $push: {
           reviews: review
         } }, {
