@@ -29,14 +29,18 @@ export const fetchBook = (id) => (dispatch) => {
     });
 }
 
-export const fetchReadByOthers = () => (dispatch) => {
-  dispatch(actions.bookByOthersFetch());
-  return apiBooks.fetchReadByOthers().then(response => {
-      dispatch(actions.book.byOthersFetchDone(response.data, response.meta))
-    },
-    error => {
-      dispatch(actions.book.byOthersFetchDone(error));
-    });
+export const fetchReadByOthers = (start, limit) => (dispatch) => {
+  // Once the start index value is -1, it means there are
+  // no more results to fetch
+  if (start !== -1) {
+    dispatch(actions.bookByOthersFetch());
+    return apiBooks.fetchReadByOthers(start, limit).then(response => {
+        dispatch(actions.book.byOthersFetchDone(response.data, response.meta))
+      },
+      error => {
+        dispatch(actions.book.byOthersFetchDone(error));
+      });
+  }
 }
 
 /**

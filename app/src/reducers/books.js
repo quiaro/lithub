@@ -13,6 +13,7 @@ export const getFromHistory = (state, id) => state.historyById[id];
 export const getIsFetchingBook = (state) => state.isFetchingBook;
 export const getIsFetchingHistory = (state) => state.isFetchingHistory;
 export const getIsFetchingReadByOthers = (state) => state.isFetchingReadByOthers;
+export const getReadByOthersNextIndex = (state) => state.readByOthersNextIndex;
 export const getWasHistoryFetched = (state) => state.wasHistoryFetched;
 
 /*
@@ -30,7 +31,7 @@ const readByOthersById = handleActions({
       return action.payload.entities.books || {};
     }
     // Merge in the result to the previous state
-    return Object.assign({}, ...state, action.payload.entities.books);
+    return Object.assign({}, state, action.payload.entities.books);
   },
   // When the API fetches books read by others, these won't include all
   // the review details. When a specific book is fetched, these details will
@@ -50,7 +51,7 @@ const readByOthersAllIds = handleActions({
       return action.payload.result;
     }
     // Merge in the result to the previous state
-    return [...state, action.payload.result]
+    return state.concat(action.payload.result);
   },
   'BOOK/FETCH_DONE': (state, action) => {
     // Do not add key if it already exists
@@ -59,8 +60,14 @@ const readByOthersAllIds = handleActions({
   }
 }, []);
 
-const readByOthersPageStart = handleAction('BOOK/BY_OTHERS_FETCH_DONE',
-  (state, action) => action.meta.start, 0)
+const readByOthersNextIndex = handleAction('BOOK/BY_OTHERS_FETCH_DONE',
+  (state, action) => {
+    // If the previous next index is the same as the current next index
+    // then that means there are no more results to fetch, in which case
+    // the state becomes -1.
+    return (state !== action.meta.start) ?
+       action.meta.start : -1;
+  }, 0)
 
 const isFetchingReadByOthers = handleActions({
   'BOOK_BY_OTHERS_FETCH': (state, action) => true,
@@ -121,7 +128,7 @@ const books = combineReducers({
   readByOthersAllIds,
   isFetchingBook,
   isFetchingReadByOthers,
-  readByOthersPageStart,
+  readByOthersNextIndex,
   historyById,
   historyAllIds,
   isFetchingHistory,

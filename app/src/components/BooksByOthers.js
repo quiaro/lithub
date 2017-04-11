@@ -4,7 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
   from 'material-ui/Table';
 import { Link } from 'react-router-dom';
 
-const Dashboard = ({ books, history }) => {
+const BooksByOthers = ({ books, history }) => {
 
   const tableData = books.map(b => {
     const totalRating = b.reviews.reduce((acc, obj) => acc + obj.rating, 0);
@@ -64,4 +64,4 @@ const Dashboard = ({ books, history }) => {
   )
 }
 
-export default Dashboard;
+export default BooksByOthers;

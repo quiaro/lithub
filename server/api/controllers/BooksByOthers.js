@@ -17,7 +17,7 @@ function get(req, res) {
         data: books,
         meta: {
           limit: limit,
-          start: start + limit
+          start: start + books.length
         }
       }
       res.status(200).json(result);
