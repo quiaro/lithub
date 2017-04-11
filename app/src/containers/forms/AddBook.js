@@ -9,10 +9,15 @@ class AddBook extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const searchUrl = props.history.location.search;
+    const title = this.getQueryParam(searchUrl, 'title') || '';
+    const author = this.getQueryParam(searchUrl, 'author') || '';
+
     this.state = {
       errors: {},
-      title: '',
-      author: '',
+      title: title,
+      author: author,
       rating: 0,
       comments: ''
     }
@@ -22,6 +27,19 @@ class AddBook extends React.Component {
     this.updateForm = this.props.updateForm.bind(this);
     this.updateRating = this.props.updateRating.bind(this);
     this.validateForm = this.props.validateForm.bind(this);
+  }
+
+  /**
+   * Extract the value for a query param found in the url search string
+   * @param {string} urlSearch - url search string
+   * @param {string} param - param searched for
+   */
+  getQueryParam(urlSearch, param) {
+    // Append an ampersand so it's easier to look for the param with a regex
+    const str = urlSearch + "&";
+    const paramRe = new RegExp(`${param}=(.*?)&`);
+    const match = paramRe.exec(str);
+    return match && decodeURIComponent(match[1]);
   }
 
   /**
