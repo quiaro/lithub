@@ -1,9 +1,10 @@
 import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import {Table, TableBody, TableFooter, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
+import { Link } from 'react-router-dom';
 
-const Dashboard = ({ books, history, onBtnClick }) => {
+const Dashboard = ({ books, history }) => {
 
   const tableData = books.map(b => {
     const totalRating = b.reviews.reduce((acc, obj) => acc + obj.rating, 0);
@@ -15,8 +16,11 @@ const Dashboard = ({ books, history, onBtnClick }) => {
     // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Math/round
     avgRating = Number(Math.round(avgRating+'e1')+'e-1');
     return {
+      _id: b._id,
       title: b.title,
       author: b.author,
+      url_title: encodeURIComponent(b.title),
+      url_author: encodeURIComponent(b.author),
       num_reviewers: totalReviewers,
       avg_rating: avgRating,
       last_modified: b.last_modified
@@ -41,16 +45,16 @@ const Dashboard = ({ books, history, onBtnClick }) => {
           deselectOnClickaway={false}
           showRowHover={true}
           stripedRows={true} >
-            {tableData.map( (row, index) => (
+            {tableData.map( (book, index) => (
               <TableRow key={index}>
-                <TableRowColumn>{row.title}</TableRowColumn>
-                <TableRowColumn>{row.author}</TableRowColumn>
-                <TableRowColumn>{row.num_reviewers}</TableRowColumn>
-                <TableRowColumn>{row.avg_rating}</TableRowColumn>
+                <TableRowColumn><Link to={`/books/${book._id}`}>{book.title}</Link></TableRowColumn>
+                <TableRowColumn>{book.author}</TableRowColumn>
+                <TableRowColumn>{book.num_reviewers}</TableRowColumn>
+                <TableRowColumn>{book.avg_rating}</TableRowColumn>
                 <TableRowColumn>
                   <RaisedButton label="I read it"
                                 primary={true}
-                                onTouchTap={() => onBtnClick('/add/book')} />
+                                onTouchTap={() => history.push(`/add/book?title=${book.url_title}&author=${book.url_author}`)} />
                 </TableRowColumn>
               </TableRow>
               ))}

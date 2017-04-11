@@ -1,6 +1,29 @@
 import { getAuthToken } from '../common/auth';
 
 /**
+ * Fetch a book
+ * @param {bookId} bookId - ID of the book to fetch
+ */
+export const fetchBook = (bookId) => {
+  return new Promise((resolve, reject) => {
+    const token = getAuthToken();
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('get', `/api/books/${bookId}`);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('Authorization', `Bearer: ${token}`);
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        resolve(JSON.parse(xhr.response))
+      } else {
+        reject({ code: xhr.status, message: JSON.parse(xhr.response).message})
+      }
+    });
+    xhr.send();
+  });
+}
+
+/**
  * Fetch books read by other users
  * @param {number} start - Page item index start
  * @param {number} limit - Number of items per page (Default: 20, max number is 50)

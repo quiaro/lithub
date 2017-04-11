@@ -11,13 +11,13 @@ class BooksByOthers extends Component {
   componentDidMount() {
     const { fetchReadByOthers } = this.props;
 
-    // Every time the component is mounted, a request is made to fetch 
+    // Every time the component is mounted, a request is made to fetch
     // all the books read by others
     fetchReadByOthers();
   }
 
   render() {
-    const { books, isFetchingBooksReadByOthers } = this.props;
+    const { books, isFetchingBooksReadByOthers, history } = this.props;
 
     return (
       <div>

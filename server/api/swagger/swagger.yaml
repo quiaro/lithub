@@ -262,6 +262,28 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
+            
+  /books/{id}:
+    x-swagger-router-controller: Book
+    get:
+      security:
+      - Bearer: []
+      description: Returns a book
+      parameters:
+        - name: id
+          in: path
+          description: Book ID
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Book
+          schema:
+            $ref: "#/definitions/Resource"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"            
 
   /resources:
     x-swagger-router-controller: Resource

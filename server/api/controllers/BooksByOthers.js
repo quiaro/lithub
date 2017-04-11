@@ -1,13 +1,9 @@
 const db = require('../helpers/mongo').getDBConnection();
-const ObjectID = require('mongodb').ObjectID;
 
 function get(req, res) {
   const limit = req.swagger.params.limit.value ? parseInt(req.swagger.params.limit.value) : 20;
   const start = req.swagger.params.start.value ? parseInt(req.swagger.params.start.value) : 0;
   const uid = req.__decodedToken__.uid;
-
-  console.log('LIMIT: ', req.swagger.params.limit);
-  console.log('START: ', req.swagger.params.start);
 
   return db.collection('books')
     .find({ 'reviews.uid': { $exists: true, $ne: uid } })

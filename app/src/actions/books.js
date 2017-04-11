@@ -7,6 +7,7 @@ const reviewSchema = new schema.Entity('reviews', {}, { idAttribute: '_id' });
 
 const actions = createActions({
   BOOK: {
+    FETCH_DONE: response => normalize(response, bookSchema),
     BY_OTHERS_FETCH_DONE: [
       (data) => normalize(data, [ bookSchema ]),
       (data, meta) => meta
@@ -16,7 +17,17 @@ const actions = createActions({
     EDIT_IN_HISTORY: response => normalize(response, reviewSchema),
     DELETE_FROM_HISTORY: response => normalize(response, reviewSchema)
   }
-}, 'BOOK_BY_OTHERS_FETCH', 'BOOK_HISTORY_FETCH');
+}, 'BOOK_BY_OTHERS_FETCH', 'BOOK_HISTORY_FETCH', 'BOOK_FETCH');
+
+export const fetchBook = (id) => (dispatch) => {
+  dispatch(actions.bookFetch());
+  return apiBooks.fetchBook(id).then(response => {
+      dispatch(actions.book.fetchDone(response))
+    },
+    error => {
+      dispatch(actions.book.fetchDone(error));
+    });
+}
 
 export const fetchReadByOthers = () => (dispatch) => {
   dispatch(actions.bookByOthersFetch());
