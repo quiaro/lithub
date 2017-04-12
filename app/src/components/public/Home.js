@@ -1,13 +1,14 @@
 import React from 'react';
-import { Card, CardTitle } from 'material-ui/Card';
 import PublicAppBar from './AppBar';
 import OverviewSummary from '../../containers/OverviewSummary';
 
 const PublicHome = (props) => (
-  <div>
-    <PublicAppBar />
-      <h1>A place to discover, track and share your taste on literature.</h1>
-      <OverviewSummary history={props.history} />
+  <div className="public-home">
+    <PublicAppBar history={props.history} />
+      <main>
+        <h1>A place to discover, track and share your taste on <span className="app-font">literature.</span></h1>
+        <OverviewSummary history={props.history} />
+      </main>
   </div>
 );
 

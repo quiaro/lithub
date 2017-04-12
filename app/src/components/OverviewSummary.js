@@ -1,5 +1,7 @@
 import React from 'react';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
 
 const OverviewSummary = ({ books, history }) => {
 
@@ -18,39 +20,43 @@ const OverviewSummary = ({ books, history }) => {
     }
   });
 
+  const paperStyles = {
+    marginTop: 30,
+    paddingTop: 30,
+    paddingBottom: 15
+  }
+
   return (
-    <div>
-      Find out what others are sharing
-
-      <h1>Books</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Book</th>
-            <th>Average Rating</th>
-            <th>Number of readers</th>
-          </tr>
-        </thead>
-        <tbody>
-            {booksData.map((book) =>
-              <tr key={book._id}>
-                <td>
-                  {book.title + ' by ' + book.author}
-                </td>
-                <td>
-                  {book.avg_rating}
-                </td>
-                <td>
-                  {book.num_reviewers}
-                </td>
-              </tr>
-            )}
-        </tbody>
-      </table>
-
-      <RaisedButton label="View More"
-                    primary={true}
-                    onTouchTap={() => history.push('/login')} />
+    <div className="overview-summary">
+      <em>Find out what others are sharing</em>
+      <Paper zDepth={2} style={paperStyles}>
+        <Table selectable={false}>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn><h1>Books</h1></TableHeaderColumn>
+              <TableHeaderColumn style={{width: 60, fontSize: 16}}>Rating</TableHeaderColumn>
+              <TableHeaderColumn style={{width: 60, fontSize: 16}}>Readers</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody
+            displayRowCheckbox={false}
+            deselectOnClickaway={false}
+            showRowHover={false}
+            stripedRows={false} >
+              {booksData.map( (book, index) => (
+                <TableRow key={index}>
+                  <TableRowColumn style={{fontSize: 14}} className="book-cell"><b>{book.title}</b>{' by '}<em>{book.author}</em></TableRowColumn>
+                  <TableRowColumn style={{width: 60, fontSize: 14}}>{book.avg_rating}</TableRowColumn>
+                  <TableRowColumn style={{width: 60, fontSize: 14}}>{book.num_reviewers}</TableRowColumn>
+                </TableRow>
+                ))}
+          </TableBody>
+        </Table>
+        <RaisedButton label="View More"
+                      primary={true}
+                      style={{marginLeft: 20, marginTop: 10}}
+                      onTouchTap={() => history.push('/login')} />
+      </Paper>
     </div>
   )
 }

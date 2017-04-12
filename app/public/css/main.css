@@ -10,6 +10,7 @@ html {
   font-family: sans-serif; /* 1 */
   -ms-text-size-adjust: 100%; /* 2 */
   -webkit-text-size-adjust: 100%; /* 2 */
+  font-size: 100%;
 }
 
 /**
@@ -421,4 +422,56 @@ table {
 td,
 th {
   padding: 0;
+}
+
+/* Custom styles
+   ========================================================================= */
+body {
+  background-color: #f7f1e0;
+}
+
+main {
+  padding: 20px 10px 30px;
+}
+
+.app-font {
+  font-family: 'Great Vibes', cursive;
+}
+
+.nav {
+  box-shadow: 0px 3px 26px 2px rgba(0,0,0,0.3);
+}
+
+.loading-spinner {
+  left: 44%;
+}
+
+#root {
+  min-width: 480px;
+}
+
+/* === .public-home === */
+
+.public-home h1 {
+  font-weight: normal;
+  line-height: 1.4;
+}
+.public-home h1 .app-font {
+  font-size: 3rem;
+  line-height: 1.2;
+  text-transform: capitalize;
+}
+
+.public-home .overview-summary > em {
+  font-style: normal;
+  font-size: 1.2em;
+  letter-spacing: 1px;
+  line-height: 1;
+  text-transform: capitalize;
+}
+
+.public-home .overview-summary h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3.5em;
+  margin: 0;
 }

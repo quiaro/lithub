@@ -25,7 +25,7 @@ class OverviewSummary extends Component {
     } = this.props;
 
     if (isFetchingBooks || isFetchingArticles || isFetchingQuotes) {
-      return <CircularProgress size={60} thickness={7} />
+      return <CircularProgress className="loading-spinner" size={60} thickness={7} />
     }
 
     return <OverviewSummaryComponent {...this.props} />

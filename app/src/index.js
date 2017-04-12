@@ -6,7 +6,8 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
-import * as Store from './app/store'
+import appTheme from './styles/theme';
+import * as Store from './app/store';
 import Home from './containers/Home';
 import App from './containers/App';
 import Logout from './containers/Logout';
@@ -17,7 +18,7 @@ import SignUp from './containers/forms/SignUp';
 injectTapEventPlugin();
 
 ReactDom.render((
-  <MuiThemeProvider muiTheme={getMuiTheme()}>
+  <MuiThemeProvider muiTheme={getMuiTheme(appTheme)}>
     <Provider store={Store.configure()}>
       <Router>
         <Switch>
