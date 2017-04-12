@@ -5,11 +5,11 @@ import PublicHome from '../components/public/Home';
 
 class Home extends React.Component {
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, history } = this.props;
     if (isAuthenticated) {
       return <Redirect to="/home"/>
     }
-    return <PublicHome />
+    return <PublicHome history={history} />
   }
 }
 

@@ -6,10 +6,8 @@ import OverviewSummary from '../../containers/OverviewSummary';
 const PublicHome = (props) => (
   <div>
     <PublicAppBar />
-    <Card className="container">
-      <CardTitle title="Literature Hub" subtitle="A place to discover, track and share your taste on literature."/>
-      <OverviewSummary />
-    </Card>
+      <h1>A place to discover, track and share your taste on literature.</h1>
+      <OverviewSummary history={props.history} />
   </div>
 );
 
