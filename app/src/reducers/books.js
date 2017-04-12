@@ -42,7 +42,8 @@ const readByOthersById = handleActions({
   'BOOK/FETCH_DONE': (state, action) => ({
       ...state,
       [action.payload.result]: book(state, action)
-    })
+    }),
+  'RESET_READ_BY_OTHERS': (state, action) => ({})
 }, {});
 
 const readByOthersAllIds = handleActions({
@@ -59,17 +60,20 @@ const readByOthersAllIds = handleActions({
     // Do not add key if it already exists
     const result = new Set([...state, action.payload.result]);
     return [...result];
-  }
+  },
+  'RESET_READ_BY_OTHERS': (state, action) => ([])
 }, []);
 
-const readByOthersNextIndex = handleAction('BOOK/BY_OTHERS_FETCH_DONE',
-  (state, action) => {
+const readByOthersNextIndex = handleActions({
+  'BOOK/BY_OTHERS_FETCH_DONE': (state, action) => {
     // If the previous next index is the same as the current next index
     // then that means there are no more results to fetch, in which case
     // the state becomes -1.
     return (state !== action.meta.start) ?
        action.meta.start : -1;
-  }, 0)
+  },
+  'RESET_READ_BY_OTHERS': (state, action) => 0
+}, 0)
 
 const isFetchingReadByOthers = handleActions({
   'BOOK_BY_OTHERS_FETCH': (state, action) => true,

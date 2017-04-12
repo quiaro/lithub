@@ -18,7 +18,7 @@ const actions = createActions({
     DELETE_FROM_HISTORY: response => normalize(response, reviewSchema),
     LATEST_FETCH_DONE: response => normalize(response, [ bookSchema ])
   }
-}, 'BOOK_BY_OTHERS_FETCH', 'BOOK_HISTORY_FETCH', 'BOOK_FETCH', 'BOOK_LATEST_FETCH');
+}, 'BOOK_BY_OTHERS_FETCH', 'RESET_READ_BY_OTHERS', 'BOOK_HISTORY_FETCH', 'BOOK_FETCH', 'BOOK_LATEST_FETCH');
 
 export const fetchBook = (id) => (dispatch) => {
   dispatch(actions.bookFetch());
@@ -38,6 +38,10 @@ export const fetchLatestBooks = () => (dispatch) => {
     error => {
       dispatch(actions.book.latestFetchDone(error));
     });
+}
+
+export const resetReadByOthers = () => (dispatch) => {
+  dispatch(actions.resetReadByOthers());
 }
 
 export const fetchReadByOthers = (start, limit) => (dispatch) => {

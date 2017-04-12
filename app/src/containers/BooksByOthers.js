@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchReadByOthers } from '../actions/books';
+import { fetchReadByOthers, resetReadByOthers } from '../actions/books';
 import CircularProgress from 'material-ui/CircularProgress';
 import BooksByOthersComponent from '../components/BooksByOthers'
 import * as selectors from '../reducers'
@@ -19,11 +19,16 @@ class BooksByOthers extends Component {
     // Every time the component is mounted, a request is made to fetch
     // all the books read by others
     fetchReadByOthers();
-
     window.addEventListener('scroll', this.monitorScroll.bind(this));
   }
 
   componentWillUnmount() {
+    const { resetReadByOthers } = this.props;
+
+    // Every time the component is unmounted, clear the book list
+    // by other users so that when it is mounted again results won't
+    // be stale.
+    resetReadByOthers();
     window.removeEventListener('scroll', this.monitorScroll);
   }
 
@@ -74,7 +79,7 @@ const mapStateToProps = (state) => ({
 
 BooksByOthers = connect(
   mapStateToProps,
-  { fetchReadByOthers }
+  { fetchReadByOthers, resetReadByOthers }
 )(BooksByOthers)
 
 export default BooksByOthers
