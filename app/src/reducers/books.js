@@ -9,9 +9,11 @@ import review from './review';
 export const getAllHistory = (state) => state.historyAllIds.map(id => state.historyById[id]);
 export const getAllReadByOthers = (state) => state.readByOthersAllIds.map(id => state.readByOthersById[id]);
 export const getBook = (state, id) => state.readByOthersById[id];
+export const getLatest = (state) => state.latestAllIds.map(id => state.latestById[id]);
 export const getFromHistory = (state, id) => state.historyById[id];
 export const getIsFetchingBook = (state) => state.isFetchingBook;
 export const getIsFetchingHistory = (state) => state.isFetchingHistory;
+export const getIsFetchingLatest = (state) => state.isFetchingLatest;
 export const getIsFetchingReadByOthers = (state) => state.isFetchingReadByOthers;
 export const getReadByOthersNextIndex = (state) => state.readByOthersNextIndex;
 export const getWasHistoryFetched = (state) => state.wasHistoryFetched;
@@ -123,6 +125,17 @@ const wasHistoryFetched = handleActions({
   'LOG_OUT': (state, action) => false
 }, false);
 
+const latestById = handleAction('BOOK/LATEST_FETCH_DONE',
+  (state, action) => (action.payload.entities.books || {}), {});
+
+const latestAllIds = handleAction('BOOK/LATEST_FETCH_DONE',
+  (state, action) => action.payload.result, []);
+
+const isFetchingLatest = handleActions({
+  'BOOK_LATEST_FETCH': (state, action) => true,
+  'BOOK/LATEST_FETCH_DONE': (state, action) => false
+}, false);
+
 const books = combineReducers({
   readByOthersById,
   readByOthersAllIds,
@@ -132,6 +145,9 @@ const books = combineReducers({
   historyById,
   historyAllIds,
   isFetchingHistory,
+  isFetchingLatest,
+  latestById,
+  latestAllIds,
   wasHistoryFetched
 });
 

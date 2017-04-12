@@ -29,6 +29,8 @@ class BooksByOthers extends Component {
 
   monitorScroll(e) {
     if (!this.isScrolling) {
+      // Scroll optimization with window.requestAnimationFrame
+      // per: https://developer.mozilla.org/en-US/docs/Web/Events/scroll
       window.requestAnimationFrame(() => {
         const htmlEl = document.querySelector('html');
         const bodyEl = document.querySelector('body');

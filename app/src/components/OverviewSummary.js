@@ -10,8 +10,8 @@ const OverviewSummary = (props) => (
     <List>
       <Subheader>Books</Subheader>
       {props.books.map((book) =>
-        <ListItem key={book.id}
-                  primaryText={book.title} />
+        <ListItem key={book._id}
+                  primaryText={book.title + ' by ' + book.author} />
       )}
       <Divider />
       <Subheader>Articles</Subheader>

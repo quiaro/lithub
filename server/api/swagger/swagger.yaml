@@ -285,23 +285,15 @@ paths:
           schema:
             $ref: "#/definitions/Error"            
 
-  /resources:
-    x-swagger-router-controller: Resource
+  /books/latest:
+    x-swagger-router-controller: Overview
     get:
-      security:
-      - Bearer: []
-      description: Returns a paginated list of books, articles and/or quotes that users have read sorted by their modification date by default (unless a tag filter is specified)
-      # used as the method name of the controller
-      operationId: 'getAll'
-      parameters:
-        - name: filter
-          in: query
-          description: Tag filter for the books, articles and/or quotes
-          required: false
-          type: string
+      description: "Returns the 10 latest books that users have read sorted by their last modified date"
+      # controller method name
+      operationId: "getBooks"
       responses:
         "200":
-          description: Array of literary works
+          description: "Array of books"
           schema:
             type: "array"
             items:
@@ -310,114 +302,6 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-
-    post:
-      description: "Add a new resource"
-      operationId: "create"
-      parameters:
-        - name: resource
-          in: body
-          description: "The resource object to be added"
-          required: true
-          schema:
-            $ref: "#/definitions/Resource"
-      responses:
-        '201':
-          description: "Resource successfully added"
-        default:
-          description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
-
-  /resources/{id}:
-    x-swagger-router-controller: Resource
-    get:
-      description: Get a single resource item by its ID
-      operationId: "findById"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the resource to get"
-        required: true
-        type: string
-      responses:
-        '200':
-          description: Literary resource
-          schema:
-            $ref: "#/definitions/Resource"
-        default:
-          description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
-
-    put:
-      description: "Update a resource item"
-      operationId: "updateById"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the resource to update"
-        required: true
-        type: string
-      - name: "updated_resource"
-        in: "body"
-        description: "Updated resource"
-        required: true
-        schema:
-            $ref: "#/definitions/Resource"
-      responses:
-        "201":
-          description: "Literary resource updated"
-          schema:
-            $ref: "#/definitions/Resource"
-        default:
-          description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
-
-    delete:
-      description: "Delete a resource item"
-      operationId: "deleteById"
-      parameters:
-      - name: "id"
-        in: "path"
-        description: "ID of the resource to delete"
-        required: true
-        type: string
-      responses:
-        "204":
-          description: "Literary resource successfully deleted"
-        default:
-          description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
-
-
-  /resources/latest:
-    x-swagger-router-controller: ResourceList
-    get:
-      description: "Returns the 10 latest books, articles and/or quotes that users have read sorted by their modification date by default (unless a tag filter is specified)"
-      # used as the method name of the controller
-      operationId: "getLatest"
-      parameters:
-        - name: filter
-          in: query
-          description: "Tag filter for the books, articles and/or quotes"
-          required: false
-          type: string
-      responses:
-        "200":
-          description: "Array of literary works"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Resource"
-        default:
-          description: Unexpected error
-          schema:
-            $ref: "#/definitions/Error"
-  /swagger:
-    x-swagger-pipe: swagger_raw
 
 # complex objects have schema definitions
 definitions:

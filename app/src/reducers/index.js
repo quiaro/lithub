@@ -13,9 +13,11 @@ export const getAllBooksReadByOthers = (state) => bookSelectors.getAllReadByOthe
 export const getAllBooksHistory = (state) => bookSelectors.getAllHistory(state.books);
 export const getBook = (state, id) => bookSelectors.getBook(state.books, id);
 export const getBookFromHistory = (state, id) => bookSelectors.getFromHistory(state.books, id);
+export const getLatestBooks = (state) => bookSelectors.getLatest(state.books);
 export const getIsFetchingBook = (state) => bookSelectors.getIsFetchingBook(state.books);
 export const getIsFetchingBooksHistory = (state) => bookSelectors.getIsFetchingHistory(state.books);
 export const getIsFetchingBooksReadByOthers = (state) => bookSelectors.getIsFetchingReadByOthers(state.books);
+export const getIsFetchingLatestBooks = (state) => bookSelectors.getIsFetchingLatest(state.books);
 export const getReadByOthersNextIndex = (state) => bookSelectors.getReadByOthersNextIndex(state.books);
 export const getWasHistoryFetched = (state) => bookSelectors.getWasHistoryFetched(state.books);
 
