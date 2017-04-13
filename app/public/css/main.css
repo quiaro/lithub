@@ -554,16 +554,20 @@ main {
 }
 
 /* === .others-section (books, articles, quotes) === */
-.others-section {
+.others-section,
+.others-detail {
   margin: 30px 10px;
   padding: 30px 0;
 }
-.others-section h1 {
+.others-section h1,
+.others-detail h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
   color: #424242;
   margin: 0;
   font-weight: normal;
+}
+.others-section h1 {
   padding-left: 30px;
 }
 
@@ -594,3 +598,87 @@ main {
 .others-section table .col-readers { width: 60px; }
 .others-section table .col-rating { width: 60px; }
 .others-section table .col-action { width: 80px; }
+
+/* === .others-detail (books, articles, quotes) === */
+.others-detail { padding: 20px; }
+.others-detail .actions {
+  text-align: right;
+  padding: 15px 0;
+}
+
+.others-detail main { padding: 0; }
+.others-detail main > .details,
+.others-detail main > .comments {
+  padding: 20px 0;
+}
+@media (min-width: 960px) {
+  .others-detail main { display: flex; }
+  .others-detail main > .details,
+  .others-detail main > .comments { flex: 1 }  
+}
+
+.others-detail main > .details > div { margin-bottom: 5px; }
+.others-detail main > .details > div > b {
+  display: inline-block;
+  width: 38%;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6em;
+  line-height: 1;
+  text-align: right;
+  font-weight: normal;
+}
+.others-detail main > .details > div > b::after {
+  content: ':';
+}
+.others-detail main > .details > div > b + span {
+  display: inline-block;
+  width: 60%;
+  padding-left: 2%;
+}
+.others-detail main > .details .record-date {
+  display: block;
+  padding-left: 40%;
+  font-size: 14px;
+  margin-top: 10px;
+}
+.others-detail main > .details .record-date i {
+  font-style: normal;
+  font-weight: bold;
+}
+.others-detail main > .comments h2 {
+  font-family: 'Great Vibes', cursive;
+  font-weight: normal;
+  font-size: 2.2em;
+  margin: 0 0 10px;
+  line-height: 1;
+}
+.others-detail main > .comments .review {
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border-top: 1px solid #e0e0e0;
+}
+.others-detail main > .comments .review .date {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+.others-detail main > .comments .review .date::after {
+  content: ':';
+}
+.others-detail main > .comments .review .rating {
+  display: inline-block;
+  width: 15%;
+  text-align: right;
+  font-weight: bold;
+  font-size: 16px;
+}
+.others-detail main > .comments .review blockquote {
+  display: inline-block;
+  width: 80%;
+  padding: 0 3% 0 2%;
+  margin: 0;
+}
+.others-detail main > .comments .review blockquote::before,
+.others-detail main > .comments .review blockquote::after {
+  content: "\"";
+}
