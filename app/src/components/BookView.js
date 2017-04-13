@@ -1,4 +1,5 @@
 import React from 'react';
+import unescape from 'validator/lib/unescape';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import moment from 'moment';
@@ -46,7 +47,7 @@ const BookView = ({ book, history }) => {
                 (<div key={index} className='review'>
                   <span className='date'>On {moment(review.last_modified).format('MMM D, YYYY')}</span>
                   <span className='rating'>{review.rating}</span>
-                  {review.comments && <blockquote>{review.comments}</blockquote>}
+                  {review.comments && <blockquote>{unescape(review.comments)}</blockquote>}
                 </div>) : null
             )) }
           </section>

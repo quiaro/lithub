@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import unescape from 'validator/lib/unescape';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 
@@ -58,7 +59,7 @@ const BookFields = ({
       rowsMax={10}
       onChange={onChange}
       name="comments"
-      value={state.comments} />
+      value={unescape(state.comments)} />
   </div>
 );
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import unescape from 'validator/lib/unescape';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import Dialog from 'material-ui/Dialog';
@@ -51,7 +52,7 @@ const BookView = ({ book, history, isDeleteDialogOpen, onOpenDeleteDialog, onClo
             <div className='review'>
               <span className='date'>On {moment(book.last_modified).format('MMM D, YYYY')}</span>
               <span className='rating'>{book.rating}</span>
-              {book.comments && <blockquote>{book.comments}</blockquote>}
+              {book.comments && <blockquote>{unescape(book.comments)}</blockquote>}
             </div>
           </section>
         </main>

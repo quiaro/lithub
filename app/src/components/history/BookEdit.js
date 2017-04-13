@@ -1,9 +1,13 @@
 import React, { PropTypes } from 'react';
-import { Card } from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import moment from 'moment';
 
 import BookFields from '../forms/BookFields';
+
+const buttonStyle = {
+  marginLeft: 15
+}
 
 const EditBookForm = ({
   onSubmit,
@@ -21,26 +25,31 @@ const EditBookForm = ({
         <BookFields onChange={onChange}
                     onSliderChange={onSliderChange}
                     state={state} />
-        <div className='record-date'>
-          <span className='label'>Entry recorded on: <i>{moment(state.last_modified).format('MMM D, YYYY')}</i></span>
-        </div>
+        <span className='record-date'>Entry recorded on: <i>{moment(state.last_modified).format('MMM D, YYYY')}</i></span>
       </div>
     );
   }
 
   return (
-    <div>
-      <h1>Book Detail</h1>
-      <Card className="container">
-        <form onSubmit={onSubmit}>
-          {state.errors.summary && <p className="error-message">{state.errors.summary}</p>}
+    <div className="my-book-edit">
+      <Paper className="content">
+        <h1>Book Detail</h1>
+        <div className="container">
+          <form onSubmit={onSubmit}>
+            {state.errors.summary && <p className="error-message">{state.errors.summary}</p>}
 
-          {body}
+            {body}
 
-          <RaisedButton type="submit" label="Done" primary />
-          <RaisedButton type="cancel" label="Cancel" onTouchTap={() => { history.push(`/history/books/${state._id}`) }} />
-        </form>
-      </Card>
+            <div className='actions'>
+              <RaisedButton type="submit" label="Done" primary />
+              <RaisedButton type="cancel"
+                            label="Cancel"
+                            style={buttonStyle}
+                            onTouchTap={() => { history.push(`/history/books/${state._id}`) }} />
+            </div>
+          </form>
+        </div>
+      </Paper>
     </div>
   )
 };
