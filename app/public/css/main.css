@@ -446,9 +446,10 @@ main {
   left: 44%;
 }
 
-#root {
-  min-width: 480px;
-}
+#root { min-width: 480px; }
+
+#google-signin { margin-bottom: 15px; }
+#google-signin > div { margin: 0 auto; }
 
 /* === .public-home === */
 
@@ -477,22 +478,38 @@ main {
 }
 
 /* === .login === */
-.login {
+.login,
+.sign-up {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
 }
-.login form { padding-bottom: 10px; }
 
-.login a { color: #AD7751; }
-.login a:hover { color: #00bcd4; }
+.login form,
+.sign-up form { padding-bottom: 10px; }
 
-.login > .content {
-  width: 440px;
+.login p.error-message,
+.sign-up p.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 0;
 }
 
-.login > .content  h1 {
+.login a,
+.sign-up a { color: #AD7751; }
+
+.login a:hover,
+.sign-up a:hover { color: #00bcd4; }
+
+.login > .content,
+.sign-up > .content {
+  width: 440px;
+  padding: 30px;
+}
+
+.login > .content  h1,
+.sign-up > .content  h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
   margin: 20px 0 0;
@@ -500,17 +517,21 @@ main {
 }
 
 .login > .content .signup,
-.login > .content .oauth { margin: 20px 0 0; }
-.login > .content .oauth { text-align: center; }
+.login > .content .oauth,
+.sign-up > .content .login-link,
+.sign-up > .content .oauth { margin: 20px 0 0; }
+
+.login > .content .oauth,
+.sign-up > .content .oauth { text-align: center; }
 
 .login > .content .signup p,
-.login > .content .oauth p {
+.login > .content .oauth p,
+.sign-up > .content .login-link p,
+.sign-up > .content .oauth p {
   margin: 0 0 10px;
   font-size: 14px;
   text-align: left;
 }
 
-.login > .content .signup p > a { margin-left: 5px; }
-
-.login #google-signin { margin-bottom: 15px; }
-.login #google-signin > div { margin: 0 auto; }
+.login > .content .signup p > a,
+.sign-up > .content .login-link p > a { margin-left: 5px; }

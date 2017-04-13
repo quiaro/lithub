@@ -6,10 +6,6 @@ import TextField from 'material-ui/TextField';
 import GoogleSignin from '../../containers/forms/GoogleSignin'
 import FacebookSignin from '../../containers/forms/FacebookSignin'
 
-const paperStyles = {
-  padding: 30
-}
-
 const LoginForm = ({
   onSubmit,
   onChange,
@@ -18,7 +14,7 @@ const LoginForm = ({
   user
 }) => (
   <div className="login">
-    <Paper className="content" zDepth={2} style={paperStyles}>
+    <Paper className="content" zDepth={2}>
       <h1>Lit Hub Login</h1>
 
       <form onSubmit={onSubmit}>
