@@ -1,11 +1,14 @@
 import React from 'react';
 import Drawer from 'material-ui/Drawer';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import Divider from 'material-ui/Divider';
 import RaisedButton from 'material-ui/RaisedButton';
 
 const SelectableList = makeSelectable(List);
+
+const buttonStyle = {
+  marginTop: 5,
+  marginLeft: 15
+}
 
 const SideMenu = ({
     isOpen,
@@ -17,15 +20,17 @@ const SideMenu = ({
     <Drawer docked={false}
             width={300}
             open={isOpen}
+            className="side-menu"
             onRequestChange={onUpdate}>
-      <Subheader>My History</Subheader>
+      <h3>My History</h3>
       <SelectableList value={location.pathname} onChange={onMenuChange}>
-        <ListItem primaryText="Books" value="/history/books" />
-        <ListItem primaryText="Articles" value="/history/articles" />
-        <ListItem primaryText="Quotes" value="/history/quotes" />
+        <ListItem primaryText="Books" value="/history/books" hoverColor='#ceb29e' />
+        <ListItem primaryText="Articles" value="/history/articles" hoverColor='#ceb29e' />
+        <ListItem primaryText="Quotes" value="/history/quotes" hoverColor='#ceb29e' />
       </SelectableList>
-      <Divider />
-      <RaisedButton label="Add new item" onTouchTap={() => onBtnClick('/add')} primary={true} />
+      <RaisedButton label="Add new item"
+                    style={buttonStyle}
+                    onTouchTap={() => onBtnClick('/add')} primary={true} />
     </Drawer>
   )
 export default SideMenu;

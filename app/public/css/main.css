@@ -432,6 +432,12 @@ body {
 
 main { padding: 20px 10px 30px; }
 
+form p.error-message {
+  color: #f44336;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
 .app-font {
   font-family: 'Great Vibes', cursive;
 }
@@ -448,6 +454,14 @@ main { padding: 20px 10px 30px; }
 
 #google-signin { margin-bottom: 15px; }
 #google-signin > div { margin: 0 auto; }
+
+/* === .side-menu === */
+.side-menu h3 {
+  color: #ad7751;
+  font-weight: normal;
+  font-size: 1.4em;
+  margin: 30px 15px 0;
+}
 
 /* === .public-home === */
 
@@ -486,13 +500,6 @@ main { padding: 20px 10px 30px; }
 
 .login form,
 .sign-up form { padding-bottom: 10px; }
-
-.login p.error-message,
-.sign-up p.error-message {
-  color: #f44336;
-  font-size: 14px;
-  margin-bottom: 0;
-}
 
 .login a,
 .sign-up a { color: #AD7751; }
