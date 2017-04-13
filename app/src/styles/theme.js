@@ -8,7 +8,7 @@ const palette = {
   primary1Color: cyan500,
   primary2Color: cyan700,
   primary3Color: grey400,
-  accent1Color: '#ad7751',
+  accent1Color: '#d46422',
   accent2Color: grey100,
   accent3Color: grey500,
   textColor: darkBlack,

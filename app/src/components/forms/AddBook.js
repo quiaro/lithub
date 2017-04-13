@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Card } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
 import BookFields from './BookFields';
