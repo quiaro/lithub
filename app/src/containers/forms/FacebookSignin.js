@@ -132,7 +132,7 @@ class FacebookSignin extends React.Component {
            data-size="large"
            data-show-faces="false"
            data-scope="public_profile, email"
-           data-auto-logout-link="false"></div>
+           data-auto-logout-link="false">Sign in with Facebook</div>
     );
   }
 }

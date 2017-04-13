@@ -1,10 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardText } from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import GoogleSignin from '../../containers/forms/GoogleSignin'
 import FacebookSignin from '../../containers/forms/FacebookSignin'
+
+const paperStyles = {
+  padding: 30
+}
 
 const LoginForm = ({
   onSubmit,
@@ -13,41 +17,48 @@ const LoginForm = ({
   errors,
   user
 }) => (
-  <Card className="container">
-    <form onSubmit={onSubmit}>
-      <h2 className="card-heading">Login</h2>
+  <div className="login">
+    <Paper className="content" zDepth={2} style={paperStyles}>
+      <h1>Lit Hub Login</h1>
 
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+      <form onSubmit={onSubmit}>
+        {errors.summary && <p className="error-message">{errors.summary}</p>}
 
-        <TextField
-          floatingLabelText="Email"
-          fullWidth={true}
-          name="email"
-          errorText={errors.email}
-          onChange={onChange}
-          value={user.email}
-        />
+          <TextField
+            floatingLabelText="Email"
+            fullWidth={true}
+            name="email"
+            errorText={errors.email}
+            onChange={onChange}
+            value={user.email}
+          />
 
-        <TextField
-          floatingLabelText="Password"
-          fullWidth={true}
-          type="password"
-          name="password"
-          errorText={errors.password}
-          onChange={onChange}
-          value={user.password}
-        />
+          <TextField
+            floatingLabelText="Password"
+            fullWidth={true}
+            type="password"
+            name="password"
+            errorText={errors.password}
+            onChange={onChange}
+            value={user.password}
+          />
 
-      <RaisedButton type="submit" label="Log in" primary />
-    </form>
+        <RaisedButton type="submit"
+                      label="Log in"
+                      primary={true}
+                      style={{ marginTop: 15 }} />
+      </form>
 
-    <CardText>
-      <p>Don't have an account?</p>
-      <Link to={'/signup'}>Create one</Link>
-      <GoogleSignin onSignIn={onSignIn}></GoogleSignin>
-      <FacebookSignin onSignIn={onSignIn}></FacebookSignin>
-    </CardText>
-  </Card>
+      <div className="signup">
+        <p>Not a member yet? <Link to={'/signup'}>Create an account</Link></p>
+      </div>
+      <div className="oauth">
+        <p>Or authenticate via one of these services:</p>
+        <GoogleSignin onSignIn={onSignIn}></GoogleSignin>
+        <FacebookSignin onSignIn={onSignIn}></FacebookSignin>
+      </div>
+    </Paper>
+  </div>
 );
 
 LoginForm.propTypes = {

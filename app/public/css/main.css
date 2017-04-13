@@ -475,3 +475,42 @@ main {
   font-size: 3.5em;
   margin: 0;
 }
+
+/* === .login === */
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+.login form { padding-bottom: 10px; }
+
+.login a { color: #AD7751; }
+.login a:hover { color: #00bcd4; }
+
+.login > .content {
+  width: 440px;
+}
+
+.login > .content  h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5em;
+  margin: 20px 0 0;
+  color: #424242;
+}
+
+.login > .content .signup,
+.login > .content .oauth { margin: 20px 0 0; }
+.login > .content .oauth { text-align: center; }
+
+.login > .content .signup p,
+.login > .content .oauth p {
+  margin: 0 0 10px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.login > .content .signup p > a { margin-left: 5px; }
+
+.login #google-signin { margin-bottom: 15px; }
+.login #google-signin > div { margin: 0 auto; }
