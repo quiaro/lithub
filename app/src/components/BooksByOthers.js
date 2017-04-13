@@ -1,7 +1,8 @@
 import React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn}
   from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 
 const BooksByOthers = ({ books, history }) => {
@@ -28,31 +29,31 @@ const BooksByOthers = ({ books, history }) => {
   });
 
   return (
-    <div>
+    <Paper className="others-section">
       <h1>Books Read by Others</h1>
       <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
-            <TableHeaderColumn tooltip="Book Title">Title</TableHeaderColumn>
-            <TableHeaderColumn tooltip="Book Author">Author</TableHeaderColumn>
-            <TableHeaderColumn tooltip="Total number of users who have read the book">Readers</TableHeaderColumn>
-            <TableHeaderColumn tooltip="Average rating for the book">Rating</TableHeaderColumn>
-            <TableHeaderColumn></TableHeaderColumn>
+            <TableHeaderColumn className="col-title" tooltip="Book Title">Title</TableHeaderColumn>
+            <TableHeaderColumn className="col-author" tooltip="Book Author">Author</TableHeaderColumn>
+            <TableHeaderColumn className="col-readers" tooltip="Total number of users who have read the book">Readers</TableHeaderColumn>
+            <TableHeaderColumn className="col-rating" tooltip="Average rating for the book">Rating</TableHeaderColumn>
+            <TableHeaderColumn className="col-action"></TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody
           displayRowCheckbox={false}
           deselectOnClickaway={false}
           showRowHover={true}
-          stripedRows={true} >
+          stripedRows={false} >
             {tableData.map( (book, index) => (
               <TableRow key={index}>
-                <TableRowColumn><Link to={`/books/${book._id}`}>{book.title}</Link></TableRowColumn>
-                <TableRowColumn>{book.author}</TableRowColumn>
-                <TableRowColumn>{book.num_reviewers}</TableRowColumn>
-                <TableRowColumn>{book.avg_rating}</TableRowColumn>
-                <TableRowColumn>
-                  <RaisedButton label="I read it"
+                <TableRowColumn className="col-title"><Link to={`/books/${book._id}`}>{book.title}</Link></TableRowColumn>
+                <TableRowColumn className="col-author">{book.author}</TableRowColumn>
+                <TableRowColumn className="col-readers">{book.num_reviewers}</TableRowColumn>
+                <TableRowColumn className="col-rating">{book.avg_rating}</TableRowColumn>
+                <TableRowColumn className="col-action">
+                  <FlatButton label="I read it"
                                 primary={true}
                                 onTouchTap={() => history.push(`/add/book?title=${book.url_title}&author=${book.url_author}`)} />
                 </TableRowColumn>
@@ -60,7 +61,7 @@ const BooksByOthers = ({ books, history }) => {
               ))}
           </TableBody>
         </Table>
-    </div>
+    </Paper>
   )
 }
 

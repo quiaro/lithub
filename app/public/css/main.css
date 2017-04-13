@@ -552,3 +552,45 @@ main {
   padding: 20px 0 10px;
   text-align: center;
 }
+
+/* === .others-section (books, articles, quotes) === */
+.others-section {
+  margin: 30px 10px;
+  padding: 30px 0;
+}
+.others-section h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.5em;
+  color: #424242;
+  margin: 0;
+  font-weight: normal;
+  padding-left: 30px;
+}
+
+.others-section table th,
+.others-section table td {
+  font-size: 14px !important;  /* override material-ui inline styles */
+}
+
+.others-section table .col-title a { color: #AD7751; }
+.others-section table .col-title a:hover { color: #00bcd4; }
+
+.others-section table .col-author,
+.others-section table .col-readers {
+  display: none;
+}
+
+@media (min-width: 650px) {
+  .others-section table .col-author {
+    display: table-cell;
+  }
+}
+@media (min-width: 1024px) {
+  .others-section table .col-readers {
+    display: table-cell;
+  }
+}
+
+.others-section table .col-readers { width: 60px; }
+.others-section table .col-rating { width: 60px; }
+.others-section table .col-action { width: 80px; }
