@@ -553,13 +553,13 @@ main {
   text-align: center;
 }
 
-/* === .others-section (books, articles, quotes) === */
-.others-section,
+/* === .resource-listing (books, articles, quotes) === */
+.resource-listing,
 .others-detail {
   margin: 30px 10px;
   padding: 30px 0;
 }
-.others-section h1,
+.resource-listing h1,
 .others-detail h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
@@ -567,37 +567,38 @@ main {
   margin: 0;
   font-weight: normal;
 }
-.others-section h1 {
+.resource-listing h1 {
   padding-left: 30px;
 }
 
-.others-section table th,
-.others-section table td {
+.resource-listing table th,
+.resource-listing table td {
   font-size: 14px !important;  /* override material-ui inline styles */
 }
 
-.others-section table .col-title a { color: #AD7751; }
-.others-section table .col-title a:hover { color: #00bcd4; }
+.resource-listing table .col-title a { color: #AD7751; }
+.resource-listing table .col-title a:hover { color: #00bcd4; }
 
-.others-section table .col-author,
-.others-section table .col-readers {
+.resource-listing table .col-author,
+.resource-listing table .col-readers,
+.resource-listing table .col-date {
   display: none;
 }
 
 @media (min-width: 650px) {
-  .others-section table .col-author {
+  .resource-listing table .col-author {
     display: table-cell;
   }
 }
 @media (min-width: 1024px) {
-  .others-section table .col-readers {
-    display: table-cell;
-  }
+  .resource-listing.other-books table .col-readers { display: table-cell; }
+  .resource-listing.my-books table .col-date { display: table-cell; }
 }
 
-.others-section table .col-readers { width: 60px; }
-.others-section table .col-rating { width: 60px; }
-.others-section table .col-action { width: 80px; }
+.resource-listing table .col-readers { width: 60px; }
+.resource-listing table .col-rating { width: 60px; }
+.resource-listing table .col-action { width: 80px; }
+.resource-listing table .col-date { width: 120px; }
 
 /* === .others-detail (books, articles, quotes) === */
 .others-detail { padding: 20px; }
@@ -614,7 +615,7 @@ main {
 @media (min-width: 960px) {
   .others-detail main { display: flex; }
   .others-detail main > .details,
-  .others-detail main > .comments { flex: 1 }  
+  .others-detail main > .comments { flex: 1 }
 }
 
 .others-detail main > .details > div { margin-bottom: 5px; }

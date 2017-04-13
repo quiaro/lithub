@@ -29,7 +29,7 @@ const BooksByOthers = ({ books, history }) => {
   });
 
   return (
-    <Paper className="others-section">
+    <Paper className="resource-listing others-books">
       <h1>Books Read by Others</h1>
       <Table selectable={false}>
         <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
