@@ -2,6 +2,14 @@ import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 
+const sliderStyle = {
+  marginTop: 15,
+  marginBottom: 10,
+  marginLeft: '5%',
+  marginRight: '5%',
+  width: '90%'
+}
+
 const BookFields = ({
   onChange,
   onSliderChange,
@@ -26,7 +34,7 @@ const BookFields = ({
       value={state.author}
     />
 
-    <div>
+    <div className="rating">
       <p>What rating would you give this book?</p>
       <Slider
         name="rating"
@@ -34,9 +42,12 @@ const BookFields = ({
         max={10}
         step={1.0}
         value={state.rating}
-        onChange={onSliderChange} />
-      <span>I don't like it</span>
-      <span>I love it</span>
+        onChange={onSliderChange}
+        sliderStyle={sliderStyle} />
+      <div className="legend">
+        <span>I don't like it</span>
+        <span>I love it</span>
+      </div>
     </div>
 
     <TextField

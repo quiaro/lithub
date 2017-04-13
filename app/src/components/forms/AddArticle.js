@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Card } from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -11,7 +10,7 @@ const AddArticleForm = ({
   errors,
   article
 }) => (
-  <Card className="container">
+  <div className="container">
     <form onSubmit={onSubmit}>
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
@@ -65,7 +64,7 @@ const AddArticleForm = ({
       <RaisedButton type="submit" label="Done" primary />
       <RaisedButton type="cancel" label="Cancel" />
     </form>
-  </Card>
+  </div>
 );
 
 AddArticleForm.propTypes = {

@@ -430,9 +430,7 @@ body {
   background-color: #f7f1e0;
 }
 
-main {
-  padding: 20px 10px 30px;
-}
+main { padding: 20px 10px 30px; }
 
 .app-font {
   font-family: 'Great Vibes', cursive;
@@ -555,12 +553,22 @@ main {
 
 /* === .resource-listing (books, articles, quotes) === */
 .resource-listing,
-.others-detail {
+.others-detail,
+.add-item {
   margin: 30px 10px;
   padding: 30px 0;
 }
+@media (min-width: 650px) {
+  .resource-listing,
+  .others-detail,
+  .add-item {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
 .resource-listing h1,
-.others-detail h1 {
+.others-detail h1,
+.add-item h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
   color: #424242;
@@ -601,7 +609,9 @@ main {
 .resource-listing table .col-date { width: 120px; }
 
 /* === .others-detail (books, articles, quotes) === */
-.others-detail { padding: 20px; }
+.others-detail,
+.add-item > .content { padding: 20px; }
+
 .others-detail .actions {
   text-align: right;
   padding: 15px 0;
@@ -683,3 +693,23 @@ main {
 .others-detail main > .comments .review blockquote::after {
   content: "\"";
 }
+
+/* === .add-item (books, articles, quotes) === */
+.add-item {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.add-item > .content { width: 660px; }
+.add-item > .content .book-fields { margin-bottom: 20px; }
+.add-item > .content .book-fields .rating { padding: 20px 0 10px; }
+.add-item > .content .book-fields .rating p { margin: 0 0 5px; }
+
+.add-item > .content .book-fields .rating .legend span {
+  font-size: 12px;
+  font-weight: bold;
+}
+.add-item > .content .book-fields .rating .legend span:first-child { float: left; }
+.add-item > .content .book-fields .rating .legend span:last-child { float: right; }
+.add-item > .content .actions { text-align: right; }

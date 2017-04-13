@@ -18,7 +18,7 @@ class AddBook extends React.Component {
       errors: {},
       title: title,
       author: author,
-      rating: 0,
+      rating: 5,
       comments: ''
     }
     // Bind the methods from the HOC to this class so they alter this

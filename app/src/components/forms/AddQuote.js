@@ -11,7 +11,7 @@ const AddQuoteForm = ({
   errors,
   quote
 }) => (
-  <Card className="container">
+  <div className="container">
     <form onSubmit={onSubmit}>
       {errors.summary && <p className="error-message">{errors.summary}</p>}
 
@@ -65,7 +65,7 @@ const AddQuoteForm = ({
       <RaisedButton type="submit" label="Done" primary />
       <RaisedButton type="cancel" label="Cancel" />
     </form>
-  </Card>
+  </div>
 );
 
 AddQuoteForm.propTypes = {

@@ -4,6 +4,10 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 import BookFields from './BookFields';
 
+const buttonStyle = {
+  marginLeft: 20
+}
+
 const AddBookForm = ({
   onSubmit,
   onChange,
@@ -11,7 +15,7 @@ const AddBookForm = ({
   history,
   state
 }) => (
-  <Card className="container">
+  <div className="container">
     <form onSubmit={onSubmit}>
       {state.errors.summary && <p className="error-message">{state.errors.summary}</p>}
 
@@ -19,12 +23,15 @@ const AddBookForm = ({
                     onSliderChange={onSliderChange}
                     state={state} />
 
-      <RaisedButton type="submit" label="Done" primary />
-      <RaisedButton type="cancel"
-                    label="Cancel"
-                    onTouchTap={() => { history.push('/history/books') }} />
+      <div className='actions'>
+        <RaisedButton type="submit" label="Done" primary={true} />
+        <RaisedButton type="cancel"
+                      label="Cancel"
+                      style={buttonStyle}
+                      onTouchTap={() => { history.push('/history/books') }} />
+      </div>
     </form>
-  </Card>
+  </div>
 );
 
 AddBookForm.propTypes = {
