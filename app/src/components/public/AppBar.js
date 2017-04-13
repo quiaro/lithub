@@ -18,7 +18,7 @@ const toolbarButton = {
 }
 
 const PublicAppBar = ({ history }) => (
-  <Toolbar className="nav" style={toolbarStyles}>
+  <Toolbar className="app-bar" style={toolbarStyles}>
     <ToolbarGroup>
       <ToolbarTitle text="Lit Hub" style={toolbarTitleStyles} />
     </ToolbarGroup>
