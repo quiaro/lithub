@@ -151,9 +151,9 @@ paths:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-            
+
   /my/books:
-    x-swagger-router-controller: MyBooks
+    x-swagger-router-controller: BookHistory
     get:
       security:
       - Bearer: []
@@ -226,10 +226,10 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: "#/definitions/Error"            
+            $ref: "#/definitions/Error"
 
   /books:
-    x-swagger-router-controller: BooksByOthers
+    x-swagger-router-controller: Books
     get:
       security:
       - Bearer: []
@@ -244,7 +244,7 @@ paths:
           in: query
           description: Page index start
           required: false
-          type: string  
+          type: string
       responses:
         "200":
           description: Array of books
@@ -257,12 +257,12 @@ paths:
                   $ref: "#/definitions/Resource"
               meta:
                 type: "object"
-              
+
         default:
           description: Unexpected error
           schema:
             $ref: "#/definitions/Error"
-            
+
   /books/{id}:
     x-swagger-router-controller: Book
     get:
@@ -283,7 +283,7 @@ paths:
         default:
           description: Unexpected error
           schema:
-            $ref: "#/definitions/Error"            
+            $ref: "#/definitions/Error"
 
   /books/latest:
     x-swagger-router-controller: Overview
@@ -315,7 +315,7 @@ definitions:
         type: string
       errors:
         type: object
-        
+
   User:
     type: "object"
     properties:
@@ -334,7 +334,7 @@ definitions:
       token:
         type: "string"
         description: "User token from a 3rd-party OAuth system to be verified by the app server"
-        
+
   Review:
     type: "object"
     properties:
@@ -361,7 +361,7 @@ definitions:
         type: "string"
         format: "date-time"
         description: "Date when the user last modified the review"
-        
+
   Resource:
     type: "object"
     properties:
@@ -386,7 +386,7 @@ definitions:
       last_modified:
         type: "string"
         format: "date-time"
-        description: "Date when the resource was last modified"        
+        description: "Date when the resource was last modified"
 
   Token:
     type: object
