@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchBookHistory, deleteBookFromHistory } from '../../actions/books';
+import { fetch, remove } from '../../actions/book-history';
+import * as apiBookHistory from '../../api/book-history';
 import CircularProgress from 'material-ui/CircularProgress';
 import BookViewComponent from '../../components/history/BookView'
 import * as selectors from '../../reducers'
-import * as apiBooks from '../../api/books';
 
 class BookView extends Component {
 
@@ -20,10 +20,10 @@ class BookView extends Component {
   }
 
   componentDidMount() {
-    const { wasHistoryFetched, fetchBookHistory } = this.props;
+    const { wasHistoryFetched, fetch } = this.props;
 
     if (!wasHistoryFetched) {
-      fetchBookHistory();
+      fetch();
     }
   }
 
@@ -36,18 +36,18 @@ class BookView extends Component {
   }
 
   onDeleteHandler() {
-    const { book, deleteBookFromHistory, history } = this.props;
-    apiBooks.deleteBookFromHistory(book).then(() => {
+    const { book, remove, history } = this.props;
+    apiBookHistory.remove(book).then(() => {
       // Dispatch action to delete book review from history
-      deleteBookFromHistory(book);
+      remove(book);
       history.push('/history/books');
     })
   }
 
   render() {
-    const { book, isFetchingBooksHistory, history } = this.props;
+    const { book, isFetchingHistory, history } = this.props;
 
-    if (isFetchingBooksHistory) {
+    if (isFetchingHistory) {
       // Show loading spinner if the book history is being loaded
       return <CircularProgress size={60} thickness={7} />
     }
@@ -62,13 +62,13 @@ class BookView extends Component {
 
 const mapStateToProps = (state, props) => ({
   book: selectors.getBookFromHistory(state, props.match.params.id),
-  isFetchingBooksHistory: selectors.getIsFetchingBooksHistory(state),
-  wasHistoryFetched: selectors.getWasHistoryFetched(state)
+  isFetchingHistory: selectors.getIsFetchingBookHistory(state),
+  wasHistoryFetched: selectors.getWasBookHistoryFetched(state)
 })
 
 BookView = connect(
   mapStateToProps,
-  { fetchBookHistory, deleteBookFromHistory }
+  { fetch, remove }
 )(BookView)
 
 export default BookView

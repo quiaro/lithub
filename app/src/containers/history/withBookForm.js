@@ -2,7 +2,7 @@ import React from 'react';
 import isEmpty from 'validator/lib/isEmpty';
 import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
-import * as apiBooks from '../../api/books';
+import * as apiBookHistory from '../../api/book-history';
 
 function withBookForm(WrappedComponent, apiMethod) {
 
@@ -20,7 +20,7 @@ function withBookForm(WrappedComponent, apiMethod) {
       let validatedForm = this.validateForm();
 
       if (validatedForm.isValid) {
-        apiBooks[apiMethod](validatedForm.payload).then((review) => {
+        apiBookHistory[apiMethod](validatedForm.payload).then((review) => {
           // Dispatch action to add review to history
           this.props[apiMethod](review);
           this.setState({ errors: {} });

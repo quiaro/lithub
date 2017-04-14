@@ -4,7 +4,7 @@ import SelectField from 'material-ui/SelectField';
 import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem';
 
-import AddBook from '../containers/forms/AddBook';
+import AddBook from '../containers/history/BookAdd';
 import AddArticle from '../containers/forms/AddArticle';
 import AddQuote from '../containers/forms/AddQuote';
 

@@ -3,7 +3,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import moment from 'moment';
 
-import BookFields from '../forms/BookFields';
+import BookFields from './BookFields';
 
 const buttonStyle = {
   marginLeft: 15

@@ -1,25 +1,29 @@
 import { combineReducers } from 'redux'
+import books, * as bookSelectors from './books/books'
+import bookHistory, * as bookHistorySelectors from './books/history'
 import articles, * as articleSelectors from './articles'
-import books, * as bookSelectors from './books'
 import quotes, * as quoteSelectors from './quotes'
 import isAuthenticated from './auth'
 import currentUser from './currentUser'
 
-export const getAllArticles = (state) => articleSelectors.getAll(state.articles);
-export const getIsFetchingArticles = (state) => articleSelectors.getIsFetching(state.articles);
-
 // --- BOOKS
-export const getAllBooksReadByOthers = (state) => bookSelectors.getAllReadByOthers(state.books);
-export const getAllBooksHistory = (state) => bookSelectors.getAllHistory(state.books);
-export const getBook = (state, id) => bookSelectors.getBook(state.books, id);
-export const getBookFromHistory = (state, id) => bookSelectors.getFromHistory(state.books, id);
+export const getAllBooksReadByOthers = (state) => bookSelectors.getAll(state.books);
+export const getBook = (state, id) => bookSelectors.get(state.books, id);
 export const getLatestBooks = (state) => bookSelectors.getLatest(state.books);
 export const getIsFetchingBook = (state) => bookSelectors.getIsFetchingBook(state.books);
-export const getIsFetchingBooksHistory = (state) => bookSelectors.getIsFetchingHistory(state.books);
-export const getIsFetchingBooksReadByOthers = (state) => bookSelectors.getIsFetchingReadByOthers(state.books);
+export const getIsFetchingBooksReadByOthers = (state) => bookSelectors.getIsFetchingBooks(state.books);
 export const getIsFetchingLatestBooks = (state) => bookSelectors.getIsFetchingLatest(state.books);
-export const getReadByOthersNextIndex = (state) => bookSelectors.getReadByOthersNextIndex(state.books);
-export const getWasHistoryFetched = (state) => bookSelectors.getWasHistoryFetched(state.books);
+export const getBooksNextIndex = (state) => bookSelectors.getBooksNextIndex(state.books);
+
+// --- BOOK HISTORY
+export const getAllBookHistory = (state) => bookHistorySelectors.getAll(state.bookHistory);
+export const getBookFromHistory = (state, id) => bookHistorySelectors.get(state.bookHistory, id);
+export const getIsFetchingBookHistory = (state) => bookHistorySelectors.getIsFetching(state.bookHistory);
+export const getWasBookHistoryFetched = (state) => bookHistorySelectors.getWasFetched(state.bookHistory);
+
+
+export const getAllArticles = (state) => articleSelectors.getAll(state.articles);
+export const getIsFetchingArticles = (state) => articleSelectors.getIsFetching(state.articles);
 
 export const getAllArticlesHistory = (state) => articleSelectors.getAllHistory(state.articles);
 export const getIsFetchingArticlesHistory = (state) => articleSelectors.getIsFetchingHistory(state.articles);
@@ -34,6 +38,7 @@ const reducers = combineReducers({
   isAuthenticated,
   currentUser,
   books,
+  bookHistory,
   articles,
   quotes
 })

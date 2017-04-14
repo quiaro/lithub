@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
 
-import { fetchBookHistory, editBookInHistory } from '../../actions/books';
-import withBookForm from '../forms/withBookForm';
+import { fetch, edit } from '../../actions/book-history';
+import withBookForm from './withBookForm';
 import EditBookForm from '../../components/history/BookEdit';
 import * as selectors from '../../reducers'
 
@@ -30,13 +30,13 @@ class EditBook extends React.Component {
   }
 
   componentDidMount() {
-    const { wasHistoryFetched, fetchBookHistory } = this.props;
+    const { wasHistoryFetched, fetch } = this.props;
 
     // If the book history hasn't been loaded into the store, a request
     // is made to load it. The book history should include the book that is
     // going to be edited.
     if (!wasHistoryFetched) {
-      fetchBookHistory();
+      fetch();
     }
   }
 
@@ -74,17 +74,17 @@ class EditBook extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   book: selectors.getBookFromHistory(state, props.match.params.id),
-  isFetchingBooksHistory: selectors.getIsFetchingBooksHistory(state),
-  wasHistoryFetched: selectors.getWasHistoryFetched(state)
+  isFetchingBooksHistory: selectors.getIsFetchingBookHistory(state),
+  wasHistoryFetched: selectors.getWasBookHistoryFetched(state)
 })
 
 // Connect component to redux store and add props to it
 EditBook = connect(
   mapStateToProps,
-  { editBookInHistory, fetchBookHistory }
+  { edit, fetch }
 )(EditBook);
 
 // Extend component with functions from an HOC
-EditBook = withBookForm(EditBook, 'editBookInHistory');
+EditBook = withBookForm(EditBook, 'edit');
 
 export default EditBook;

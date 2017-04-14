@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import withBookForm from './withBookForm';
-import { addBookToHistory } from '../../actions/books';
-import AddBookForm from '../../components/forms/AddBook';
+import { add } from '../../actions/book-history';
+import AddBookForm from '../../components/history/BookAdd';
 
 class AddBook extends React.Component {
 
@@ -56,7 +56,7 @@ class AddBook extends React.Component {
   }
 }
 
-AddBook = connect(undefined, { addBookToHistory })(AddBook);
-AddBook = withBookForm(AddBook, 'addBookToHistory');
+AddBook = connect(undefined, { add })(AddBook);
+AddBook = withBookForm(AddBook, 'add');
 
 export default AddBook;
