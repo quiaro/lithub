@@ -1,19 +1,25 @@
 import { normalize, schema } from 'normalizr';
 import { createActions } from 'redux-actions';
-import * as api from '../api'
+import * as apiArticles from '../api/articles'
 
-const articleSchema = new schema.Entity('articles');
+const articleSchema = new schema.Entity('articles', {}, { idAttribute: '_id' });
 
 const actions = createActions({
   ARTICLE: {
-    FETCH_DONE: response => normalize(response, [ articleSchema ]),
-    HISTORY_FETCH_DONE: response => normalize(response, [ articleSchema ])
+    FETCH_DONE: response => normalize(response, articleSchema)
+  },
+  ARTICLES: {
+    FETCH_DONE: [
+      (data) => normalize(data, [ articleSchema ]),
+      (data, meta) => meta
+    ],
+    LATEST_FETCH_DONE: response => normalize(response, [ articleSchema ])
   }
-}, 'ARTICLE_FETCH', 'ARTICLE_HISTORY_FETCH');
+}, 'ARTICLE_FETCH', 'ARTICLES_FETCH', 'ARTICLES_LATEST_FETCH', 'RESET_ARTICLES');
 
-export const fetchArticles = () => (dispatch) => {
+export const fetchArticle = (id) => (dispatch) => {
   dispatch(actions.articleFetch());
-  return api.fetchArticles().then(response => {
+  return apiArticles.fetchArticle(id).then(response => {
       dispatch(actions.article.fetchDone(response))
     },
     error => {
@@ -21,12 +27,30 @@ export const fetchArticles = () => (dispatch) => {
     });
 }
 
-export const fetchArticlesHistory = () => (dispatch) => {
-  dispatch(actions.articleHistoryFetch());
-  return api.fetchArticlesHistory().then(response => {
-      dispatch(actions.article.historyFetchDone(response))
+export const fetchReadByOthers = (start, limit) => (dispatch) => {
+  // Once the start index value is -1, it means there are
+  // no more results to fetch
+  if (start !== -1) {
+    dispatch(actions.articlesFetch());
+    return apiArticles.fetchReadByOthers(start, limit).then(response => {
+        dispatch(actions.articles.fetchDone(response.data, response.meta))
+      },
+      error => {
+        dispatch(actions.articles.fetchDone(error));
+      });
+  }
+}
+
+export const fetchLatestArticles = () => (dispatch) => {
+  dispatch(actions.articlesLatestFetch());
+  return apiArticles.fetchLatest().then(response => {
+      dispatch(actions.articles.latestFetchDone(response))
     },
     error => {
-      dispatch(actions.article.historyFetchDone(error));
+      dispatch(actions.articles.latestFetchDone(error));
     });
+}
+
+export const resetArticles = () => (dispatch) => {
+  dispatch(actions.resetArticles());
 }

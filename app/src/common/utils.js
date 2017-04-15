@@ -24,3 +24,16 @@ export const loadScript = (src, id, callback) => {
  */
 export const serverDelay = (ms) =>
   new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Extract the value for a query param found in the url search string
+ * @param {string} urlSearch - url search string
+ * @param {string} param - param searched for
+ */
+export const getQueryParam = (urlSearch, param) => {
+  // Append an ampersand so it's easier to look for the param with a regex
+  const str = urlSearch + "&";
+  const paramRe = new RegExp(`${param}=(.*?)&`);
+  const match = paramRe.exec(str);
+  return match && decodeURIComponent(match[1]);
+}

@@ -6,12 +6,21 @@ import SideMenu from './SideMenu'
 import Dashboard from './Dashboard';
 import AddItem from './AddItem';
 import PrivateRoute from './PrivateRoute';
+
+// Book Components
 import BooksReadByOthers from '../containers/BooksByOthers';
 import BookView from '../containers/BookView';
-import BooksHistory from '../containers/history/Books';
+import BookHistory from '../containers/history/Books';
 import BookViewHistory from '../containers/history/BookView';
 import BookEditHistory from '../containers/history/BookEdit';
-import ArticlesHistory from '../containers/history/Articles';
+
+// Article Components
+import ArticlesReadByOthers from '../containers/ArticlesByOthers';
+import ArticleView from '../containers/ArticleView';
+import ArticleHistory from '../containers/history/Articles';
+import ArticleViewHistory from '../containers/history/ArticleView';
+import ArticleEditHistory from '../containers/history/ArticleEdit';
+
 import QuotesHistory from '../containers/history/Quotes';
 
 const App = (props) => {
@@ -46,12 +55,21 @@ const App = (props) => {
                       onMenuChange={onMenuChange}
                       onBtnClick={redirect} />
         <PrivateRoute path='/add' component={AddItem} isAuthenticated={isAuthenticated}/>
+
+        {/* Routes for books */}
         <PrivateRoute path='/books/:id' component={BookView} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/books' component={BooksReadByOthers} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id/edit' component={BookEditHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/books/:id' component={BookViewHistory} isAuthenticated={isAuthenticated}/>
-        <PrivateRoute path='/history/books' component={BooksHistory} isAuthenticated={isAuthenticated}/>
-        <PrivateRoute path='/history/articles' component={ArticlesHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/books' component={BookHistory} isAuthenticated={isAuthenticated}/>
+
+        {/* Routes for articles */}
+        <PrivateRoute path='/articles/:id' component={ArticleView} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/articles' component={ArticlesReadByOthers} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/articles/:id/edit' component={ArticleEditHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/articles/:id' component={ArticleViewHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/articles' component={ArticleHistory} isAuthenticated={isAuthenticated}/>
+
         <PrivateRoute path='/history/quotes' component={QuotesHistory} isAuthenticated={isAuthenticated}/>
       </Switch>
     </div>

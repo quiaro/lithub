@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import withBookForm from './withBookForm';
-import { add } from '../../actions/book-history';
-import AddBookForm from '../../components/history/BookAdd';
+import withArticleForm from './withArticleForm';
+import { add } from '../../actions/article-history';
+import AddArticleForm from '../../components/history/ArticleAdd';
 import { getQueryParam } from '../../common/utils';
 
-class AddBook extends React.Component {
+class AddArticle extends React.Component {
 
   constructor(props) {
     super(props);
@@ -19,6 +19,7 @@ class AddBook extends React.Component {
       errors: {},
       title: title,
       author: author,
+      link: '',
       rating: 5,
       comments: ''
     }
@@ -36,15 +37,15 @@ class AddBook extends React.Component {
   render() {
     const { history } = this.props;
 
-    return (<AddBookForm onSubmit={this.processForm}
-                         onChange={this.updateForm}
-                         onSliderChange={this.updateRating}
-                         history={history}
-                         state={this.state} />);
+    return (<AddArticleForm onSubmit={this.processForm}
+                            onChange={this.updateForm}
+                            onSliderChange={this.updateRating}
+                            history={history}
+                            state={this.state} />);
   }
 }
 
-AddBook = connect(undefined, { add })(AddBook);
-AddBook = withBookForm(AddBook, 'add');
+AddArticle = connect(undefined, { add })(AddArticle);
+AddArticle = withArticleForm(AddArticle, 'add');
 
-export default AddBook;
+export default AddArticle;

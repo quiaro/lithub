@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux'
 import books, * as bookSelectors from './books/books'
 import bookHistory, * as bookHistorySelectors from './books/history'
-import articles, * as articleSelectors from './articles'
+import articles, * as articleSelectors from './articles/articles'
+import articleHistory, * as articleHistorySelectors from './articles/history'
+
 import quotes, * as quoteSelectors from './quotes'
 import isAuthenticated from './auth'
 import currentUser from './currentUser'
@@ -21,12 +23,21 @@ export const getBookFromHistory = (state, id) => bookHistorySelectors.get(state.
 export const getIsFetchingBookHistory = (state) => bookHistorySelectors.getIsFetching(state.bookHistory);
 export const getWasBookHistoryFetched = (state) => bookHistorySelectors.getWasFetched(state.bookHistory);
 
+// --- ARTICLES
+export const getAllArticlesReadByOthers = (state) => articleSelectors.getAll(state.articles);
+export const getArticle = (state, id) => articleSelectors.get(state.articles, id);
+export const getLatestArticles = (state) => articleSelectors.getLatest(state.articles);
+export const getIsFetchingArticle = (state) => articleSelectors.getIsFetchingArticle(state.articles);
+export const getIsFetchingArticlesReadByOthers = (state) => articleSelectors.getIsFetchingArticles(state.articles);
+export const getIsFetchingLatestArticles = (state) => articleSelectors.getIsFetchingLatest(state.articles);
+export const getArticlesNextIndex = (state) => articleSelectors.getArticlesNextIndex(state.articles);
 
-export const getAllArticles = (state) => articleSelectors.getAll(state.articles);
-export const getIsFetchingArticles = (state) => articleSelectors.getIsFetching(state.articles);
+// --- ARTICLE HISTORY
+export const getAllArticleHistory = (state) => articleHistorySelectors.getAll(state.articleHistory);
+export const getArticleFromHistory = (state, id) => articleHistorySelectors.get(state.articleHistory, id);
+export const getIsFetchingArticleHistory = (state) => articleHistorySelectors.getIsFetching(state.articleHistory);
+export const getWasArticleHistoryFetched = (state) => articleHistorySelectors.getWasFetched(state.articleHistory);
 
-export const getAllArticlesHistory = (state) => articleSelectors.getAllHistory(state.articles);
-export const getIsFetchingArticlesHistory = (state) => articleSelectors.getIsFetchingHistory(state.articles);
 
 export const getAllQuotes = (state) => quoteSelectors.getAll(state.quotes);
 export const getIsFetchingQuotes = (state) => quoteSelectors.getIsFetching(state.quotes);
@@ -40,6 +51,7 @@ const reducers = combineReducers({
   books,
   bookHistory,
   articles,
+  articleHistory,
   quotes
 })
 

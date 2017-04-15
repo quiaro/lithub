@@ -257,7 +257,6 @@ paths:
                   $ref: "#/definitions/Resource"
               meta:
                 type: "object"
-
         default:
           description: Unexpected error
           schema:
@@ -294,6 +293,156 @@ paths:
       responses:
         "200":
           description: "Array of books"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Resource"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /my/articles:
+    x-swagger-router-controller: ArticleHistory
+    get:
+      security:
+      - Bearer: []
+      description: Get the list of articles read by the token owner and his reviews
+      responses:
+        '200':
+          description: "List of articles with reviews"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      security:
+      - Bearer: []
+      description: Create a new article entry if there isn't one and save the user's review
+      parameters:
+      - name: review
+        in: body
+        description: "Article review by a user"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '201':
+          description: "Review saved successfully"
+          schema:
+            $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      security:
+      - Bearer: []
+      description: Update an article entry and the user's corresponding review. If the article information is updated and the article has already received reviews from other users, then a new article entry is created.
+      parameters:
+      - name: review
+        in: body
+        description: "Article review by a user"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '200':
+          description: "Review saved successfully"
+          schema:
+            $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+      - Bearer: []
+      description: Delete a user's review from a article entry. If the article entry only has that user review, then the article entry is deleted as well.
+      parameters:
+      - name: review
+        in: body
+        description: "Article review to delete"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '204':
+          description: "Review deleted successfully"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /articles:
+    x-swagger-router-controller: Articles
+    get:
+      security:
+      - Bearer: []
+      description: Returns a paginated list of articles that other users have read sorted by their last modified date
+      parameters:
+        - name: limit
+          in: query
+          description: Number of articles per page
+          required: false
+          type: string
+        - name: start
+          in: query
+          description: Page index start
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Array of articles
+          schema:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Resource"
+              meta:
+                type: "object"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /articles/{id}:
+    x-swagger-router-controller: Article
+    get:
+      security:
+      - Bearer: []
+      description: Returns an article
+      parameters:
+        - name: id
+          in: path
+          description: Article ID
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Article
+          schema:
+            $ref: "#/definitions/Resource"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /articles/latest:
+    x-swagger-router-controller: Overview
+    get:
+      description: "Returns the 10 latest articles that users have read sorted by their last modified date"
+      # controller method name
+      operationId: "getArticles"
+      responses:
+        "200":
+          description: "Array of articles"
           schema:
             type: "array"
             items:
@@ -347,6 +496,9 @@ definitions:
       author:
         type: "string"
         description: "Author of the resource"
+      link:
+        type: "string"
+        description: "Resource URL (if it applies)"
       rating:
         type: "number"
         description: "User rating for the resource"
@@ -374,6 +526,9 @@ definitions:
       author:
         type: "string"
         description: "Author of the resource"
+      link:
+        type: "string"
+        description: "Resource URL (if it applies)"
       reviews:
         type: "array"
         items:

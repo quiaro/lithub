@@ -3,13 +3,13 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import moment from 'moment';
 
-import BookFields from './BookFields';
+import ArticleFields from './ArticleFields';
 
 const buttonStyle = {
   marginLeft: 15
 }
 
-const EditBookForm = ({
+const EditArticleForm = ({
   onSubmit,
   onChange,
   onSliderChange,
@@ -22,9 +22,9 @@ const EditBookForm = ({
   } else {
     body = (
       <div>
-        <BookFields onChange={onChange}
-                    onSliderChange={onSliderChange}
-                    state={state} />
+        <ArticleFields onChange={onChange}
+                       onSliderChange={onSliderChange}
+                       state={state} />
         <span className='record-date'>Entry recorded on: <i>{moment(state.last_modified).format('MMM D, YYYY')}</i></span>
       </div>
     );
@@ -33,7 +33,7 @@ const EditBookForm = ({
   return (
     <div className="my-resource-edit">
       <Paper className="content">
-        <h1>Book Detail</h1>
+        <h1>Article Detail</h1>
         <div className="container">
           <form onSubmit={onSubmit}>
             {state.errors.summary && <p className="error-message">{state.errors.summary}</p>}
@@ -45,7 +45,7 @@ const EditBookForm = ({
               <RaisedButton type="cancel"
                             label="Cancel"
                             style={buttonStyle}
-                            onTouchTap={() => { history.push(`/history/books/${state._id}`) }} />
+                            onTouchTap={() => { history.push(`/history/articles/${state._id}`) }} />
             </div>
           </form>
         </div>
@@ -54,7 +54,7 @@ const EditBookForm = ({
   )
 };
 
-EditBookForm.propTypes = {
+EditArticleForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   onSliderChange: PropTypes.func.isRequired,
@@ -62,4 +62,4 @@ EditBookForm.propTypes = {
   state: PropTypes.object.isRequired
 };
 
-export default EditBookForm;
+export default EditArticleForm;

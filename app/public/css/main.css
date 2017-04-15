@@ -561,27 +561,27 @@ form p.error-message {
 /* === .resource-listing (books, articles, quotes) === */
 .resource-listing,
 .others-detail,
-.my-book-view,
+.my-resource-view,
 .add-item,
-.my-book-edit {
+.my-resource-edit {
   margin: 30px 10px;
   padding: 30px 0;
 }
 @media (min-width: 650px) {
   .resource-listing,
   .others-detail,
-  .my-book-view,
+  .my-resource-view,
   .add-item,
-  .my-book-edit {
+  .my-resource-edit {
     margin-left: 20px;
     margin-right: 20px;
   }
 }
 .resource-listing h1,
 .others-detail h1,
-.my-book-view h1,
+.my-resource-view h1,
 .add-item h1,
-.my-book-edit h1 {
+.my-resource-edit h1 {
   font-family: 'Great Vibes', cursive;
   font-size: 2.5em;
   color: #424242;
@@ -614,6 +614,8 @@ form p.error-message {
 @media (min-width: 1024px) {
   .resource-listing.other-books table .col-readers { display: table-cell; }
   .resource-listing.my-books table .col-date { display: table-cell; }
+  .resource-listing.other-articles table .col-readers { display: table-cell; }
+  .resource-listing.my-articles table .col-date { display: table-cell; }
 }
 
 .resource-listing table .col-readers { width: 60px; }
@@ -623,40 +625,40 @@ form p.error-message {
 
 /* === .others-detail (books, articles, quotes) === */
 .others-detail,
-.my-book-view,
+.my-resource-view,
 .add-item > .content,
-.my-book-edit > .content { padding: 20px; }
+.my-resource-edit > .content { padding: 20px; }
 
 .others-detail .actions,
-.my-book-view .actions {
+.my-resource-view .actions {
   text-align: right;
   padding: 15px 0;
 }
 
 .others-detail main,
-.my-book-view main { padding: 0; }
+.my-resource-view main { padding: 0; }
 
 .others-detail main > .details,
 .others-detail main > .comments,
-.my-book-view main > .details,
-.my-book-view main > .comments {
+.my-resource-view main > .details,
+.my-resource-view main > .comments {
   padding: 20px 0;
 }
 @media (min-width: 960px) {
   .others-detail main,
-  .my-book-view main { display: flex; }
+  .my-resource-view main { display: flex; }
 
   .others-detail main > .details,
   .others-detail main > .comments,
-  .my-book-view main > .details,
-  .my-book-view main > .comments { flex: 1 }
+  .my-resource-view main > .details,
+  .my-resource-view main > .comments { flex: 1 }
 }
 
 .others-detail main > .details > div,
-.my-book-view main > .details > div { margin-bottom: 5px; }
+.my-resource-view main > .details > div { margin-bottom: 5px; }
 
 .others-detail main > .details > div > b,
-.my-book-view main > .details > div > b {
+.my-resource-view main > .details > div > b {
   display: inline-block;
   width: 38%;
   font-family: 'Great Vibes', cursive;
@@ -666,29 +668,29 @@ form p.error-message {
   font-weight: normal;
 }
 .others-detail main > .details > div > b::after,
-.my-book-view main > .details > div > b::after {
+.my-resource-view main > .details > div > b::after {
   content: ':';
 }
 .others-detail main > .details > div > b + span,
-.my-book-view main > .details > div > b + span {
+.my-resource-view main > .details > div > b + span {
   display: inline-block;
   width: 60%;
   padding-left: 2%;
 }
 .others-detail main > .details .record-date,
-.my-book-view main > .details .record-date {
+.my-resource-view main > .details .record-date {
   display: block;
   padding-left: 40%;
   font-size: 14px;
   margin-top: 10px;
 }
 .others-detail main > .details .record-date i,
-.my-book-view main > .details .record-date i {
+.my-resource-view main > .details .record-date i {
   font-style: normal;
   font-weight: bold;
 }
 .others-detail main > .comments h2,
-.my-book-view main > .comments h2 {
+.my-resource-view main > .comments h2 {
   font-family: 'Great Vibes', cursive;
   font-weight: normal;
   font-size: 2.2em;
@@ -696,23 +698,23 @@ form p.error-message {
   line-height: 1;
 }
 .others-detail main > .comments .review,
-.my-book-view main > .comments .review {
+.my-resource-view main > .comments .review {
   padding-top: 10px;
   padding-bottom: 5px;
   border-top: 1px solid #e0e0e0;
 }
 .others-detail main > .comments .review .date,
-.my-book-view main > .comments .review .date {
+.my-resource-view main > .comments .review .date {
   display: block;
   font-size: 12px;
   margin-bottom: 6px;
 }
 .others-detail main > .comments .review .date::after,
-.my-book-view main > .comments .review .date::after {
+.my-resource-view main > .comments .review .date::after {
   content: ':';
 }
 .others-detail main > .comments .review .rating,
-.my-book-view main > .comments .review .rating {
+.my-resource-view main > .comments .review .rating {
   display: inline-block;
   width: 15%;
   text-align: right;
@@ -720,7 +722,7 @@ form p.error-message {
   font-size: 16px;
 }
 .others-detail main > .comments .review blockquote,
-.my-book-view main > .comments .review blockquote {
+.my-resource-view main > .comments .review blockquote {
   display: inline-block;
   width: 80%;
   padding: 0 3% 0 2%;
@@ -728,52 +730,76 @@ form p.error-message {
 }
 .others-detail main > .comments .review blockquote::before,
 .others-detail main > .comments .review blockquote::after,
-.my-book-view main > .comments .review blockquote::before,
-.my-book-view main > .comments .review blockquote::after {
+.my-resource-view main > .comments .review blockquote::before,
+.my-resource-view main > .comments .review blockquote::after {
   content: "\"";
 }
 
 /* === .add-item (books, articles, quotes) === */
 .add-item,
-.my-book-edit {
+.my-resource-edit {
   display: flex;
   margin-top: 10px;
   align-items: center;
   justify-content: center;
 }
 .add-item > .content,
-.my-book-edit > .content { width: 660px; }
+.my-resource-edit > .content { width: 660px; }
 
 .add-item > .content .book-fields,
-.my-book-edit > .content .book-fields { margin-bottom: 20px; }
+.add-item > .content .article-fields,
+.add-item > .content .quote-fields,
+.my-resource-edit > .content .book-fields,
+.my-resource-edit > .content .article-fields,
+.my-resource-edit > .content .quote-fields { margin-bottom: 20px; }
 
 .add-item > .content .book-fields .rating,
-.my-book-edit > .content .book-fields .rating { padding: 20px 0 10px; }
+.add-item > .content .article-fields .rating,
+.add-item > .content .quote-fields .rating,
+.my-resource-edit > .content .book-fields .rating,
+.my-resource-edit > .content .article-fields .rating,
+.my-resource-edit > .content .quote-fields .rating { padding: 20px 0 10px; }
 
 .add-item > .content .book-fields .rating p,
-.my-book-edit > .content .book-fields .rating p { margin: 0 0 5px; }
+.add-item > .content .article-fields .rating p,
+.add-item > .content .quote-fields .rating p,
+.my-resource-edit > .content .book-fields .rating p,
+.my-resource-edit > .content .article-fields .rating p,
+.my-resource-edit > .content .quote-fields .rating p { margin: 0 0 5px; }
 
 .add-item > .content .book-fields .rating .legend span,
-.my-book-edit > .content .book-fields .rating .legend span {
+.add-item > .content .article-fields .rating .legend span,
+.add-item > .content .quote-fields .rating .legend span,
+.my-resource-edit > .content .book-fields .rating .legend span,
+.my-resource-edit > .content .article-fields .rating .legend span,
+.my-resource-edit > .content .quote-fields .rating .legend span {
   font-size: 12px;
   font-weight: bold;
 }
 .add-item > .content .book-fields .rating .legend span:first-child,
-.my-book-edit > .content .book-fields .rating .legend span:first-child { float: left; }
+.add-item > .content .article-fields .rating .legend span:first-child,
+.add-item > .content .quote-fields .rating .legend span:first-child,
+.my-resource-edit > .content .book-fields .rating .legend span:first-child,
+.my-resource-edit > .content .article-fields .rating .legend span:first-child,
+.my-resource-edit > .content .quote-fields .rating .legend span:first-child { float: left; }
 
 .add-item > .content .book-fields .rating .legend span:last-child,
-.my-book-edit > .content .book-fields .rating .legend span:last-child { float: right; }
+.add-item > .content .article-fields .rating .legend span:last-child,
+.add-item > .content .quote-fields .rating .legend span:last-child,
+.my-resource-edit > .content .book-fields .rating .legend span:last-child,
+.my-resource-edit > .content .article-fields .rating .legend span:last-child,
+.my-resource-edit > .content .quote-fields .rating .legend span:last-child { float: right; }
 
 .add-item > .content .actions,
-.my-book-edit > .content .actions { text-align: right; }
+.my-resource-edit > .content .actions { text-align: right; }
 
-/* === .my-book-edit === */
-.my-book-edit .record-date {
+/* === .my-resource-edit === */
+.my-resource-edit .record-date {
   display: block;
   font-size: 14px;
   margin: 0 0 15px;
 }
-.my-book-edit .record-date > i {
+.my-resource-edit .record-date > i {
   font-style: normal;
   font-weight: bold;
 }

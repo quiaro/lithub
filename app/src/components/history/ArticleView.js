@@ -18,17 +18,17 @@ const dialogActionsStyle = {
   paddingRight: 20
 }
 
-const BookView = ({ book, history, isDeleteDialogOpen, onOpenDeleteDialog, onCloseDeleteDialog, onDelete}) => {
+const ArticleView = ({ article, history, isDeleteDialogOpen, onOpenDeleteDialog, onCloseDeleteDialog, onDelete}) => {
   let body;
-  if (!book) {
-    body = (<div>Oops! We couldn't find the book you're looking for</div>);
+  if (!article) {
+    body = (<div>Oops! We couldn't find the article you're looking for</div>);
   } else {
     body = (
       <div>
         <div className='actions'>
           <RaisedButton label="Edit"
                         primary={true}
-                        onTouchTap={() => { history.push(`/history/books/${book._id}/edit`) }} />
+                        onTouchTap={() => { history.push(`/history/articles/${article._id}/edit`) }} />
           <RaisedButton label="Delete"
                         secondary={true}
                         style={buttonStyle}
@@ -38,21 +38,25 @@ const BookView = ({ book, history, isDeleteDialogOpen, onOpenDeleteDialog, onClo
           <section className='details'>
             <div className='title'>
               <b>Title</b>
-              <span>{book.title}</span>
+              <span>{article.title}</span>
             </div>
             <div className='author'>
               <b>Author</b>
-              <span>{book.author}</span>
+              <span>{article.author}</span>
             </div>
-            <span className='record-date'>Entry recorded on: <i>{moment(book.last_modified).format('MMM D, YYYY')}</i></span>
+            <div className='link'>
+              <b>Link/URL</b>
+              <span>{article.link}</span>
+            </div>
+            <span className='record-date'>Entry recorded on: <i>{moment(article.last_modified).format('MMM D, YYYY')}</i></span>
           </section>
 
           <section className='comments'>
             <h2>My Review</h2>
             <div className='review'>
-              <span className='date'>On {moment(book.last_modified).format('MMM D, YYYY')}</span>
-              <span className='rating'>{book.rating}</span>
-              {book.comments && <blockquote>{unescape(book.comments)}</blockquote>}
+              <span className='date'>On {moment(article.last_modified).format('MMM D, YYYY')}</span>
+              <span className='rating'>{article.rating}</span>
+              {article.comments && <blockquote>{unescape(article.comments)}</blockquote>}
             </div>
           </section>
         </main>
@@ -76,20 +80,20 @@ const BookView = ({ book, history, isDeleteDialogOpen, onOpenDeleteDialog, onClo
 
   return (
     <Paper className="my-resource-view">
-      <h1>Book Detail</h1>
+      <h1>Article Detail</h1>
       {body}
-      <RaisedButton label="Back to History" primary={true} onTouchTap={() => { history.push('/history/books') }} />
-      <Dialog title="Delete Book From History"
+      <RaisedButton label="Back to History" primary={true} onTouchTap={() => { history.push('/history/articles') }} />
+      <Dialog title="Delete Article From History"
           actions={actions}
           modal={false}
           open={isDeleteDialogOpen}
           bodyStyle={dialogBodyStyle}
           actionsContainerStyle={dialogActionsStyle}
           onRequestClose={onCloseDeleteDialog} >
-          Are you sure you want to delete your review from your book history?
+          Are you sure you want to delete your review from your article history?
         </Dialog>
     </Paper>
   )
 }
 
-export default BookView;
+export default ArticleView;

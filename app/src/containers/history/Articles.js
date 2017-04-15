@@ -1,36 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchArticlesHistory } from '../../actions/articles';
+import { fetch } from '../../actions/article-history';
 import CircularProgress from 'material-ui/CircularProgress';
-import ArticlesHistoryComponent from '../../components/history/Articles'
+import ArticleHistoryComponent from '../../components/history/Articles'
 import * as selectors from '../../reducers'
 
-class ArticlesHistory extends Component {
+class ArticleHistory extends Component {
 
   componentDidMount() {
-    const { fetchArticlesHistory } = this.props;
-    fetchArticlesHistory();
+    const { wasHistoryFetched, fetch } = this.props;
+
+    // If the article history has already been fetched, the history will be kept up
+    // to date with each subsequent post, put and delete made. This avoids
+    // having to make a new request each time. It's possible to do this because
+    // we know that only the user is allowed to modify her own history.
+    if (!wasHistoryFetched) {
+      fetch();
+    }
   }
 
   render() {
-    const { articles, isFetchingArticlesHistory, history } = this.props;
+    const { articles, isFetchingArticleHistory, history } = this.props;
 
-    if (isFetchingArticlesHistory) {
+    if (isFetchingArticleHistory) {
       return <CircularProgress size={60} thickness={7} />
     }
-    return <ArticlesHistoryComponent articles={articles} history={history} />
+    return <ArticleHistoryComponent articles={articles} history={history} />
   }
 }
 
 const mapStateToProps = (state) => ({
-  articles: selectors.getAllArticlesHistory(state),
-  isFetchingArticlesHistory: selectors.getIsFetchingArticlesHistory(state)
+  articles: selectors.getAllArticleHistory(state),
+  isFetchingArticleHistory: selectors.getIsFetchingArticleHistory(state),
+  wasHistoryFetched: selectors.getWasArticleHistoryFetched(state)
 })
 
-ArticlesHistory = connect(
-  mapStateToProps,
-  { fetchArticlesHistory }
-)(ArticlesHistory)
+ArticleHistory = connect(mapStateToProps, { fetch })(ArticleHistory)
 
-export default ArticlesHistory
+export default ArticleHistory
