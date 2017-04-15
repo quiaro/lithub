@@ -567,6 +567,11 @@ form p.error-message {
   margin: 30px 10px;
   padding: 30px 0;
 }
+
+.resource-listing > .empty-list {
+  padding-left: 20px;
+}
+
 @media (min-width: 650px) {
   .resource-listing,
   .others-detail,

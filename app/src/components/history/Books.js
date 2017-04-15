@@ -48,7 +48,7 @@ const BooksHistory = (props) => {
     );
   } else {
     body = (
-      <div>
+      <div className="empty-list">
         <p>Your history list is currently empty</p>
       </div>
     );
