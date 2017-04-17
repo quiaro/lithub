@@ -489,6 +489,17 @@ form p.error-message {
   margin: 0;
 }
 
+.public-home .overview-summary .quote-cell blockquote {
+  margin: 10px 0 5px;
+}
+.public-home .overview-summary .quote-cell blockquote + em::before {
+  content: '― ';
+}
+.public-home .overview-summary .quote-cell blockquote::after,
+.public-home .overview-summary .quote-cell blockquote::before {
+  content: '"';
+}
+
 /* === .login === */
 .login,
 .sign-up {
@@ -602,8 +613,10 @@ form p.error-message {
   font-size: 14px !important;  /* override material-ui inline styles */
 }
 
-.resource-listing table .col-title a { color: #AD7751; }
-.resource-listing table .col-title a:hover { color: #00bcd4; }
+.resource-listing table .col-title a,
+.resource-listing table .col-quote a { color: #AD7751; }
+.resource-listing table .col-title a:hover,
+.resource-listing table .col-quote a:hover { color: #00bcd4; }
 
 .resource-listing table .col-author,
 .resource-listing table .col-readers,
@@ -621,12 +634,16 @@ form p.error-message {
   .resource-listing.my-books table .col-date { display: table-cell; }
   .resource-listing.other-articles table .col-readers { display: table-cell; }
   .resource-listing.my-articles table .col-date { display: table-cell; }
+  .resource-listing.my-quotes table .col-date { display: table-cell; }
 }
 
 .resource-listing table .col-readers { width: 60px; }
 .resource-listing table .col-rating { width: 60px; }
 .resource-listing table .col-action { width: 80px; }
 .resource-listing table .col-date { width: 120px; }
+/* Override default width because the action button for quotes is
+   slightly larger */
+.resource-listing.others-quotes table .col-action { width: 160px; }
 
 /* === .others-detail (books, articles, quotes) === */
 .others-detail,
@@ -672,6 +689,10 @@ form p.error-message {
   text-align: right;
   font-weight: normal;
 }
+
+.others-detail main > .details > div.quote > b,
+.my-resource-view main > .details > div.quote > b { vertical-align: top;}
+
 .others-detail main > .details > div > b::after,
 .my-resource-view main > .details > div > b::after {
   content: ':';
@@ -682,6 +703,14 @@ form p.error-message {
   width: 60%;
   padding-left: 2%;
 }
+
+.others-detail main > .details > div.quote > b + span,
+.my-resource-view main > .details > div.quote > b + span {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+}
+
 .others-detail main > .details .record-date,
 .my-resource-view main > .details .record-date {
   display: block;
@@ -694,6 +723,12 @@ form p.error-message {
   font-style: normal;
   font-weight: bold;
 }
+
+.others-detail main > .comments > *,
+.my-resource-view main > .comments > * {
+  margin-left: 20px !important;  /* add padding to all direct descendants of the comments section */
+}
+
 .others-detail main > .comments h2,
 .my-resource-view main > .comments h2 {
   font-family: 'Great Vibes', cursive;

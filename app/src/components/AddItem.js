@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 
 import AddBook from '../containers/history/BookAdd';
 import AddArticle from '../containers/history/ArticleAdd';
-import AddQuote from '../containers/forms/AddQuote';
+import AddQuote from '../containers/history/QuoteAdd';
 
 const AddItem = (props) => {
   let handleChange = (event, index, value) => props.history.push(value);

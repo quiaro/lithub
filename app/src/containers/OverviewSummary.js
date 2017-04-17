@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchLatestBooks } from '../actions/books';
 import { fetchLatestArticles } from '../actions/articles';
-import { fetchQuotes } from '../actions/quotes';
+import { fetchLatestQuotes } from '../actions/quotes';
 import CircularProgress from 'material-ui/CircularProgress';
 import OverviewSummaryComponent from '../components/OverviewSummary'
 import * as selectors from '../reducers'
@@ -11,10 +11,10 @@ import * as selectors from '../reducers'
 class OverviewSummary extends Component {
 
   componentDidMount() {
-    const { fetchLatestBooks, fetchLatestArticles, fetchQuotes } = this.props;
+    const { fetchLatestBooks, fetchLatestArticles, fetchLatestQuotes } = this.props;
     fetchLatestBooks();
     fetchLatestArticles();
-    fetchQuotes();
+    fetchLatestQuotes();
   }
 
   render() {
@@ -35,15 +35,15 @@ class OverviewSummary extends Component {
 const mapStateToProps = (state) => ({
   books: selectors.getLatestBooks(state),
   articles: selectors.getLatestArticles(state),
-  quotes: selectors.getAllQuotes(state),
+  quotes: selectors.getLatestQuotes(state),
   isFetchingBooks: selectors.getIsFetchingLatestBooks(state),
   isFetchingArticles: selectors.getIsFetchingLatestArticles(state),
-  isFetchingQuotes: selectors.getIsFetchingQuotes(state)
+  isFetchingQuotes: selectors.getIsFetchingLatestQuotes(state)
 })
 
 OverviewSummary = connect(
   mapStateToProps,
-  { fetchLatestBooks, fetchLatestArticles, fetchQuotes }
+  { fetchLatestBooks, fetchLatestArticles, fetchLatestQuotes }
 )(OverviewSummary)
 
 export default OverviewSummary

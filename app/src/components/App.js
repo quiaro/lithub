@@ -21,7 +21,12 @@ import ArticleHistory from '../containers/history/Articles';
 import ArticleViewHistory from '../containers/history/ArticleView';
 import ArticleEditHistory from '../containers/history/ArticleEdit';
 
-import QuotesHistory from '../containers/history/Quotes';
+// Article Components
+import QuotesReadByOthers from '../containers/QuotesByOthers';
+import QuoteView from '../containers/QuoteView';
+import QuoteHistory from '../containers/history/Quotes';
+import QuoteViewHistory from '../containers/history/QuoteView';
+import QuoteEditHistory from '../containers/history/QuoteEdit';
 
 const App = (props) => {
   const { isAuthenticated,
@@ -70,7 +75,12 @@ const App = (props) => {
         <PrivateRoute path='/history/articles/:id' component={ArticleViewHistory} isAuthenticated={isAuthenticated}/>
         <PrivateRoute path='/history/articles' component={ArticleHistory} isAuthenticated={isAuthenticated}/>
 
-        <PrivateRoute path='/history/quotes' component={QuotesHistory} isAuthenticated={isAuthenticated}/>
+        {/* Routes for quotes */}
+        <PrivateRoute path='/quotes/:id' component={QuoteView} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/quotes' component={QuotesReadByOthers} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/quotes/:id/edit' component={QuoteEditHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/quotes/:id' component={QuoteViewHistory} isAuthenticated={isAuthenticated}/>
+        <PrivateRoute path='/history/quotes' component={QuoteHistory} isAuthenticated={isAuthenticated}/>
       </Switch>
     </div>
   )

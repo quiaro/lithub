@@ -452,6 +452,156 @@ paths:
           schema:
             $ref: "#/definitions/Error"
 
+  /my/quotes:
+    x-swagger-router-controller: QuoteHistory
+    get:
+      security:
+      - Bearer: []
+      description: Get the list of quotes read by the token owner and his reviews
+      responses:
+        '200':
+          description: "List of quotes with reviews"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    post:
+      security:
+      - Bearer: []
+      description: Create a new quote entry if there isn't one and save the user's review
+      parameters:
+      - name: review
+        in: body
+        description: "Quote review by a user"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '201':
+          description: "Review saved successfully"
+          schema:
+            $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    put:
+      security:
+      - Bearer: []
+      description: Update a quote entry and the user's corresponding review. If the quote information is updated and the quote has already received reviews from other users, then a new quote entry is created.
+      parameters:
+      - name: review
+        in: body
+        description: "Quote review by a user"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '200':
+          description: "Review saved successfully"
+          schema:
+            $ref: "#/definitions/Review"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+    delete:
+      security:
+      - Bearer: []
+      description: Delete a user's review from a quote entry. If the quote entry only has that user review, then the quote entry is deleted as well.
+      parameters:
+      - name: review
+        in: body
+        description: "Quote review to delete"
+        required: true
+        schema:
+          $ref: "#/definitions/Review"
+      responses:
+        '204':
+          description: "Review deleted successfully"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /quotes:
+    x-swagger-router-controller: Quotes
+    get:
+      security:
+      - Bearer: []
+      description: Returns a paginated list of quotes that other users have read sorted by their last modified date
+      parameters:
+        - name: limit
+          in: query
+          description: Number of quotes per page
+          required: false
+          type: string
+        - name: start
+          in: query
+          description: Page index start
+          required: false
+          type: string
+      responses:
+        "200":
+          description: Array of quotes
+          schema:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Resource"
+              meta:
+                type: "object"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /quotes/{id}:
+    x-swagger-router-controller: Quote
+    get:
+      security:
+      - Bearer: []
+      description: Returns a quote
+      parameters:
+        - name: id
+          in: path
+          description: Quote ID
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Quote
+          schema:
+            $ref: "#/definitions/Resource"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
+  /quotes/latest:
+    x-swagger-router-controller: Overview
+    get:
+      description: "Returns the 10 latest quotes that users have read sorted by their last modified date"
+      # controller method name
+      operationId: "getQuotes"
+      responses:
+        "200":
+          description: "Array of quotes"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Resource"
+        default:
+          description: Unexpected error
+          schema:
+            $ref: "#/definitions/Error"
+
 # complex objects have schema definitions
 definitions:
 
@@ -523,6 +673,9 @@ definitions:
       title:
         type: "string"
         description: "Title of the resource"
+      quote:
+        type: "string"
+        description: "Quote by a known or unknown author"  
       author:
         type: "string"
         description: "Author of the resource"

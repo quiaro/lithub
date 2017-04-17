@@ -3,8 +3,8 @@ import books, * as bookSelectors from './books/books'
 import bookHistory, * as bookHistorySelectors from './books/history'
 import articles, * as articleSelectors from './articles/articles'
 import articleHistory, * as articleHistorySelectors from './articles/history'
-
-import quotes, * as quoteSelectors from './quotes'
+import quotes, * as quoteSelectors from './quotes/quotes'
+import quoteHistory, * as quoteHistorySelectors from './quotes/history'
 import isAuthenticated from './auth'
 import currentUser from './currentUser'
 
@@ -38,12 +38,20 @@ export const getArticleFromHistory = (state, id) => articleHistorySelectors.get(
 export const getIsFetchingArticleHistory = (state) => articleHistorySelectors.getIsFetching(state.articleHistory);
 export const getWasArticleHistoryFetched = (state) => articleHistorySelectors.getWasFetched(state.articleHistory);
 
+// --- QUOTES
+export const getAllQuotesReadByOthers = (state) => quoteSelectors.getAll(state.quotes);
+export const getQuote = (state, id) => quoteSelectors.get(state.quotes, id);
+export const getLatestQuotes = (state) => quoteSelectors.getLatest(state.quotes);
+export const getIsFetchingQuote = (state) => quoteSelectors.getIsFetchingQuote(state.quotes);
+export const getIsFetchingQuotesReadByOthers = (state) => quoteSelectors.getIsFetchingQuotes(state.quotes);
+export const getIsFetchingLatestQuotes = (state) => quoteSelectors.getIsFetchingLatest(state.quotes);
+export const getQuotesNextIndex = (state) => quoteSelectors.getQuotesNextIndex(state.quotes);
 
-export const getAllQuotes = (state) => quoteSelectors.getAll(state.quotes);
-export const getIsFetchingQuotes = (state) => quoteSelectors.getIsFetching(state.quotes);
-
-export const getAllQuotesHistory = (state) => quoteSelectors.getAllHistory(state.quotes);
-export const getIsFetchingQuotesHistory = (state) => quoteSelectors.getIsFetchingHistory(state.quotes);
+// --- QUOTE HISTORY
+export const getAllQuoteHistory = (state) => quoteHistorySelectors.getAll(state.quoteHistory);
+export const getQuoteFromHistory = (state, id) => quoteHistorySelectors.get(state.quoteHistory, id);
+export const getIsFetchingQuoteHistory = (state) => quoteHistorySelectors.getIsFetching(state.quoteHistory);
+export const getWasQuoteHistoryFetched = (state) => quoteHistorySelectors.getWasFetched(state.quoteHistory);
 
 const reducers = combineReducers({
   isAuthenticated,
@@ -52,7 +60,8 @@ const reducers = combineReducers({
   bookHistory,
   articles,
   articleHistory,
-  quotes
+  quotes,
+  quoteHistory
 })
 
 export default reducers

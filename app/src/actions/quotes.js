@@ -1,19 +1,25 @@
 import { normalize, schema } from 'normalizr';
 import { createActions } from 'redux-actions';
-import * as api from '../api'
+import * as apiQuotes from '../api/quotes'
 
-const quoteSchema = new schema.Entity('quotes');
+const quoteSchema = new schema.Entity('quotes', {}, { idAttribute: '_id' });
 
 const actions = createActions({
   QUOTE: {
-    FETCH_DONE: response => normalize(response, [ quoteSchema ]),
-    HISTORY_FETCH_DONE: response => normalize(response, [ quoteSchema ])
+    FETCH_DONE: response => normalize(response, quoteSchema)
+  },
+  QUOTES: {
+    FETCH_DONE: [
+      (data) => normalize(data, [ quoteSchema ]),
+      (data, meta) => meta
+    ],
+    LATEST_FETCH_DONE: response => normalize(response, [ quoteSchema ])
   }
-}, 'QUOTE_FETCH', 'QUOTE_HISTORY_FETCH');
+}, 'QUOTE_FETCH', 'QUOTES_FETCH', 'QUOTES_LATEST_FETCH', 'RESET_QUOTES');
 
-export const fetchQuotes = () => (dispatch) => {
+export const fetchQuote = (id) => (dispatch) => {
   dispatch(actions.quoteFetch());
-  return api.fetchQuotes().then(response => {
+  return apiQuotes.fetchQuote(id).then(response => {
       dispatch(actions.quote.fetchDone(response))
     },
     error => {
@@ -21,12 +27,30 @@ export const fetchQuotes = () => (dispatch) => {
     });
 }
 
-export const fetchQuotesHistory = () => (dispatch) => {
-  dispatch(actions.quoteHistoryFetch());
-  return api.fetchQuotesHistory().then(response => {
-      dispatch(actions.quote.historyFetchDone(response))
+export const fetchReadByOthers = (start, limit) => (dispatch) => {
+  // Once the start index value is -1, it means there are
+  // no more results to fetch
+  if (start !== -1) {
+    dispatch(actions.quotesFetch());
+    return apiQuotes.fetchReadByOthers(start, limit).then(response => {
+        dispatch(actions.quotes.fetchDone(response.data, response.meta))
+      },
+      error => {
+        dispatch(actions.quotes.fetchDone(error));
+      });
+  }
+}
+
+export const fetchLatestQuotes = () => (dispatch) => {
+  dispatch(actions.quotesLatestFetch());
+  return apiQuotes.fetchLatest().then(response => {
+      dispatch(actions.quotes.latestFetchDone(response))
     },
     error => {
-      dispatch(actions.quote.historyFetchDone(error));
+      dispatch(actions.quotes.latestFetchDone(error));
     });
+}
+
+export const resetQuotes = () => (dispatch) => {
+  dispatch(actions.resetQuotes());
 }
