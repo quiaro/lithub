@@ -67,6 +67,20 @@ $ cd /vagrant/app
 $ npm install
 ```
 
+6. Add secrets module
+Copy the folder `/server/secrets-example` and save it as `/server/secrets`. Then, modify the file `secrets.js` to suit the security needs of the project.
+```
+$ cd /vagrant/server
+$ cp -r secrets-example secrets
+/*
+ * Inside secrets/secrets.js, replace "PRIVATE_SECRET" with a strong character-diverse string.
+ * Also, replace "DIGEST_ALGORITHM" with the name of a supported digest function (e.g. sha512).
+ * An array of supported digest functions can be retrieved using crypto.getHashes().
+ * Finally, you may also modify the values of SALT_LENGTH, KEY_LENGTH, ITERATIONS or
+ * the hashing function altogether to customize the security needs of the project
+ */
+```
+
 6. Start the server
 ```
 $ cd /vagrant/server
