@@ -72,13 +72,12 @@ Copy the folder `/server/secrets-example` and save it as `/server/secrets`. Then
 ```
 $ cd /vagrant/server
 $ cp -r secrets-example secrets
-/*
- * Inside secrets/secrets.js, replace "PRIVATE_SECRET" with a strong character-diverse string.
- * Also, replace "DIGEST_ALGORITHM" with the name of a supported digest function (e.g. sha512).
- * An array of supported digest functions can be retrieved using crypto.getHashes().
- * Finally, you may also modify the values of SALT_LENGTH, KEY_LENGTH, ITERATIONS or
- * the hashing function altogether to customize the security needs of the project
- */
+/* ---
+Inside secrets/secrets.js, replace "PRIVATE_SECRET" with a strong character-diverse string.
+Also, replace "DIGEST_ALGORITHM" with the name of a supported digest function (e.g. sha512).
+An array of supported digest functions can be retrieved using crypto.getHashes().
+Finally, you may also modify the values of SALT_LENGTH, KEY_LENGTH, ITERATIONS or the hashing function altogether (i.e. pbkdf2) to customize the security needs of the project.
+ --- */
 ```
 
 6. Start the server
@@ -100,6 +99,8 @@ Open a browser to `http://localhost:3000/`
 
 ## Enable 3rd-Party Authentication
 
+To enable 3rd-party authentication, additional steps are required which involve registering the app with the corresponding vendor to authorize usage of their API. 
+
 ### Enable Authentication via Google Sign In
 
 1. In order to enable Google sign in, [follow these steps](https://developers.google.com/identity/sign-in/web/devconsole-project) to create a Google API Console project and get a client ID, which will be needed to call the sign-in API.
@@ -109,6 +110,14 @@ Open a browser to `http://localhost:3000/`
 3. Download the JSON file corresponding to your project's credentials, which can be downloaded from the **Credentials** tab in the [Google API console](https://console.developers.google.com/projectselector/apis/library).
 
 4. Name the file `gapi_client_secret.json` and add it to the secrets folder (`/server/secrets`) -similarly to how it appears in `/server/secrets-example`.
+
+## Enable Authentication via Facebook Login
+
+1. Get a Facebook App ID from [Facebook's App Dashboard](https://developers.facebook.com/apps/) to use for the project.
+
+2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain)
+
+3. Search for "REPLACE_WITH_FB_APP_ID" in the project, and replace any occurrence of the string with your Facebook App ID (from step 1) or Test App ID (from step 2).
 
 ---
 
