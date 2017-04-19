@@ -1,38 +1,98 @@
 LitHub
 =====================
 
+Web app to track the books and articles read by an individual and a community of users as well as quotes favorited by them.
+
+Users can see an overview of the activity of the community without signing in. However, to see the full history of the community and have the ability to contribute, users must first register/sign in.
+
+---
+
+## Features
+- Public home page displaying an overview of books and articles read by the community, and quotes favorited by them.
+- Authentication and controlled access to resources using [JSON Web Tokens (JWT)](https://jwt.io/introduction/)
+- Authentication via [Google Sign-in](https://developers.google.com/identity/sign-in/web/)
+- Authentication via [Facebook Login](https://developers.facebook.com/docs/facebook-login/web)
+- Keep a personal history of books/articles read with rating and comments for each one.
+- Edit/remove items in personal history.
+- Keep a personal list of favorite quotes with the possibility to add comments for each one.
+- Edit/remove items in favorite quote list.
+- View all unread books/articles that have been posted by other members.
+- View all ratings/comments by other members for an unread book.
+- View all quotes that have been favorited by other members.
+- View all comments by other members for a quote that has not yet been favorited.
+- Responsive design works on smartphones, tablets and desktops.
+- Data available via Open APIs.
+
+---
+
+## Requirements
+
+To run this project, you will first need to have installed:
+
+1. [VirtualBox](https://www.virtualbox.org/wiki/Downloads): a free, cross-platform consumer virtualization product that will be used for running a virtual machine (VM) running Ubuntu Linux.
+
+2. [Vagrant](https://www.vagrantup.com/downloads.html): command line utility for managing the lifecycle of the project's VM.
+
+---
+
 ## Setup
 
-To run this project you will first need to [download and install the Google Cloud SDK](https://cloud.google.com/appengine/docs/standard/python/download).
+To get this project set up and running locally:
 
-Then, you may follow these 3 simple steps to get this project set up and running locally:
-
-1) Clone the repository
+1. Clone the repo
 ```
-$ git clone
+$ git clone https://github.com/quiaro/lithub.git
 ```
 
-2) Go to the project directory
+2. Create, provision and start the VM
 ```
-$ cd
-```
-
-3) Launch the [local development server]
+$ cd lithub
+$ vagrant up
 ```
 
+3. Access the running VM
+```
+$ vagrant ssh
 ```
 
-This project uses the CSS language extension Sass, which makes it easier to manage and change the look of the app during development. If you wish to make changes to any of the stylesheets and see the changes applied with every browser refresh, you will need to follow 2 additional steps:
-
-4) Install gulp, gulp-autoprefixer and gulp-sass
+4. Install all server dependencies
 ```
+$ cd /vagrant/server
 $ npm install
 ```
 
-5) Ask gulp to watch for changes to any of the .scss files. On change, [gulp](http://gulpjs.com/) will update the project's stylesheet (`app/static/css/main.css`) and the changes will be reflected when the browser is refreshed (assuming that the local development server from step 3 is up and running).
+5. Install all client dependencies
 ```
-$ gulp
+$ cd /vagrant/app
+$ npm install
 ```
+
+6. Start the server
+```
+$ cd /vagrant/server
+$ swagger project start
+```
+
+7. Start the client app
+```
+$ cd /vagrant/app
+$ npm start
+```
+
+8. Verify setup
+Open a browser to `http://localhost:3000/`
+
+---
+
+## Technologies & Support
+
+This project is made up of two separate pieces of software: the client app and the server.
+
+The client app is a Front-End client bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) that employs [Material UI](http://www.material-ui.com/#/) to seek good design principles and a clean user interface. The client app uses [React](https://facebook.github.io/react/) on top of [Redux](http://redux.js.org/) to manage its state.
+
+The server is at its heart a [Swagger](http://swagger.io/) project that manages content in a [MongoDB](https://www.mongodb.com/) database and provides a RESTful interface defined by a set of Open APIs that provide access to both public and protected resources. To access protected resources, the server offers 3 different auth mechanisms (credentials, via Google token, via Facebook token) to grant the user an authentication token needed to access these resources. To authenticate via Google, the server makes use of the [Google Auth Library](https://github.com/google/google-auth-library-nodejs) for NodeJS, which is slightly different than to how authentication it is done via Facebook, where Facebook's [Graph API](https://developers.facebook.com/docs/graph-api) is called directly instead.
+
+This project supports **NodeJS v7.9.0** and **MongoDB v3.4.3** and has been tested on Chrome, Firefox and Safari.
 
 ---
 
