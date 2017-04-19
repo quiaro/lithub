@@ -98,6 +98,20 @@ Open a browser to `http://localhost:3000/`
 
 ---
 
+## Enable 3rd-Party Authentication
+
+### Enable Authentication via Google Sign In
+
+1. In order to enable Google sign in, [follow these steps](https://developers.google.com/identity/sign-in/web/devconsole-project) to create a Google API Console project and get a client ID, which will be needed to call the sign-in API.
+
+2. Search for "REPLACE_WITH_GOOGLE_ID" in the project, and replace any occurrence of the string with your Google client ID.
+
+3. Download the JSON file corresponding to your project's credentials, which can be downloaded from the **Credentials** tab in the [Google API console](https://console.developers.google.com/projectselector/apis/library).
+
+4. Name the file `gapi_client_secret.json` and add it to the secrets folder (`/server/secrets`) -similarly to how it appears in `/server/secrets-example`.
+
+---
+
 ## Technologies & Support
 
 This project is made up of two separate pieces of software: the client app and the server.
