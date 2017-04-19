@@ -1,7 +1,6 @@
 {
   "name": "lithub-server",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
   "description": "REST API server for the lithub app",
   "author": "David Quirós",
   "license": "",
@@ -19,6 +18,6 @@
     "supertest": "^1.0.0"
   },
   "scripts": {
-    "start": "node debug app.js"
+    "start": "node app.js"
   }
 }
