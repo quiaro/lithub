@@ -62,7 +62,9 @@ secrets/secrets.js:
 
 secrets/db.js:
 - replace "UA_PASSWORD" with a strong password.
+  Make sure there are no ampersands in the password.
 - replace "DB_PASSWORD" with a strong password.
+  Make sure there are no ampersands in the password.
  --- */
 ```
 
@@ -88,7 +90,7 @@ $ cd /vagrant/app
 $ npm install
 ```
 
-7. Start the server
+7. Start the server. The server will stay running in the terminal window so another terminal window will be necessary to start the client app (next step).
 ```
 $ cd /vagrant/server
 $ swagger project start
