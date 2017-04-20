@@ -54,4 +54,4 @@ rm -rf ./setup
 
 
 # === Load NPM global package dependencies
-# npm install -g swagger@0.7.5
+npm install -g swagger@0.7.5
