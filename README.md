@@ -101,6 +101,7 @@ $ npm start
 ```
 
 9. Verify setup
+
 Open a browser to `http://localhost:3000/`
 
 ---
@@ -123,7 +124,7 @@ To enable 3rd-party authentication, additional steps are required which involve 
 
 1. Get a Facebook App ID from [Facebook's App Dashboard](https://developers.facebook.com/apps/) to use for the project.
 
-2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain)
+2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain).
 
 3. Search for "REPLACE_WITH_FB_APP_ID" in the project, and replace any occurrence of the string with your Facebook App ID (from step 1) or Test App ID (from step 2).
 
@@ -156,7 +157,7 @@ To start using the app after installation and test its features, a dump file (`l
 ```
 $ mongorestore -u lithubAdmin -p DB_PASSWORD --authenticationDatabase lithub --drop --nsInclude '*' --archive=setup/db/lithub-dump.archive
 ```
-** Careful: this command will drop all data from the database before the import **
+**Careful: this command will drop all data from the database before the import**
 
 ---
 
