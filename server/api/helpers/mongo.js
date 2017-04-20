@@ -1,4 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
+const DB = require('../../secrets/db');
 let dbConnection;
 
 /**
@@ -6,7 +7,10 @@ let dbConnection;
  * @return {Promise.<Object|Error>} - database connection
  */
 function connect() {
-  return MongoClient.connect('mongodb://lithub:fudgemania!@localhost:27017/lithub')
+  const username = DB.admin.username;
+  const pwd = DB.admin.password;
+
+  return MongoClient.connect(`mongodb://${username}:${pwd}@${DB.ip}:${DB.port}/${DB.name}`)
     .then(db => {
       // Save database connection to be reused in the app
       dbConnection = db;

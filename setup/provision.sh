@@ -25,22 +25,22 @@ sudo apt-get upgrade
 # Create sysvinit script to disable transparent huge pages (THP)
 # Per: https://docs.mongodb.com/manual/tutorial/transparent-huge-pages
 # To solve: https://askubuntu.com/questions/597372/how-do-i-modify-sys-kernel-mm-transparent-hugepage-enabled
-sudo cat ./setup/disable-transparent-hugepages > /etc/init.d/disable-transparent-hugepages
+sudo cat ./setup/db/disable-thp > /etc/init.d/disable-thp
 
 # Make script for disablig THP executable
-sudo chmod 755 /etc/init.d/disable-transparent-hugepages
+sudo chmod 755 /etc/init.d/disable-thp
 
 # The mongo config file will be changed to enable access control.
 # Because re-provisioning doesn't undo these changes, to start over we'll make
 # sure to set the default mongo config file to start.
 sudo rm /etc/mongod.conf
-sudo cat ./setup/mongod-default.conf > /etc/mongod.conf
+sudo cat ./setup/db/default.conf > /etc/mongod.conf
 
 # Start mongodb without access control
 sudo service mongod start
 
 # Connect to mongodb and create user administrator
-mongo --nodb ./setup/mongo-user-admin.js
+mongo --nodb ./setup/db/user-admin.js
 
 # Stop mongodb to restart it with access control
 sudo service mongod stop
@@ -49,13 +49,13 @@ sudo service mongod stop
 # From this point on, any time the mongo service is started users will need
 # provide credentials to authenticate.
 sudo rm /etc/mongod.conf
-sudo cat ./setup/mongod-access-control.conf > /etc/mongod.conf
+sudo cat ./setup/db/access-control.conf > /etc/mongod.conf
 
 # Start mongodb with access control enabled
 sudo service mongod start
 
 # Connect to mongodb and create db user
-mongo --nodb ./setup/mongo-db-user.js
+mongo --nodb ./setup/db/admin.js
 
 # Stop mongodb to be restarted on smaller provision file
 sudo service mongod stop

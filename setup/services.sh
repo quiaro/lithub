@@ -1,5 +1,5 @@
 # Ensure THP is disabled before starting mongo daemon
-sudo /etc/init.d/disable-transparent-hugepages start
+sudo /etc/init.d/disable-thp start
 
 # Start mongoDB
 sudo service mongod start

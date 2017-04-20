@@ -5,23 +5,32 @@ VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Upload config files & scripts
-  config.vm.provision "file", source: "./setup/mongod-default.conf",
-                              destination: "./setup/mongod-default.conf"
-  config.vm.provision "file", source: "./setup/mongod-access-control.conf",
-                              destination: "./setup/mongod-access-control.conf"
-  config.vm.provision "file", source: "./setup/disable-transparent-hugepages",
-                              destination: "./setup/disable-transparent-hugepages"
-  config.vm.provision "file", source: "./setup/mongo-user-admin.js",
-                              destination: "./setup/mongo-user-admin.js"
-  config.vm.provision "file", source: "./setup/mongo-db-user.js",
-                              destination: "./setup/mongo-db-user.js"
+  # Upload DB config information used during provisioning
+  # and used also by the server
+  config.vm.provision "file", source: "./server/secrets/db.js",
+                              destination: "./setup/db/info.js"
+
+  # Upload DB config files
+  config.vm.provision "file", source: "./setup/db/default.conf",
+                              destination: "./setup/db/default.conf"
+  config.vm.provision "file", source: "./setup/db/access-control.conf",
+                              destination: "./setup/db/access-control.conf"
+
+  # Upload DB init scripts
+  config.vm.provision "file", source: "./setup/db/user-admin.js",
+                              destination: "./setup/db/user-admin.js"
+  config.vm.provision "file", source: "./setup/db/admin.js",
+                              destination: "./setup/db/admin.js"
+
+  # Upload script to disable THP
+  config.vm.provision "file", source: "./setup/db/disable-thp",
+                              destination: "./setup/db/disable-thp"
 
   # Long provision script
-  config.vm.provision "shell", path: "provision.sh"
+  config.vm.provision "shell", path: "./setup/provision.sh"
 
   # Short script to start services
-  config.vm.provision "shell", path: "services.sh", run: "always"
+  config.vm.provision "shell", path: "./setup/services.sh", run: "always"
 
   config.vm.box = "ubuntu/xenial64"
   config.vm.network "forwarded_port", guest: 3000, host: 3000
