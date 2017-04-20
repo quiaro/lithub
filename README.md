@@ -44,62 +44,70 @@ To get this project set up and running locally:
 $ git clone https://github.com/quiaro/lithub.git
 ```
 
-2. Create, provision and start the VM
+2. Add/tune secrets module
+
+Copy the folder `/server/secrets-example` and save it as `/server/secrets`. Then, modify the files in the `secrets` folder per the needs of the project.
 ```
 $ cd lithub
+$ cp -r /server/secrets-example /server/secrets
+/* ---
+secrets/secrets.js:
+- replace "PRIVATE_SECRET" with a strong password.
+- replace "DIGEST_ALGORITHM" with the name of a supported
+  digest function (e.g. sha512). An array of supported digest
+  functions can be retrieved using crypto.getHashes().
+- You may also modify the values of SALT_LENGTH, KEY_LENGTH,
+  ITERATIONS or the hashing function altogether (i.e. pbkdf2)
+  per the security needs of the project.
+
+secrets/db.js:
+- replace "UA_PASSWORD" with a strong password.
+- replace "DB_PASSWORD" with a strong password.
+ --- */
+```
+
+3. Create, provision and start the VM
+```
 $ vagrant up
 ```
 
-3. Access the running VM
+4. Access the running VM
 ```
 $ vagrant ssh
 ```
 
-4. Install all server dependencies
+5. Install all server dependencies
 ```
 $ cd /vagrant/server
 $ npm install
 ```
 
-5. Install all client dependencies
+6. Install all client app dependencies
 ```
 $ cd /vagrant/app
 $ npm install
 ```
 
-6. Add secrets module
-Copy the folder `/server/secrets-example` and save it as `/server/secrets`. Then, modify the file `secrets.js` to suit the security needs of the project.
-```
-$ cd /vagrant/server
-$ cp -r secrets-example secrets
-/* ---
-Inside secrets/secrets.js, replace "PRIVATE_SECRET" with a strong character-diverse string.
-Also, replace "DIGEST_ALGORITHM" with the name of a supported digest function (e.g. sha512).
-An array of supported digest functions can be retrieved using crypto.getHashes().
-Finally, you may also modify the values of SALT_LENGTH, KEY_LENGTH, ITERATIONS or the hashing function altogether (i.e. pbkdf2) to customize the security needs of the project.
- --- */
-```
-
-6. Start the server
+7. Start the server
 ```
 $ cd /vagrant/server
 $ swagger project start
 ```
 
-7. Start the client app
+8. Start the client app
 ```
 $ cd /vagrant/app
 $ npm start
 ```
 
-8. Verify setup
+9. Verify setup
 Open a browser to `http://localhost:3000/`
 
 ---
 
 ## Enable 3rd-Party Authentication
 
-To enable 3rd-party authentication, additional steps are required which involve registering the app with the corresponding vendor to authorize usage of their API. 
+To enable 3rd-party authentication, additional steps are required which involve registering the app with the corresponding vendor to authorize usage of their API.
 
 ### Enable Authentication via Google Sign In
 
@@ -111,13 +119,44 @@ To enable 3rd-party authentication, additional steps are required which involve 
 
 4. Name the file `gapi_client_secret.json` and add it to the secrets folder (`/server/secrets`) -similarly to how it appears in `/server/secrets-example`.
 
-## Enable Authentication via Facebook Login
+### Enable Authentication via Facebook Login
 
 1. Get a Facebook App ID from [Facebook's App Dashboard](https://developers.facebook.com/apps/) to use for the project.
 
 2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain)
 
 3. Search for "REPLACE_WITH_FB_APP_ID" in the project, and replace any occurrence of the string with your Facebook App ID (from step 1) or Test App ID (from step 2).
+
+---
+
+## Testing & Troubleshooting
+
+### Test the database
+
+App data is stored in a MongoDB instance. Since the database has access control enabled, to test the connection and query the database you may access the mongo shell using the database credentials stored in `/server/secrets/db.js`.
+
+1. Assuming the vagrant machine is running (run `vagrant status` to check if it is), ssh into the vagrant machine.
+```
+$ vagrant ssh
+```
+
+2. View the Mongo log to check that the mongo daemon is running and accepting connections.
+```
+$ cat /var/log/mongodb/mongod.log
+```
+
+3. Access the mongo shell using the database credentials defined in step 2 of the [Setup section](#setup). For example, using the default values, the following command would be used to gain access to the mongo shell:
+```
+$ mongo lithub -u lithubAdmin -p DB_PASSWORD
+```
+
+### Import mock data
+
+To start using the app after installation and test its features, a dump file (`lithub-dump.archive`) is provided to import mock data into the app. To import the mock data into the app, run a `restore` using the credentials defined in step 2 of the [Setup section](#setup). For example, from the project root, the `restore` command using the default values would be:
+```
+$ mongorestore -u lithubAdmin -p DB_PASSWORD --authenticationDatabase lithub --drop --nsInclude '*' --archive=setup/db/lithub-dump.archive
+```
+** Careful: this command will drop all data from the database before the import **
 
 ---
 
