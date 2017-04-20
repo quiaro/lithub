@@ -5,22 +5,17 @@ VAGRANTFILE_API_VERSION = '2'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  # Upload DB config information used during provisioning
-  # and used also by the server
+  # Upload DB config information used during provisioning (also used by the server)
   config.vm.provision "file", source: "./server/secrets/db.js",
                               destination: "./setup/db/info.js"
 
-  # Upload DB config files
-  config.vm.provision "file", source: "./setup/db/default.conf",
-                              destination: "./setup/db/default.conf"
+  # Upload DB config file
   config.vm.provision "file", source: "./setup/db/access-control.conf",
                               destination: "./setup/db/access-control.conf"
 
-  # Upload DB init scripts
-  config.vm.provision "file", source: "./setup/db/user-admin.js",
-                              destination: "./setup/db/user-admin.js"
-  config.vm.provision "file", source: "./setup/db/admin.js",
-                              destination: "./setup/db/admin.js"
+  # Upload DB init script
+  config.vm.provision "file", source: "./setup/db/init.js",
+                              destination: "./setup/db/init.js"
 
   # Upload script to disable THP
   config.vm.provision "file", source: "./setup/db/disable-thp",

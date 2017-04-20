@@ -30,24 +30,13 @@ sudo cat ./setup/db/disable-thp > /etc/init.d/disable-thp
 # Make script for disablig THP executable
 sudo chmod 755 /etc/init.d/disable-thp
 
-# The mongo config file will be changed to enable access control.
-# Because re-provisioning doesn't undo these changes, to start over we'll make
-# sure to set the default mongo config file to start.
-sudo rm /etc/mongod.conf
-sudo cat ./setup/db/default.conf > /etc/mongod.conf
-
-# Start mongodb without access control
-sudo service mongod start
-
-# Connect to mongodb and create user administrator
-mongo --nodb ./setup/db/user-admin.js
-
-# Stop mongodb to restart it with access control
-sudo service mongod stop
-
 # Replace mongo config file with config file that has access control enabled.
-# From this point on, any time the mongo service is started users will need
-# provide credentials to authenticate.
+# Per: https://docs.mongodb.com/manual/reference/program/mongod/#cmdoption-auth
+# We'll continue to have access to the database until the first user is created,
+# which takes place in the DB init script. This means that the DB init script
+# will only be run once when the environment is created. After this, the DB init
+# script will result in an error: "Error: couldn't add user" if provisioning
+# is run again.
 sudo rm /etc/mongod.conf
 sudo cat ./setup/db/access-control.conf > /etc/mongod.conf
 
@@ -55,11 +44,14 @@ sudo cat ./setup/db/access-control.conf > /etc/mongod.conf
 sudo service mongod start
 
 # Connect to mongodb and create db user
-mongo --nodb ./setup/db/admin.js
+mongo --nodb ./setup/db/init.js
 
 # Stop mongodb to be restarted on smaller provision file
 sudo service mongod stop
 
+# Remove setup files used during provisioning
+rm -rf ./setup
+
 
 # === Load NPM global package dependencies
-npm install -g swagger@0.7.5
+# npm install -g swagger@0.7.5
