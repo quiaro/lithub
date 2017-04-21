@@ -28,5 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", path: "./setup/services.sh", run: "always"
 
   config.vm.box = "ubuntu/xenial64"
-  config.vm.network "forwarded_port", guest: 3000, host: 3000
+  config.vm.network "forwarded_port", guest: 3000, host: 3001
+  config.vm.network "forwarded_port", guest: 10010, host: 10011
+  config.vm.network "forwarded_port", guest: 27017, host: 27018
 end
