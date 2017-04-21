@@ -195,7 +195,7 @@ $ mongorestore -u lithubAdmin -p DB_PASSWORD --authenticationDatabase lithub --d
 ```
 **Careful: this command will drop all data from the database before the import**
 
-After the `restore` is completed, the credentials of one of the existing users are:
+After `restore` is completed, you may log into the app using the following credentials:
 ```
 email: donramon@elchavo.com
 password: donramon
