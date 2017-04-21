@@ -104,7 +104,7 @@ $ npm start
 
 9. Verify setup
 
-Open a browser to `http://localhost:3000/`
+Open a browser to `http://localhost:3001/`
 
 ---
 
@@ -138,19 +138,53 @@ To enable 3rd-party authentication, additional steps are required which involve 
 
 App data is stored in a MongoDB instance. Since the database has access control enabled, to test the connection and query the database you may access the mongo shell using the database credentials stored in `/server/secrets/db.js`.
 
-1. Assuming the vagrant machine is running (run `vagrant status` to check if it is), ssh into the vagrant machine.
+1. SSH into the vagrant machine and view the mongo log to check that the mongo daemon is running and accepting connections. By default, whenever `vagrant up` is run, the mongo service will be started.
 ```
 $ vagrant ssh
-```
-
-2. View the Mongo log to check that the mongo daemon is running and accepting connections.
-```
 $ cat /var/log/mongodb/mongod.log
 ```
 
-3. Access the mongo shell using the database credentials defined in step 2 of the [Setup section](#setup). For example, using the default values, the following command would be used to gain access to the mongo shell:
+2. Access the mongo shell using the database credentials defined in step 2 of the [Setup section](#setup). You may connect to the database on port 27017 from the VM (guest) or on port 27018 from the host. For example, using the default DB configuration, the following commands would be used to gain access to the mongo shell:
 ```
+// Access from the VM (guest)
 $ mongo lithub -u lithubAdmin -p DB_PASSWORD
+
+// Access from the host
+$ mongo lithub --port 27018 -u lithubAdmin -p DB_PASSWORD
+```
+
+### Test the server
+
+Requests can be made to the Open API to test the server directly. The server runs on port 10010; however, to test the server from the host machine, requests must be addressed to port 10011 (which end up being forwarded to port 10010 of the guest machine).
+
+For example, you may test the GET method on the endpoint `/books/latest` with curl by doing:
+```
+// From the VM (guest)
+$ curl http://127.0.0.1:10010/api/books/latest
+
+// From the host (to the guest machine)
+$ curl http://127.0.0.1:10011/api/books/latest
+```
+
+**View/Test the Open API**
+
+An easier way to test the server and view the documentation for the Open API is by using the swagger editor. To launch the swagger editor:
+
+1. Install swagger as a global package from NPM:
+```
+npm install -g swagger@0.7.5
+```
+
+2. Start the server on the host
+```
+$ cd <project_root_folder>/server
+$ swagger project start
+```
+
+3. On another terminal window, launch the swagger editor:
+```
+$ cd <project_root_folder>/server
+$ swagger project edit
 ```
 
 ### Import mock data
