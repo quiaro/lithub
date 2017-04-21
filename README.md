@@ -189,11 +189,17 @@ $ swagger project edit
 
 ### Import mock data
 
-To start using the app after installation and test its features, a dump file (`lithub-dump.archive`) is provided to import mock data into the app. To import the mock data into the app, run a `restore` using the credentials defined in step 2 of the [Setup section](#setup). For example, from the project root, the `restore` command using the default values would be:
+To start using the app after installation and test its features, a dump file (`lithub-dump.archive`) is provided to import mock data into the app. To import the mock data into the app, run a `restore` using the credentials defined in step 2 of the [Setup section](#setup). For example, from the project root, the `restore` command using the default DB configuration would be:
 ```
 $ mongorestore -u lithubAdmin -p DB_PASSWORD --authenticationDatabase lithub --drop --nsInclude '*' --archive=setup/db/lithub-dump.archive
 ```
 **Careful: this command will drop all data from the database before the import**
+
+After the `restore` is completed, the credentials of one of the existing users are:
+```
+email: donramon@elchavo.com
+password: donramon
+```
 
 ---
 
