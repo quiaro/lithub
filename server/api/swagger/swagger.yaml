@@ -3,7 +3,7 @@ info:
   version: "0.1.0"
   title: Lit Hub API
 # during dev, should point to your local machine
-host: localhost:10010
+host: 0.0.0.0:10010
 # basePath prefixes all resource paths
 basePath: /api
 #
@@ -675,7 +675,7 @@ definitions:
         description: "Title of the resource"
       quote:
         type: "string"
-        description: "Quote by a known or unknown author"  
+        description: "Quote by a known or unknown author"
       author:
         type: "string"
         description: "Author of the resource"
