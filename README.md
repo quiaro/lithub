@@ -199,6 +199,11 @@ After `restore` is completed, you may log into the app using the following crede
 ```
 email: donramon@elchavo.com
 password: donramon
+
+OR
+
+email: kiko@elchavo.com
+password: kiko
 ```
 
 ---
