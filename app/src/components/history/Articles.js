@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import unescape from 'validator/lib/unescape';
 
 const buttonStyle = {
   marginTop: 10,
@@ -37,7 +38,7 @@ const ArticleHistory = (props) => {
             stripedRows={false}>
             {props.articles.map((article, index) => (
               <TableRow key={index} selectable={false}>
-                <TableRowColumn className="col-title"><Link to={`/history/articles/${article._id}`}>{article.title}</Link></TableRowColumn>
+                <TableRowColumn className="col-title"><Link to={`/history/articles/${article._id}`}>{unescape(article.title)}</Link></TableRowColumn>
                 <TableRowColumn className="col-author">{article.author}</TableRowColumn>
                 <TableRowColumn className="col-rating">{article.rating}</TableRowColumn>
                 <TableRowColumn className="col-date">{moment(article.created).format('MMM D, YYYY')}</TableRowColumn>

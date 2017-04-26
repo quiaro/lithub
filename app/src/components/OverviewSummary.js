@@ -110,7 +110,7 @@ const OverviewSummary = ({ books, articles, quotes, history }) => {
             stripedRows={false} >
               {articlesData.map( (article, index) => (
                 <TableRow key={index}>
-                  <TableRowColumn style={{fontSize: 14}} className="article-cell"><b>{article.title}</b>{' by '}<em>{article.author}</em></TableRowColumn>
+                  <TableRowColumn style={{fontSize: 14}} className="article-cell"><b>{unescape(article.title)}</b>{' by '}<em>{article.author}</em></TableRowColumn>
                   <TableRowColumn style={{width: 60, fontSize: 14}}>{article.avg_rating}</TableRowColumn>
                   <TableRowColumn style={{width: 60, fontSize: 14}}>{article.num_reviewers}</TableRowColumn>
                 </TableRow>

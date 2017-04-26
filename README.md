@@ -49,7 +49,7 @@ $ git clone https://github.com/quiaro/lithub.git
 Copy the folder `/server/secrets-example` and save it as `/server/secrets`. Then, modify the files in the `secrets` folder per the needs of the project.
 ```
 $ cd lithub
-$ cp -r /server/secrets-example /server/secrets
+$ cp -r server/secrets-example server/secrets
 /* ---
 secrets/secrets.js:
 - replace "PRIVATE_SECRET" with a strong password.
@@ -114,7 +114,7 @@ To enable 3rd-party authentication, additional steps are required which involve 
 
 ### Enable Authentication via Google Sign In
 
-1. In order to enable Google sign in, [follow these steps](https://developers.google.com/identity/sign-in/web/devconsole-project) to create a Google API Console project and get a client ID, which will be needed to call the sign-in API.
+1. In order to enable Google sign in, [follow these steps](https://developers.google.com/identity/sign-in/web/devconsole-project) to create a Google API Console project and get a client ID, which will be needed to call the sign-in API. **Remember**: In the **Authorized JavaScript origins** field, the project URL will be: `http://localhost:3001`.
 
 2. Search for "REPLACE_WITH_GOOGLE_ID" in the project, and replace any occurrence of the string with your Google client ID.
 
@@ -126,7 +126,7 @@ To enable 3rd-party authentication, additional steps are required which involve 
 
 1. Get a Facebook App ID from [Facebook's App Dashboard](https://developers.facebook.com/apps/) to use for the project.
 
-2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain).
+2. In order to test the Facebook Login locally, a test app will need to be created as explained in this [post](http://stackoverflow.com/questions/21295872/facebook-app-localhost-no-longer-works-as-app-domain). **Remember**: The **Site URL** value for the test app will be: `http://localhost:3001`.
 
 3. Search for "REPLACE_WITH_FB_APP_ID" in the project, and replace any occurrence of the string with your Facebook App ID (from step 1) or Test App ID (from step 2).
 
@@ -199,6 +199,11 @@ After `restore` is completed, you may log into the app using the following crede
 ```
 email: donramon@elchavo.com
 password: donramon
+
+OR
+
+email: kiko@elchavo.com
+password: kiko
 ```
 
 ---

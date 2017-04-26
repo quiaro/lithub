@@ -4,6 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
   from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
+import unescape from 'validator/lib/unescape';
 
 const ArticlesByOthers = ({ articles, history }) => {
 
@@ -48,7 +49,7 @@ const ArticlesByOthers = ({ articles, history }) => {
           stripedRows={false} >
             {tableData.map( (article, index) => (
               <TableRow key={index}>
-                <TableRowColumn className="col-title"><Link to={`/articles/${article._id}`}>{article.title}</Link></TableRowColumn>
+                <TableRowColumn className="col-title"><Link to={`/articles/${article._id}`}>{unescape(article.title)}</Link></TableRowColumn>
                 <TableRowColumn className="col-author">{article.author}</TableRowColumn>
                 <TableRowColumn className="col-readers">{article.num_reviewers}</TableRowColumn>
                 <TableRowColumn className="col-rating">{article.avg_rating}</TableRowColumn>
