@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import unescape from 'validator/lib/unescape';
 
-const ArticlesByOthers = ({ articles, history }) => {
+const ArticlesByOthers = ({ articles, history, addExisting }) => {
 
   const tableData = articles.map(a => {
     const totalRating = a.reviews.reduce((acc, obj) => acc + obj.rating, 0);
@@ -21,8 +21,6 @@ const ArticlesByOthers = ({ articles, history }) => {
       _id: a._id,
       title: a.title,
       author: a.author,
-      url_title: encodeURIComponent(a.title),
-      url_author: encodeURIComponent(a.author),
       num_reviewers: totalReviewers,
       avg_rating: avgRating,
       last_modified: a.last_modified
@@ -56,7 +54,7 @@ const ArticlesByOthers = ({ articles, history }) => {
                 <TableRowColumn className="col-action">
                   <FlatButton label="I read it"
                                 primary={true}
-                                onTouchTap={() => history.push(`/add/article?title=${article.url_title}&author=${article.url_author}`)} />
+                                onTouchTap={() => addExisting(article)} />
                 </TableRowColumn>
               </TableRow>
               ))}

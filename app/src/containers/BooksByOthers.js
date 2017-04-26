@@ -63,7 +63,7 @@ class BooksByOthers extends Component {
   }
 
   /**
-   * Add a book read by others into my the user's history list
+   * Add a book read by others into the user's history
    * @param {object} book - book to add to history
    */
   addExisting(book) {
