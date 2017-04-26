@@ -10,7 +10,7 @@ function get(req, res) {
     .sort({ 'last_modified': -1})
     .limit(limit)
     .skip(start)
-    .project({ title: 1, author: 1, last_modified: 1, 'reviews.rating': 1 })
+    .project({ title: 1, author: 1, link: 1, last_modified: 1, 'reviews.rating': 1 })
     .toArray()
     .then(articles => {
       const result = {
