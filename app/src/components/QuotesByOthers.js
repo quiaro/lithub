@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import unescape from 'validator/lib/unescape';
 
-const QuotesByOthers = ({ quotes, history }) => {
+const QuotesByOthers = ({ quotes, history, addExisting }) => {
 
   const tableData = quotes.map(q => {
     return {
@@ -50,7 +50,7 @@ const QuotesByOthers = ({ quotes, history }) => {
                 <TableRowColumn className="col-action">
                   <FlatButton label="Add to Favorites"
                               primary={true}
-                              onTouchTap={() => history.push(`/add/quote`)} />
+                              onTouchTap={() => addExisting(quote)} />
                 </TableRowColumn>
               </TableRow>
               ))}

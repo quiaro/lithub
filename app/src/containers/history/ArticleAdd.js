@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import unescape from 'validator/lib/unescape';
 
 import withArticleForm from './withArticleForm';
 import { add } from '../../actions/article-history';
@@ -20,7 +21,7 @@ class AddArticle extends React.Component {
 
     this.state = {
       errors: {},
-      title: article ? article.title : '',
+      title: article ? unescape(article.title) : '',
       author: article ? article.author : '',
       link: '',
       rating: 5,

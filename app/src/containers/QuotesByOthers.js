@@ -38,7 +38,9 @@ class QuotesByOthers extends Component {
         });
       }
       this.isScrolling = true;
-    }.bind(this)
+    }.bind(this);
+
+    this.addExisting = this.addExisting.bind(this);
   }
 
   componentDidMount() {
@@ -60,12 +62,23 @@ class QuotesByOthers extends Component {
     window.removeEventListener('scroll', this.monitorScroll);
   }
 
+  /**
+   * Add a quote favorited by others into the user's favorite list
+   * @param {object} quote - quote to add to favorite list
+   */
+  addExisting(quote) {
+    const { history } = this.props;
+    // Save quote information in session storage to be retrieved afterwards
+    sessionStorage.setItem('quote', JSON.stringify(quote));
+    history.push(`/add/quote?existing=true`);
+  }
+
   render() {
     const { quotes, isFetchingQuotesReadByOthers, history } = this.props;
 
     return (
       <div>
-        <QuotesByOthersComponent quotes={quotes} history={history} />
+        <QuotesByOthersComponent quotes={quotes} history={history} addExisting={this.addExisting} />
         {isFetchingQuotesReadByOthers && <CircularProgress size={60} thickness={7} />}
       </div>
     )
