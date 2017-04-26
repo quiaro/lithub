@@ -17,9 +17,10 @@ function get(req, res) {
         data: books,
         meta: {
           // If there are less books retrieved than the maximum we can expect,
-          // then update the limit value to the number of books retrieved
+          // then update the limit and start values to prevent more calls from
+          // being made.
           limit: (books.length < limit) ? books.length : limit,
-          start: start + books.length
+          start: (books.length < limit) ? -1 : start + books.length
         }
       }
       res.status(200).json(result);

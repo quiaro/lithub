@@ -50,13 +50,7 @@ const allIds = handleActions({
 }, []);
 
 const quotesNextIndex = handleActions({
-  'QUOTES/FETCH_DONE': (state, action) => {
-    // If the previous next index is the same as the current next index
-    // then that means there are no more results to fetch, in which case
-    // the state becomes -1.
-    return (state !== action.meta.start) ?
-       action.meta.start : -1;
-  },
+  'QUOTES/FETCH_DONE': (state, action) => action.meta.start,
   'RESET_QUOTES': (state, action) => 0
 }, 0)
 

@@ -50,13 +50,7 @@ const allIds = handleActions({
 }, []);
 
 const articlesNextIndex = handleActions({
-  'ARTICLES/FETCH_DONE': (state, action) => {
-    // If the previous next index is the same as the current next index
-    // then that means there are no more results to fetch, in which case
-    // the state becomes -1.
-    return (state !== action.meta.start) ?
-       action.meta.start : -1;
-  },
+  'ARTICLES/FETCH_DONE': (state, action) => action.meta.start,
   'RESET_ARTICLES': (state, action) => 0
 }, 0)
 
