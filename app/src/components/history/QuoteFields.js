@@ -3,7 +3,8 @@ import TextField from 'material-ui/TextField';
 
 const QuoteFields = ({
   onChange,
-  state
+  state,
+  isEditing
 }) => (
   <div className="quote-fields">
     <TextField
