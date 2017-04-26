@@ -38,7 +38,9 @@ class BooksByOthers extends Component {
         });
       }
       this.isScrolling = true;
-    }.bind(this)
+    }.bind(this);
+
+    this.addExisting = this.addExisting.bind(this);
   }
 
   componentDidMount() {
@@ -60,12 +62,23 @@ class BooksByOthers extends Component {
     window.removeEventListener('scroll', this.monitorScroll);
   }
 
+  /**
+   * Add a book read by others into my the user's history list
+   * @param {object} book - book to add to history
+   */
+  addExisting(book) {
+    const { history } = this.props;
+    // Save book information in session storage to be retrieved afterwards
+    sessionStorage.setItem('book', JSON.stringify(book));
+    history.push(`/add/book?existing=true`);
+  }
+
   render() {
     const { books, isFetchingBooksReadByOthers, history } = this.props;
 
     return (
       <div>
-        <BooksByOthersComponent books={books} history={history} />
+        <BooksByOthersComponent books={books} history={history} addExisting={this.addExisting} />
         {isFetchingBooksReadByOthers && <CircularProgress size={60} thickness={7} />}
       </div>
     )

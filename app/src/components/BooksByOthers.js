@@ -5,7 +5,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 
-const BooksByOthers = ({ books, history }) => {
+const BooksByOthers = ({ books, history, addExisting }) => {
 
   const tableData = books.map(b => {
     const totalRating = b.reviews.reduce((acc, obj) => acc + obj.rating, 0);
@@ -20,8 +20,6 @@ const BooksByOthers = ({ books, history }) => {
       _id: b._id,
       title: b.title,
       author: b.author,
-      url_title: encodeURIComponent(b.title),
-      url_author: encodeURIComponent(b.author),
       num_reviewers: totalReviewers,
       avg_rating: avgRating,
       last_modified: b.last_modified
@@ -55,7 +53,7 @@ const BooksByOthers = ({ books, history }) => {
                 <TableRowColumn className="col-action">
                   <FlatButton label="I read it"
                                 primary={true}
-                                onTouchTap={() => history.push(`/add/book?title=${book.url_title}&author=${book.url_author}`)} />
+                                onTouchTap={() => addExisting(book)} />
                 </TableRowColumn>
               </TableRow>
               ))}
