@@ -22,7 +22,8 @@ const EditQuoteForm = ({
     body = (
       <div>
         <QuoteFields onChange={onChange}
-                     state={state} />
+                     state={state}
+                     isEditing={true} />
         <span className='record-date'>Entry recorded on: <i>{moment(state.last_modified).format('MMM D, YYYY')}</i></span>
       </div>
     );

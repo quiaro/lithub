@@ -24,7 +24,8 @@ const EditArticleForm = ({
       <div>
         <ArticleFields onChange={onChange}
                        onSliderChange={onSliderChange}
-                       state={state} />
+                       state={state}
+                       isEditing={true} />
         <span className='record-date'>Entry recorded on: <i>{moment(state.last_modified).format('MMM D, YYYY')}</i></span>
       </div>
     );

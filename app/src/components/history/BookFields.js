@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import unescape from 'validator/lib/unescape';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
 
@@ -14,7 +13,8 @@ const sliderStyle = {
 const BookFields = ({
   onChange,
   onSliderChange,
-  state
+  state,
+  isEditing
 }) => (
   <div className="book-fields">
     <TextField
@@ -24,6 +24,7 @@ const BookFields = ({
       errorText={state.errors.title}
       onChange={onChange}
       value={state.title}
+      disabled={isEditing}
     />
 
     <TextField
@@ -33,6 +34,7 @@ const BookFields = ({
       errorText={state.errors.author}
       onChange={onChange}
       value={state.author}
+      disabled={isEditing}
     />
 
     <div className="rating">
@@ -59,7 +61,7 @@ const BookFields = ({
       rowsMax={10}
       onChange={onChange}
       name="comments"
-      value={unescape(state.comments)} />
+      value={state.comments} />
   </div>
 );
 
