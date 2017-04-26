@@ -12,13 +12,16 @@ class AddArticle extends React.Component {
     super(props);
 
     const searchUrl = props.history.location.search;
-    const title = getQueryParam(searchUrl, 'title') || '';
-    const author = getQueryParam(searchUrl, 'author') || '';
+    const isExisting = getQueryParam(searchUrl, 'existing');
+    let article = isExisting ? sessionStorage.getItem('article') : null;
+    if (article) {
+      article = JSON.parse(article);
+    }
 
     this.state = {
       errors: {},
-      title: title,
-      author: author,
+      title: article ? article.title : '',
+      author: article ? article.author : '',
       link: '',
       rating: 5,
       comments: ''

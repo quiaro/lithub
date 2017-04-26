@@ -38,7 +38,9 @@ class ArticlesByOthers extends Component {
         });
       }
       this.isScrolling = true;
-    }.bind(this)
+    }.bind(this);
+
+    this.addExisting = this.addExisting.bind(this);
   }
 
   componentDidMount() {
@@ -60,12 +62,23 @@ class ArticlesByOthers extends Component {
     window.removeEventListener('scroll', this.monitorScroll);
   }
 
+  /**
+   * Add an article read by others into the user's history
+   * @param {object} article - article to add to history
+   */
+  addExisting(article) {
+    const { history } = this.props;
+    // Save article information in session storage to be retrieved afterwards
+    sessionStorage.setItem('article', JSON.stringify(article));
+    history.push(`/add/article?existing=true`);
+  }
+
   render() {
     const { articles, isFetchingArticlesReadByOthers, history } = this.props;
 
     return (
       <div>
-        <ArticlesByOthersComponent articles={articles} history={history} />
+        <ArticlesByOthersComponent articles={articles} history={history} addExisting={this.addExisting} />
         {isFetchingArticlesReadByOthers && <CircularProgress size={60} thickness={7} />}
       </div>
     )

@@ -12,13 +12,16 @@ class AddBook extends React.Component {
     super(props);
 
     const searchUrl = props.history.location.search;
-    const title = getQueryParam(searchUrl, 'title') || '';
-    const author = getQueryParam(searchUrl, 'author') || '';
+    const isExisting = getQueryParam(searchUrl, 'existing');
+    let book = isExisting ? sessionStorage.getItem('book') : null;
+    if (book) {
+      book = JSON.parse(book);
+    }
 
     this.state = {
       errors: {},
-      title: title,
-      author: author,
+      title: book ? book.title : '',
+      author: book ? book.author : '',
       rating: 5,
       comments: ''
     }
