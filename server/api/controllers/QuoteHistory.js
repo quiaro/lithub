@@ -64,6 +64,11 @@ function post(req, res) {
     })
 }
 
+/**
+ * Update the review for a quote.
+ * The author and the quote itself cannot be updated. If these
+ * need to change, a new quote needs to be created.
+ */
 function put(req, res) {
   const uid = req.__decodedToken__.uid;
   const r = req.swagger.params.review.value;
@@ -77,69 +82,27 @@ function put(req, res) {
     last_modified: new Date()
   }
 
-  return db.collection('quotes').findOne({
-    _id: ObjectID.createFromHexString(quoteId)
-  }).then(doc => {
-    if (doc.quote === quote && doc.author === author) {
-      // The quote information hasn't changed, that means we can replace the
-      // existing review with the new review.
-      return db.collection('quotes').findOneAndUpdate({
-          _id: doc._id,
-          reviews: { $elemMatch: { 'uid': uid } }
-        }, {
-          $set: {
-            last_modified: new Date(),
-            'reviews.$': review
-          }
-        }).then(doc => {
-          // The operation completed so we can return a result with the data
-          // we already had
-          const result = Object.assign(
-            { _id: quoteId, quote: quote, author: author },
-            review
-          );
-          res.status(200).json(result);
-        })
-        .catch(e => {
-          console.error(e);
-          res.status(500).json({ message: 'Unable to fulfill request at this time.' })
-        });
-    } else {
-      // The quote information has changed so we need to remove the review
-      // from the entry it's now in and we need to add it to another (new
-      // or existing) quote entry.
-      removePromise = db.collection('quotes').findOneAndUpdate({
-          _id: ObjectID.createFromHexString(quoteId),
-          reviews: { $elemMatch: { 'uid': uid } }
-        }, {
-          $unset: { 'reviews.$': '' }
-        });
-      updatePromise = db.collection('quotes').findOneAndUpdate({
-          quote: quote,
-          author: author
-        }, { $setOnInsert: {
-          created: new Date()
-        }, $set: {
-          last_modified: new Date(),
-        }, $push: {
-          reviews: review
-        } }, {
-          projection: { quote: 1, author: 1 },
-          upsert: true,
-          returnOriginal: false
-        })
-      return Promise.all([removePromise, updatePromise])
-        .then(values => {
-          const quote = values[1].value;
-          const result = Object.assign({}, quote, review);
-          res.status(200).json(result);
-        })
-        .catch(e => {
-          console.error(e);
-          res.status(500).json({ message: 'Unable to fulfill request at this time.' })
-        })
-    }
-  })
+  return db.collection('quotes').findOneAndUpdate({
+      _id: ObjectID.createFromHexString(quoteId),
+      reviews: { $elemMatch: { 'uid': uid } }
+    }, {
+      $set: {
+        last_modified: new Date(),
+        'reviews.$': review
+      }
+    }).then(doc => {
+      // The operation completed so we can return a result with the data
+      // we already had
+      const result = Object.assign(
+        { _id: quoteId, quote: quote, author: author },
+        review
+      );
+      res.status(200).json(result);
+    })
+    .catch(e => {
+      console.error(e);
+      res.status(500).json({ message: 'Unable to fulfill request at this time.' })
+    });
 }
 
 function deleteReview(req, res) {

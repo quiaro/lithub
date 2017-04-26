@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
+import unescape from 'validator/lib/unescape';
 
 import { fetch, edit } from '../../actions/article-history';
 import withArticleForm from './withArticleForm';
@@ -46,7 +47,13 @@ class EditArticle extends React.Component {
     // used to update the state.
     if (nextProps.article &&
         (!this.props.article || this.props.article._id !== nextProps.article._id)) {
-          this.setState(nextProps.article);
+          // The article title and the comments will be unescaped before passing them
+          // to the presentational component.
+          const article = Object.assign({}, nextProps.article, {
+            title: unescape(nextProps.article.title),
+            comments: unescape(nextProps.article.comments)
+          });
+          this.setState(article);
         }
   }
 

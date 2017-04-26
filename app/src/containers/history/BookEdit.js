@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
+import unescape from 'validator/lib/unescape';
 
 import { fetch, edit } from '../../actions/book-history';
 import withBookForm from './withBookForm';
@@ -43,7 +44,12 @@ class EditBook extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.book &&
         (!this.props.book || this.props.book._id !== nextProps.book._id)) {
-          this.setState(nextProps.book);
+          // The book comments will be unescaped before passing them
+          // to the presentational component.
+          const book = Object.assign({}, nextProps.book, {
+            comments: unescape(nextProps.book.comments)
+          });
+          this.setState(book);
         }
   }
 

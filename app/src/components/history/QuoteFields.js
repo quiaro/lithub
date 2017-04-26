@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import unescape from 'validator/lib/unescape';
 import TextField from 'material-ui/TextField';
 
 const QuoteFields = ({
@@ -16,7 +15,8 @@ const QuoteFields = ({
       name="quote"
       errorText={state.errors.quote}
       onChange={onChange}
-      value={unescape(state.quote)}
+      value={state.quote}
+      disabled={isEditing}
     />
 
     <TextField
@@ -26,6 +26,7 @@ const QuoteFields = ({
       errorText={state.errors.author}
       onChange={onChange}
       value={state.author}
+      disabled={isEditing}
     />
 
     <TextField
@@ -36,7 +37,7 @@ const QuoteFields = ({
       rowsMax={10}
       onChange={onChange}
       name="comments"
-      value={unescape(state.comments)} />
+      value={state.comments} />
   </div>
 );
 

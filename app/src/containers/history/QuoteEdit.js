@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import CircularProgress from 'material-ui/CircularProgress';
+import unescape from 'validator/lib/unescape';
 
 import { fetch, edit } from '../../actions/quote-history';
 import withQuoteForm from './withQuoteForm';
@@ -41,7 +42,13 @@ class EditQuote extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.quote &&
         (!this.props.quote || this.props.quote._id !== nextProps.quote._id)) {
-          this.setState(nextProps.quote);
+          // The quote and the comments will be unescaped before passing them
+          // to the presentational component.
+          const quote = Object.assign({}, nextProps.quote, {
+            quote: unescape(nextProps.quote.quote),
+            comments: unescape(nextProps.quote.comments)
+          });
+          this.setState(quote);
         }
   }
 
