@@ -22,11 +22,6 @@ export const getBooksNextIndex = (state) => state.booksNextIndex;
  */
 const byId = handleActions({
   'BOOKS/FETCH_DONE': (state, action) => {
-    if (action.meta.limit === action.meta.start) {
-      // Results correspond to the first page so set the state
-      // to the current result
-      return action.payload.entities.books || {};
-    }
     // Merge in the result to the previous state
     return Object.assign({}, state, action.payload.entities.books);
   },
@@ -43,11 +38,6 @@ const byId = handleActions({
 
 const allIds = handleActions({
   'BOOKS/FETCH_DONE': (state, action) => {
-    if (action.meta.limit === action.meta.start) {
-      // Results correspond to the first page so set the state
-      // to the current result
-      return action.payload.result;
-    }
     // Merge in the result to the previous state
     return state.concat(action.payload.result);
   },
