@@ -23,7 +23,7 @@ class AddArticle extends React.Component {
       errors: {},
       title: article ? unescape(article.title) : '',
       author: article ? article.author : '',
-      link: '',
+      link: article ? article.link : '',
       rating: 5,
       comments: ''
     }
