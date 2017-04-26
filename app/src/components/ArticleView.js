@@ -31,7 +31,7 @@ const ArticleView = ({ article, history }) => {
           <section className='details'>
             <div className='title'>
               <b>Title</b>
-              <span>{article.title}</span>
+              <span>{unescape(article.title)}</span>
             </div>
             <div className='author'>
               <b>Author</b>

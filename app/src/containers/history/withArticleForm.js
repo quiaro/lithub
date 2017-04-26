@@ -80,10 +80,6 @@ function withArticleForm(WrappedComponent, apiMethod) {
 
       if (isEmpty(payload.title)) {
         errors.title = 'Please provide the article\'s title';
-      } else {
-        if (!matches(payload.title, /^[0-9A-Za-z\u0080-\u00FF ]+$/)) {
-          errors.title = 'Please use only letters, spaces and numbers';
-        }
       }
 
       if (isEmpty(payload.author)) {
@@ -104,6 +100,7 @@ function withArticleForm(WrappedComponent, apiMethod) {
       } else {
         // Sanitize properties -do it only if no errors were found; otherwise, it's
         // not necessary because the object should not be submitted while there are errors.
+        payload.title = escape(payload.title);
         payload.comments = escape(payload.comments);
       }
 

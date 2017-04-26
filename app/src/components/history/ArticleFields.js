@@ -23,7 +23,7 @@ const ArticleFields = ({
       name="title"
       errorText={state.errors.title}
       onChange={onChange}
-      value={state.title}
+      value={unescape(state.title)}
     />
 
     <TextField
