@@ -8,13 +8,11 @@ const buttonStyle = {
   marginLeft: 15
 }
 
-const BookView = ({ book, history }) => {
+const BookView = ({ book, history, addExisting }) => {
   let body;
   if (!book) {
     body = (<div>Oops! We couldn't find the book you're looking for</div>);
   } else {
-    const url_title = encodeURIComponent(book.title);
-    const url_author = encodeURIComponent(book.author);
     body = (
       <div>
         <div className='actions'>
@@ -24,7 +22,7 @@ const BookView = ({ book, history }) => {
           <RaisedButton label="Add To My History"
                         primary={true}
                         style={buttonStyle}
-                        onTouchTap={() => { history.push(`/add/book?title=${url_title}&author=${url_author}`) }} />
+                        onTouchTap={() => { addExisting(book) }} />
         </div>
 
         <main>
@@ -64,7 +62,7 @@ const BookView = ({ book, history }) => {
               <RaisedButton label="Add To My History"
                             primary={true}
                             style={buttonStyle}
-                            onTouchTap={() => { history.push(`/add/book?title=${url_title}&author=${url_author}`) }} />
+                            onTouchTap={() => { addExisting(book) }} />
             </div>
           }
       </div>

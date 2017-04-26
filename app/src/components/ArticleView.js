@@ -8,13 +8,11 @@ const buttonStyle = {
   marginLeft: 15
 }
 
-const ArticleView = ({ article, history }) => {
+const ArticleView = ({ article, history, addExisting }) => {
   let body;
   if (!article) {
     body = (<div>Oops! We couldn't find the article you're looking for</div>);
   } else {
-    const url_title = encodeURIComponent(article.title);
-    const url_author = encodeURIComponent(article.author);
     body = (
       <div>
         <div className='actions'>
@@ -24,7 +22,7 @@ const ArticleView = ({ article, history }) => {
           <RaisedButton label="Add To My History"
                         primary={true}
                         style={buttonStyle}
-                        onTouchTap={() => { history.push(`/add/article?title=${url_title}&author=${url_author}`) }} />
+                        onTouchTap={() => { addExisting(article) }} />
         </div>
 
         <main>
@@ -68,7 +66,7 @@ const ArticleView = ({ article, history }) => {
               <RaisedButton label="Add To My History"
                             primary={true}
                             style={buttonStyle}
-                            onTouchTap={() => { history.push(`/add/article?title=${url_title}&author=${url_author}`) }} />
+                            onTouchTap={() => { addExisting(article) }} />
             </div>
           }
       </div>
