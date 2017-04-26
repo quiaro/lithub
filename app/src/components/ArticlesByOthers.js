@@ -21,6 +21,7 @@ const ArticlesByOthers = ({ articles, history, addExisting }) => {
       _id: a._id,
       title: a.title,
       author: a.author,
+      link: a.link,
       num_reviewers: totalReviewers,
       avg_rating: avgRating,
       last_modified: a.last_modified
