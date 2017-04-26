@@ -13,6 +13,17 @@ class ArticleView extends Component {
     fetchArticle(match.params.id);
   }
 
+  /**
+   * Add an article read by others into the user's history
+   * @param {object} article - article to add to history
+   */
+  addExisting(article) {
+    const { history } = this.props;
+    // Save article information in session storage to be retrieved afterwards
+    sessionStorage.setItem('article', JSON.stringify(article));
+    history.push(`/add/article?existing=true`);
+  }
+
   render() {
     const { article, isFetchingArticle, history } = this.props;
 
@@ -21,7 +32,8 @@ class ArticleView extends Component {
       return <LinearProgress />
     }
     return <ArticleViewComponent article={article}
-                                 history={history} />
+                                 history={history}
+                                 addExisting={this.addExisting.bind(this)} />
   }
 }
 

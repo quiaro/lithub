@@ -13,6 +13,17 @@ class QuoteView extends Component {
     fetchQuote(match.params.id);
   }
 
+  /**
+   * Add a quote favorited by others into the user's favorite list
+   * @param {object} quote - quote to add to favorite list
+   */
+  addExisting(quote) {
+    const { history } = this.props;
+    // Save quote information in session storage to be retrieved afterwards
+    sessionStorage.setItem('quote', JSON.stringify(quote));
+    history.push(`/add/quote?existing=true`);
+  }
+
   render() {
     const { quote, isFetchingQuote, history } = this.props;
 
@@ -21,7 +32,8 @@ class QuoteView extends Component {
       return <LinearProgress />
     }
     return <QuoteViewComponent quote={quote}
-                               history={history} />
+                               history={history}
+                               addExisting={this.addExisting.bind(this)} />
   }
 }
 

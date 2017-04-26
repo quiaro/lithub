@@ -8,7 +8,7 @@ const buttonStyle = {
   marginLeft: 15
 }
 
-const QuoteView = ({ quote, history }) => {
+const QuoteView = ({ quote, history, addExisting }) => {
   let body;
   if (!quote) {
     body = (<div>Oops! We couldn't find the quote you're looking for</div>);
@@ -22,7 +22,7 @@ const QuoteView = ({ quote, history }) => {
           <RaisedButton label="Add To Favorites"
                         primary={true}
                         style={buttonStyle}
-                        onTouchTap={() => { history.push(`/add/quote`) }} />
+                        onTouchTap={() => { addExisting(quote) }} />
         </div>
 
         <main>
@@ -61,7 +61,7 @@ const QuoteView = ({ quote, history }) => {
               <RaisedButton label="Add To Favorites"
                             primary={true}
                             style={buttonStyle}
-                            onTouchTap={() => { history.push(`/add/quote`) }} />
+                            onTouchTap={() => { addExisting(quote) }} />
             </div>
           }
       </div>
