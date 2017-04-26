@@ -17,9 +17,10 @@ function get(req, res) {
         data: quotes,
         meta: {
           // If there are less quotes retrieved than the maximum we can expect,
-          // then update the limit value to the number of quotes retrieved
+          // then update the limit and start values to prevent more calls from
+          // being made.
           limit: (quotes.length < limit) ? quotes.length : limit,
-          start: start + quotes.length
+          start: (quotes.length < limit) ? -1 : start + quotes.length
         }
       }
       res.status(200).json(result);

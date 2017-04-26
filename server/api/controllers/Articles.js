@@ -17,9 +17,10 @@ function get(req, res) {
         data: articles,
         meta: {
           // If there are less articles retrieved than the maximum we can expect,
-          // then update the limit value to the number of articles retrieved
+          // then update the limit and start values to prevent more calls from
+          // being made.
           limit: (articles.length < limit) ? articles.length : limit,
-          start: start + articles.length
+          start: (articles.length < limit) ? -1 : start + articles.length
         }
       }
       res.status(200).json(result);
