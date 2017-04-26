@@ -72,11 +72,6 @@ function createUser(userProfile, hash) {
  delete user.token;
  delete user.uid;  // For saving, the auto-generated _id will be used instead of uid
 
- // Empty arrays to store IDs of items read by user
- user.books = []
- user.articles = []
- user.quotes = []
-
  if (hash) {
    user['password'] = hash.key;
    user['salt'] = hash.salt;
