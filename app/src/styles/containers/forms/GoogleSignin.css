@@ -1,0 +1,33 @@
+#google-signin {
+    display: flex;
+    background: white;
+    white-space: nowrap;
+    height: 42px;
+    border: 1px solid #4285f4;
+    background-color: #4285f4;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+#google-signin:hover {
+    cursor: pointer;
+}
+
+#google-signin>span.icon {
+    width: 42px;
+    background-color: white;
+    height: inherit;
+}
+
+#google-signin>span.icon svg {
+    margin-top: 12px;
+    width: 1.2rem;
+}
+
+#google-signin>span.buttonText {
+    flex: 1;
+    align-self: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+}
