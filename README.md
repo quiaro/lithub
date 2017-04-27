@@ -199,12 +199,14 @@ After `restore` is completed, you may log into the app using the following crede
 ```
 email: donramon@elchavo.com
 password: donramon
-
-OR
-
+------------------
 email: kiko@elchavo.com
 password: kiko
 ```
+
+### NPM install hangs
+
+There appears to be an [issue with NPM hanging](https://github.com/npm/npm/issues/14059) which may occur while installing the client or the server dependencies for the project. If you're experiencing this problem, please [take part in the discussion](https://github.com/npm/npm/issues/14059) and provide as much information as possible to identify the cause.
 
 ---
 
@@ -216,7 +218,7 @@ The client app is a Front-End client bootstrapped with [Create React App](https:
 
 The server is at its heart a [Swagger](http://swagger.io/) project that manages content in a [MongoDB](https://www.mongodb.com/) database and provides a RESTful interface defined by a set of Open APIs that provide access to both public and protected resources. To access protected resources, the server offers 3 different auth mechanisms (credentials, via Google token, via Facebook token) to grant the user an authentication token needed to access these resources. To authenticate via Google, the server makes use of the [Google Auth Library](https://github.com/google/google-auth-library-nodejs) for NodeJS, which is slightly different than to how authentication it is done via Facebook, where Facebook's [Graph API](https://developers.facebook.com/docs/graph-api) is called directly instead.
 
-This project supports **NodeJS v7.9.0** and **MongoDB v3.4.3** and has been tested on Chrome, Firefox and Safari.
+This project supports **NodeJS v7.9.0**, **NPM v4.2** and **MongoDB v3.4.3**, and has been tested on Chrome and Firefox.
 
 ---
 
