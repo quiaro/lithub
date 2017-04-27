@@ -95,8 +95,13 @@ class FacebookSignin extends React.Component {
     window.FB && window.FB.Event.unsubscribe('auth.statusChange', this.statusChangeCallback);
     window.FB = null;
 
-    // - The Facebook SDK script
     let FBscript = document.getElementById('facebook-jssdk');
+    // - The Facebook inline styles
+    let inlineStyles = FBscript.nextSibling;
+    inlineStyles.parentNode.removeChild(inlineStyles);
+    inlineStyles = null;
+
+    // - The Facebook SDK script
     FBscript.parentNode.removeChild(FBscript);
     FBscript = null;
 
