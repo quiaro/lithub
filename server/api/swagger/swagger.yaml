@@ -1,7 +1,8 @@
 swagger: "2.0"
 info:
-version: "1.0.0"
-title: Lit Hub API
+  version: "1.0.0"
+  title: Lit Hub API
+  
 # during dev, should point to your local machine
 host: 0.0.0.0:10010
 # basePath prefixes all resource paths
