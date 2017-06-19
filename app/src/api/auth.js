@@ -1,3 +1,4 @@
+import { URLprefix } from './lithub';
 
 export const viaLogin = (user) => {
   return new Promise((resolve, reject) => {
@@ -5,7 +6,7 @@ export const viaLogin = (user) => {
     const password = encodeURIComponent(user.password);
     const formData = `email=${email}&password=${password}`;
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/auth/login');
+    xhr.open('post', `${URLprefix}/api/auth/login`);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -34,7 +35,7 @@ export const signUp = (user) => {
 
     // create an AJAX request
     const xhr = new XMLHttpRequest();
-    xhr.open('post', '/api/auth/signup');
+    xhr.open('post', `${URLprefix}/api/auth/signup`);
     xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
@@ -53,7 +54,7 @@ export const signUp = (user) => {
 export const viaFacebookToken = (user, accessToken) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/auth/from_facebook_token');
+    xhr.open('POST', `${URLprefix}/api/auth/from_facebook_token`);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.onload = () => {
       if (xhr.status === 200) {
@@ -69,7 +70,7 @@ export const viaFacebookToken = (user, accessToken) => {
 export const viaGoogleToken = (googleIdToken) => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', '/api/auth/from_google_token');
+    xhr.open('POST', `${URLprefix}/api/auth/from_google_token`);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
       if (xhr.status === 200) {

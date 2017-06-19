@@ -2,10 +2,15 @@ swagger: "2.0"
 info:
   version: "1.0.0"
   title: Lit Hub API
-  
+
 # during dev, should point to your local machine
+# host: 0.0.0.0:10010
+# in production, there's no need for a proxy
 host: 0.0.0.0:10010
-# basePath prefixes all resource paths
+
+# basePath in dev, basePath prefixes all resource paths
+# basePath: /apps/lithub/api
+# basePath in production, basePath prefixes all resource paths
 basePath: /api
 #
 schemes:
