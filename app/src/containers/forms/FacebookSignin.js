@@ -121,7 +121,7 @@ class FacebookSignin extends React.Component {
     loadScript('//connect.facebook.net/en_US/sdk.js',
                'facebook-jssdk', () => {
                  window.FB.init({
-                   appId      : '856911707780213',
+                   appId      : 'REPLACE_WITH_FB_APP_ID',
                    cookie     : true,
                    xfbml      : true,
                    version    : 'v2.8'
