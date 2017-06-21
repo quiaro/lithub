@@ -7,7 +7,7 @@ function get(req, res) {
   return db.collection('users')
     .findOne(
       { _id: ObjectID.createFromHexString(uid) },
-      { fields: { _id: 0, password: 0, salt: 0, books: 0, articles: 0, quotes: 0 } }
+      { fields: { _id: 0, password: 0, salt: 0 } }
     )
     .then(doc => {
       res.status(200).json(doc);
