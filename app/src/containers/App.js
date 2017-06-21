@@ -32,8 +32,6 @@ class App extends React.Component {
     if (!currentUser) {
       // If the state does not have the current user set, then
       // a call is made to get the user information.
-      // TODO: Save the user information in session storage and
-      // if present, set it in the store's initial state.
       fetchCurrentUser();
     }
   }
