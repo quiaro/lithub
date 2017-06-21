@@ -15,7 +15,7 @@ class EditArticle extends React.Component {
     super(props);
     // Default state. Should be merged with the article object once it's
     // available.
-    const ratingVal = props && props.article && props.article.rating || 1;
+    const ratingVal = (props && props.article && props.article.rating) || 1;
     const ratingText = ratingScale[ratingVal];
 
     this.state = Object.assign({

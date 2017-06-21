@@ -15,7 +15,7 @@ class EditBook extends React.Component {
     super(props);
     // Default state. Should be merged with the book object once it's
     // available.
-    const ratingVal = props && props.book && props.book.rating || 1;
+    const ratingVal = (props && props.book && props.book.rating) || 1;
     const ratingText = ratingScale[ratingVal];
 
     this.state = Object.assign({
