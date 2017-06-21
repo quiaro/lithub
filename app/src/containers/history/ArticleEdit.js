@@ -6,7 +6,8 @@ import unescape from 'validator/lib/unescape';
 import { fetch, edit } from '../../actions/article-history';
 import withArticleForm from './withArticleForm';
 import EditArticleForm from '../../components/history/ArticleEdit';
-import * as selectors from '../../reducers'
+import * as selectors from '../../reducers';
+import { ratingScale } from '../../common/utils';
 
 class EditArticle extends React.Component {
 
@@ -14,12 +15,16 @@ class EditArticle extends React.Component {
     super(props);
     // Default state. Should be merged with the article object once it's
     // available.
+    const ratingVal = props && props.article && props.article.rating || 1;
+    const ratingText = ratingScale[ratingVal];
+
     this.state = Object.assign({
       errors: {},
       title: '',
       author: '',
       link: '',
-      rating: 0,
+      rating: ratingVal,
+      ratingText: ratingText,
       comments: ''
     }, props.article);
 
@@ -51,7 +56,8 @@ class EditArticle extends React.Component {
           // to the presentational component.
           const article = Object.assign({}, nextProps.article, {
             title: unescape(nextProps.article.title),
-            comments: unescape(nextProps.article.comments)
+            comments: unescape(nextProps.article.comments),
+            ratingText: ratingScale[nextProps.article.rating]
           });
           this.setState(article);
         }

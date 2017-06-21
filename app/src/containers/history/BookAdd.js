@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import withBookForm from './withBookForm';
 import { add } from '../../actions/book-history';
 import AddBookForm from '../../components/history/BookAdd';
-import { getQueryParam } from '../../common/utils';
+import { getQueryParam, ratingScale } from '../../common/utils';
 
 class AddBook extends React.Component {
 
@@ -17,12 +17,15 @@ class AddBook extends React.Component {
     if (book) {
       book = JSON.parse(book);
     }
+    // Select the value in the middle of the rating scale
+    const ratingDefaultValue = Math.round(Object.keys(ratingScale).length / 2);
 
     this.state = {
       errors: {},
       title: book ? book.title : '',
       author: book ? book.author : '',
-      rating: 5,
+      rating: ratingDefaultValue,
+      ratingText: ratingScale[ratingDefaultValue],
       comments: ''
     }
     // Bind the methods from the HOC to this class so they alter this

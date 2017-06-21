@@ -5,7 +5,7 @@ import unescape from 'validator/lib/unescape';
 import withArticleForm from './withArticleForm';
 import { add } from '../../actions/article-history';
 import AddArticleForm from '../../components/history/ArticleAdd';
-import { getQueryParam } from '../../common/utils';
+import { getQueryParam, ratingScale } from '../../common/utils';
 
 class AddArticle extends React.Component {
 
@@ -18,13 +18,16 @@ class AddArticle extends React.Component {
     if (article) {
       article = JSON.parse(article);
     }
+    // Select the value in the middle of the rating scale
+    const ratingDefaultValue = Math.round(Object.keys(ratingScale).length / 2);
 
     this.state = {
       errors: {},
       title: article ? unescape(article.title) : '',
       author: article ? article.author : '',
       link: article ? article.link : '',
-      rating: 5,
+      rating: ratingDefaultValue,
+      ratingText: ratingScale[ratingDefaultValue],
       comments: ''
     }
     // Bind the methods from the HOC to this class so they alter this

@@ -37,3 +37,11 @@ export const getQueryParam = (urlSearch, param) => {
   const match = paramRe.exec(str);
   return match && decodeURIComponent(match[1]);
 }
+
+export const ratingScale = {
+  1: 'Awful',
+  2: 'Bad',
+  3: 'Okay',
+  4: 'Good',
+  5: 'Excellent'
+}

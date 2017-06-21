@@ -798,7 +798,10 @@ form p.error-message {
 .add-item > .content .quote-fields .rating,
 .my-resource-edit > .content .book-fields .rating,
 .my-resource-edit > .content .article-fields .rating,
-.my-resource-edit > .content .quote-fields .rating { padding: 20px 0 10px; }
+.my-resource-edit > .content .quote-fields .rating {
+  position: relative;
+  padding: 20px 0;
+}
 
 .add-item > .content .book-fields .rating p,
 .add-item > .content .article-fields .rating p,
@@ -814,7 +817,6 @@ form p.error-message {
 .my-resource-edit > .content .article-fields .rating .legend span,
 .my-resource-edit > .content .quote-fields .rating .legend span {
   font-size: 12px;
-  font-weight: bold;
 }
 .add-item > .content .book-fields .rating .legend span:first-child,
 .add-item > .content .article-fields .rating .legend span:first-child,
@@ -829,6 +831,17 @@ form p.error-message {
 .my-resource-edit > .content .book-fields .rating .legend span:last-child,
 .my-resource-edit > .content .article-fields .rating .legend span:last-child,
 .my-resource-edit > .content .quote-fields .rating .legend span:last-child { float: right; }
+
+.add-item > .content .article-fields .rating > em,
+.add-item > .content .book-fields .rating > em,
+.my-resource-edit > .content .article-fields .rating > em,
+.my-resource-edit > .content .book-fields .rating > em {
+  position: absolute;
+  bottom: 5px;
+  text-align: center;
+  width: 100%;
+  font-style: normal;
+}
 
 .add-item > .content .actions,
 .my-resource-edit > .content .actions { text-align: right; }

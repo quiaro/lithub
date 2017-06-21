@@ -4,6 +4,7 @@ import isURL from 'validator/lib/isURL';
 import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
 import * as apiArticleHistory from '../../api/article-history';
+import { ratingScale } from '../../common/utils';
 
 function withArticleForm(WrappedComponent, apiMethod) {
 
@@ -58,7 +59,8 @@ function withArticleForm(WrappedComponent, apiMethod) {
      * @param {object} event - the JavaScript event object
      */
     updateRating(event, value) {
-      this.setState({ rating: value })
+      this.setState({ rating: value,
+                      ratingText: ratingScale[value] })
     }
 
     /**

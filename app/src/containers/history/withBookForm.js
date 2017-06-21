@@ -3,6 +3,7 @@ import isEmpty from 'validator/lib/isEmpty';
 import matches from 'validator/lib/matches';
 import escape from 'validator/lib/escape';
 import * as apiBookHistory from '../../api/book-history';
+import { ratingScale } from '../../common/utils';
 
 function withBookForm(WrappedComponent, apiMethod) {
 
@@ -57,7 +58,8 @@ function withBookForm(WrappedComponent, apiMethod) {
      * @param {object} event - the JavaScript event object
      */
     updateRating(event, value) {
-      this.setState({ rating: value })
+      this.setState({ rating: value,
+                      ratingText: ratingScale[value] })
     }
 
     /**

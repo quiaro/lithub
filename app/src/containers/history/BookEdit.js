@@ -6,7 +6,8 @@ import unescape from 'validator/lib/unescape';
 import { fetch, edit } from '../../actions/book-history';
 import withBookForm from './withBookForm';
 import EditBookForm from '../../components/history/BookEdit';
-import * as selectors from '../../reducers'
+import * as selectors from '../../reducers';
+import { ratingScale } from '../../common/utils';
 
 class EditBook extends React.Component {
 
@@ -14,11 +15,15 @@ class EditBook extends React.Component {
     super(props);
     // Default state. Should be merged with the book object once it's
     // available.
+    const ratingVal = props && props.book && props.book.rating || 1;
+    const ratingText = ratingScale[ratingVal];
+
     this.state = Object.assign({
       errors: {},
       title: '',
       author: '',
-      rating: 0,
+      rating: ratingVal,
+      ratingText: ratingText,
       comments: ''
     }, props.book);
 
@@ -47,7 +52,8 @@ class EditBook extends React.Component {
           // The book comments will be unescaped before passing them
           // to the presentational component.
           const book = Object.assign({}, nextProps.book, {
-            comments: unescape(nextProps.book.comments)
+            comments: unescape(nextProps.book.comments),
+            ratingText: ratingScale[nextProps.book.rating]
           });
           this.setState(book);
         }

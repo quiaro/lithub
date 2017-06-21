@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from 'material-ui/TextField';
 import Slider from 'material-ui/Slider';
+import { ratingScale } from '../../common/utils';
 
 const sliderStyle = {
   marginTop: 15,
@@ -9,7 +10,13 @@ const sliderStyle = {
   marginLeft: '5%',
   marginRight: '5%',
   width: '90%'
-}
+};
+
+// Min and max text values in the rating scale will be determined from
+// the rating scale itself
+const ratingScaleKeys = Object.keys(ratingScale);
+const minRatingScaleText = ratingScale[ratingScaleKeys[0]];
+const maxRatingScaleText = ratingScale[ratingScaleKeys[ratingScaleKeys.length - 1]];
 
 const ArticleFields = ({
   onChange,
@@ -52,16 +59,17 @@ const ArticleFields = ({
       <p>What rating would you give this article?</p>
       <Slider
         name="rating"
-        min={0}
-        max={10}
+        min={1}
+        max={5}
         step={1.0}
         value={state.rating}
         onChange={onSliderChange}
         sliderStyle={sliderStyle} />
       <div className="legend">
-        <span>I don't like it</span>
-        <span>I love it</span>
+        <span>{minRatingScaleText}</span>
+        <span>{maxRatingScaleText}</span>
       </div>
+      <em>{state.ratingText}</em>
     </div>
 
     <TextField
