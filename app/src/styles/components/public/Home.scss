@@ -1,0 +1,41 @@
+.public-home {
+  h1 {
+    font-weight: normal;
+    line-height: 1.4;
+
+    .app-font {
+      font-size: 3rem;
+      line-height: 1.2;
+      text-transform: capitalize;
+    }
+  }
+
+  .overview-summary {
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5em;
+      margin: 0;
+    }
+
+    > em {
+      font-style: normal;
+      font-size: 1.2em;
+      letter-spacing: 1px;
+      line-height: 1;
+      text-transform: capitalize;
+    }
+
+    .quote-cell blockquote {
+      margin: 10px 0 5px;
+
+      & + em::before {
+        content: '― ';
+      }
+
+      &::after,
+      &::before {
+        content: '"';
+      }
+    }
+  }
+}

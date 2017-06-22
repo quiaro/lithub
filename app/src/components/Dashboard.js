@@ -2,6 +2,7 @@ import React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { List, ListItem, makeSelectable } from 'material-ui/List';
 import Paper from 'material-ui/Paper';
+import '../styles/components/Dashboard.css';
 
 const SelectableList = makeSelectable(List);
 

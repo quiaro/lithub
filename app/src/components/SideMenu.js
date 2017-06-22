@@ -10,6 +10,13 @@ const buttonStyle = {
   marginLeft: 15
 }
 
+const headerStyle = {
+  color: '#ad7751',
+  fontWeight: 'normal',
+  fontSize: '2.2em',
+  margin: '30px 15px 0'
+}
+
 const SideMenu = ({
     isOpen,
     onUpdate,
@@ -22,7 +29,7 @@ const SideMenu = ({
             open={isOpen}
             className="side-menu"
             onRequestChange={onUpdate}>
-      <h3>My History</h3>
+      <h3 style={headerStyle} className="app-font">My History</h3>
       <SelectableList value={location.pathname} onChange={onMenuChange}>
         <ListItem primaryText="Books" value="/history/books" hoverColor='#ceb29e' />
         <ListItem primaryText="Articles" value="/history/articles" hoverColor='#ceb29e' />

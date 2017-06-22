@@ -6,6 +6,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 import GoogleSignin from '../../containers/forms/GoogleSignin'
 import FacebookSignin from '../../containers/forms/FacebookSignin'
+import '../../styles/components/forms/SignUp.css'
 
 const SignUpForm = ({
   onSubmit,

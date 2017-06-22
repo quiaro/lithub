@@ -3,3 +3,271 @@
 body {
   background-color: $background-color;
 }
+
+main { padding: 20px 10px 30px; }
+
+form p.error-message {
+  color: $error-feedback;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+.app-font { font-family: 'Great Vibes', cursive; }
+
+.app-bar { box-shadow: 0px 3px 26px 2px rgba(0,0,0,0.3); }
+
+.loading-spinner { left: 44%; }
+
+/* --- App Containers --- */
+.resource-listing,
+.others-detail,
+.my-resource-view,
+.add-item,
+.my-resource-edit {
+  margin: 30px 10px;
+  padding: 30px 0;
+
+  h1 {
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.5em;
+    color: #424242;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  @media (min-width: 650px) {
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+}
+
+.resource-listing {
+  h1 { padding-left: 30px; }
+
+  > .empty-list { padding-left: 20px; }
+
+  table {
+    th, td {
+      font-size: 14px !important;  /* override material-ui inline styles */
+    }
+
+    .col-title a,
+    .col-quote a {
+      color: $link-default;
+
+      &:hover {
+        color: $link-default-hover;
+      }
+    }
+
+    .col-author,
+    .col-readers,
+    .col-date {
+      display: none;
+
+      @media (min-width: 1024px) {
+        display: table-cell;
+      }
+    }
+
+    @media (min-width: 650px) {
+      .col-author {
+        display: table-cell;
+      }
+    }
+
+    .col-readers { width: 60px; }
+    .col-rating { width: 60px; }
+    .col-action { width: 80px; }
+    .col-date { width: 120px; }
+  }
+
+  /* Override default width because the action button for quotes is
+     slightly larger */
+  &.others-quotes table .col-action { width: 160px; }
+}
+
+.others-detail,
+.my-resource-view {
+  padding: 20px;
+
+  main {
+    padding: 0;
+
+    > .details,
+    > .comments {
+      padding: 20px 0;
+    }
+
+    > .details {
+      > div {
+        margin-bottom: 5px;
+
+        > b {
+          display: inline-block;
+          width: 38%;
+          font-family: 'Great Vibes', cursive;
+          font-size: 1.6em;
+          line-height: 1;
+          text-align: right;
+          font-weight: normal;
+
+          &::after {
+            content: ':';
+          }
+
+          & + span {
+            display: inline-block;
+            width: 60%;
+            padding-left: 2%;
+          }
+        }
+
+        &.quote {
+          > b {
+            vertical-align: top;
+
+            & + span {
+              font-size: 14px;
+              line-height: 1.5;
+              margin-bottom: 15px;
+            }
+          }
+        }
+      }
+
+      .record-date {
+        display: block;
+        padding-left: 40%;
+        font-size: 14px;
+        margin-top: 10px;
+
+        i {
+          font-style: normal;
+          font-weight: bold;
+        }
+      }
+    }
+
+    > .comments {
+      > * {
+        margin-left: 20px !important;  /* add padding to all direct descendants of the comments section */
+      }
+
+      h2 {
+        font-family: 'Great Vibes', cursive;
+        font-weight: normal;
+        font-size: 2.2em;
+        margin: 0 0 10px;
+        line-height: 1;
+      }
+
+      .review {
+        padding-top: 10px;
+        padding-bottom: 5px;
+        border-top: 1px solid #e0e0e0;
+
+        .date {
+          display: block;
+          font-size: 12px;
+          margin-bottom: 6px;
+
+          &::after {
+            content: ':';
+          }
+        }
+
+        .rating {
+          display: inline-block;
+          width: 15%;
+          text-align: right;
+          font-weight: bold;
+          font-size: 16px;
+        }
+
+        blockquote {
+          display: inline-block;
+          width: 80%;
+          padding: 0 3% 0 2%;
+          margin: 0;
+
+          &::before,
+          &::after {
+            content: "\"";
+          }
+        }
+      }
+    }
+  }
+
+  @media (min-width: 960px) {
+    main {
+      display: flex;
+
+      > .details,
+      > .comments { flex: 1 }
+    }
+  }
+
+  .actions {
+    text-align: right;
+    padding: 15px 0;
+  }
+}
+
+.add-item,
+.my-resource-edit {
+  display: flex;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+
+  > .content {
+    width: 660px;
+    padding: 20px;
+
+    .book-fields,
+    .article-fields,
+    .quote-fields {
+      margin-bottom: 20px;
+
+      .rating {
+        position: relative;
+        padding: 20px 0;
+
+        p { margin: 0 0 5px; }
+
+        .legend span {
+          font-size: 12px;
+
+          &:first-child { float: left; }
+          &:last-child { float: right; }
+        }
+
+        > em {
+          position: absolute;
+          bottom: 5px;
+          text-align: center;
+          width: 100%;
+          font-style: normal;
+        }
+      }
+    }
+    .actions { text-align: right; }
+  }
+}
+
+.my-resource-edit {
+  .record-date {
+    display: block;
+    font-size: 14px;
+    margin: 0 0 15px;
+
+    > i {
+      font-style: normal;
+      font-weight: bold;
+    }
+  }
+}
+
+#root { min-width: 480px; }

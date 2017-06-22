@@ -1,0 +1,49 @@
+@import '../../variables.scss';
+
+.login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+
+  form {
+    padding-bottom: 10px;
+  }
+
+  a {
+    color: $link-default;
+
+    &:hover {
+      color: $link-default-hover;
+    }
+  }
+
+  > .content {
+    width: 440px;
+    padding: 30px;
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.5em;
+      margin: 20px 0 0;
+      color: #424242;
+    }
+
+    .signup,
+    .oauth {
+      margin: 20px 0 0;
+
+      p {
+        margin: 0 0 10px;
+        font-size: 14px;
+        text-align: left;
+
+        > a {
+          margin-left: 5px;
+        }
+      }
+    }
+
+    .oauth { text-align: center; }
+  }
+}

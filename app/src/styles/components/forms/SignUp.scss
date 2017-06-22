@@ -1,0 +1,15 @@
+@import './Login.scss';
+
+.sign-up {
+  @extend .login;
+
+  > .content .login-link {
+    margin: 20px 0 0;
+
+    p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+  }
+}

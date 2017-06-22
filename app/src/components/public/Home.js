@@ -1,6 +1,7 @@
 import React from 'react';
 import PublicAppBar from './AppBar';
 import OverviewSummary from '../../containers/OverviewSummary';
+import '../../styles/components/public/Home.css';
 
 const PublicHome = (props) => (
   <div className="public-home">

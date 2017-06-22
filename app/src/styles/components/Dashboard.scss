@@ -1,0 +1,17 @@
+.dashboard {
+  > .intro {
+    font-style: normal;
+    font-size: 1.4em;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-transform: capitalize;
+    margin-left: 15px;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  > .action {
+    padding: 20px 0 10px;
+    text-align: center;
+  }
+}
